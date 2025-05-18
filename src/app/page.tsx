@@ -1,15 +1,14 @@
-import { Button } from "@/components/ui/button";
+import LoginHome from "@/components/homeComponents/Login/login";
 
 
-
-const page = () => {
+const HomeServer = () => {
 
     return (
         <div>
-           <Button className="text-center justify-center m-20 items-center">Click me</Button>
+           <LoginHome />
         </div>
     );
 };
 
-export default page;
+export default HomeServer;
 
