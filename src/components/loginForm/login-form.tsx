@@ -8,58 +8,127 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { motion } from "framer-motion";
+import { Form } from "../ui/form"
+import { Lock, Mail } from "lucide-react"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../homeComponents/Login/loginValidation"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
     className,
     ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+
+    const router = useRouter();
+
+    const form = useForm({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "ff@gmail.com",
+            password: "123456",
+        },
+    });
+
+    const { formState: { isSubmitting } } = form;
+
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        console.log(data);
+        toast.success("Login successful!");
+        router.push("/dashboard");
+
+        // try {
+        //     const res = await signInUser(data);
+        //     if (res.success) {
+        //         toast.success("Login successful!");
+        //         router.push("/");
+        //     } else {
+        //         toast.error("Invalid Credentials!");
+        //     }
+        // } catch (error: any) {
+        //     toast.error("Something went wrong!");
+        // }
+    };
+
     return (
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-2xl text-center">Login</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <form>
-                        <div className="flex flex-col gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="faruk@gmail.com"
-                                    required
-                                    {...{ fdprocessedid: "av252a" } as any}
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    <a
-                                        href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                </div>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    required
-                                    {...{ fdprocessedid: "eltfvr" } as any}
-                                />
-                            </div>
-                            <Button
-                                type="submit"
-                               {...{ fdprocessedid: "v6g0xg" } as any }
-                                className="w-full"
-                            >
-                                Login
-                            </Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
+        <div>
+            <motion.div
+                className="flex flex-col justify-center p-6 md:p-8 lg:p-12"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+                <div className={cn("flex flex-col gap-6", className)} {...props}>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-2xl text-center">Dashboard Login</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <Form {...form}>
+                                <form
+                                    onSubmit={form.handleSubmit(onSubmit)}
+                                >
+                                    <div className="flex flex-col gap-6">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="email">Email</Label>
+                                            <Input
+                                                name="email"
+                                                id="email"
+                                                type="email"
+                                                placeholder="faruk@gmail.com"
+                                                control={form.control}
+                                                icon={<Mail size={20} />}
+                                                required
+                                                {...{ fdprocessedid: "av252a" } as any}
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <div className="flex items-center">
+                                                <Label htmlFor="password">Password</Label>
+                                                {/* <a
+                                                    href="#"
+                                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                                                >
+                                                    Forgot your password?
+                                                </a> */}
+                                            </div>
+                                            <Input
+                                                name="password"
+                                                id="password"
+                                                type="password"
+                                                required
+                                                control={form.control}
+                                                icon={<Lock size={20} />}
+                                                {...{ fdprocessedid: "eltfvr" } as any}
+                                            />
+                                        </div>
+                                        <Button
+                                            type="submit"
+                                            {...{ fdprocessedid: "v6g0xg" } as any}
+                                            className="w-full"
+                                            disabled={isSubmitting}
+                                        >
+                                            {isSubmitting ? (
+                                                <div className="flex items-center gap-2">
+                                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                                    <span>Logging in...</span>
+                                                </div>
+                                            ) : (
+                                                <span>Log in</span>
+                                            )}
+                                        </Button>
+                                    </div>
+                                </form>
+                            </Form>
+
+                        </CardContent>
+                    </Card>
+                </div>
+            </motion.div>
+
         </div>
+
     )
 }
