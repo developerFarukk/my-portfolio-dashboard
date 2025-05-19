@@ -14,6 +14,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
 
 export function TeamSwitcher({
     teams,
@@ -39,41 +40,43 @@ export function TeamSwitcher({
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton
-                            size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-green-200 hover:bg-green-300"
-                        >
-                            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                <activeTeam.logo className="size-4" />
-                            </div>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">
-                                    {activeTeam.name}
-                                </span>
-                                <span className="truncate text-xs">{activeTeam.plan}</span>
-                            </div>
-                        </SidebarMenuButton>
-                    </DropdownMenuTrigger>
+                <Link href="/dashboard">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <SidebarMenuButton
+                                size="lg"
+                                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-green-200 hover:bg-green-300"
+                            >
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                    <activeTeam.logo className="size-4" />
+                                </div>
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <span className="truncate font-semibold">
+                                        {activeTeam.name}
+                                    </span>
+                                    <span className="truncate text-xs">{activeTeam.plan}</span>
+                                </div>
+                            </SidebarMenuButton>
+                        </DropdownMenuTrigger>
 
-                    {onTeamChange && (
-                        <DropdownMenuContent align="start" side="right" className="w-48">
-                            {teams.map((team) => (
-                                <DropdownMenuItem
-                                    key={team.name}
-                                    onClick={() => onTeamChange(team.name)}
-                                    className="cursor-pointer"
-                                >
-                                    <div className="flex items-center gap-2">
-                                        <team.logo className="size-4" />
-                                        <span>{team.name}</span>
-                                    </div>
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    )}
-                </DropdownMenu>
+                        {onTeamChange && (
+                            <DropdownMenuContent align="start" side="right" className="w-48">
+                                {teams.map((team) => (
+                                    <DropdownMenuItem
+                                        key={team.name}
+                                        onClick={() => onTeamChange(team.name)}
+                                        className="cursor-pointer"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <team.logo className="size-4" />
+                                            <span>{team.name}</span>
+                                        </div>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        )}
+                    </DropdownMenu>
+                </Link>
             </SidebarMenuItem>
         </SidebarMenu>
     )

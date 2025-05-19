@@ -4,16 +4,11 @@
 
 import * as React from "react"
 import {
-    AudioWaveform,
-    BookOpen,
-    Bot,
-    Command,
-    Frame,
+    AppWindow,
+    Book,
+    Brain,
     GalleryVerticalEnd,
-    Map,
-    PieChart,
     Settings2,
-    SquareTerminal,
 } from "lucide-react"
 
 import {
@@ -25,7 +20,6 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 
 // This is sample data.
@@ -40,74 +34,54 @@ const data = {
             name: "MY DASHBOARD",
             logo: GalleryVerticalEnd,
             plan: "OMAR FARUK",
+            isActive: true,
         },
     ],
     navMain: [
         {
-            title: "Playground",
-            url: "#",
-            icon: SquareTerminal,
-            isActive: true,
+            title: "Projects",
+            icon: AppWindow,
             items: [
                 {
-                    title: "History",
+                    title: "Add Project",
                     url: "#",
                 },
                 {
-                    title: "Starred",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
+                    title: "All Projects",
                     url: "#",
                 },
             ],
         },
         {
-            title: "Models",
-            url: "#",
-            icon: Bot,
+            title: "Blogs",
+            icon: Book,
             items: [
                 {
-                    title: "Genesis",
+                    title: "Add Blog",
                     url: "#",
                 },
                 {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
+                    title: "All Blogs",
                     url: "#",
                 },
             ],
         },
         {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
+            title: "Skills",
+            icon: Brain,
             items: [
                 {
-                    title: "Introduction",
+                    title: "Add Skill",
                     url: "#",
                 },
                 {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
+                    title: "All Skills",
                     url: "#",
                 },
             ],
         },
         {
             title: "Settings",
-            url: "#",
             icon: Settings2,
             items: [
                 {
@@ -122,28 +96,7 @@ const data = {
                     title: "Billing",
                     url: "#",
                 },
-                {
-                    title: "Limits",
-                    url: "#",
-                },
             ],
-        },
-    ],
-    projects: [
-        {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: PieChart,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Map,
         },
     ],
 }
@@ -156,7 +109,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />
