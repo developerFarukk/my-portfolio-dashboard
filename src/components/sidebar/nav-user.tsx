@@ -30,6 +30,9 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { logout } from "@/service/AuthService"
+import { useState } from "react"
 
 export function NavUser({
     user,
@@ -40,7 +43,17 @@ export function NavUser({
         avatar: string
     }
 }) {
+    const [loading, setIsLoading] = useState(false)
     const { isMobile } = useSidebar()
+    const router = useRouter();
+
+    const handleLogout = () => {
+        logout();
+        setIsLoading(true);
+        router.push("/")
+    };
+
+    if (loading) return <div><Bell className="h-5 w-5" /></div>
 
     return (
         <SidebarMenu>
@@ -103,7 +116,7 @@ export function NavUser({
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleLogout()}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>

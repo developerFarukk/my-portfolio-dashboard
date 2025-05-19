@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 import { cn } from "@/lib/utils"
@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../homeComponents/Login/loginValidation"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { sogIn } from "@/service/AuthService"
 
 export function LoginForm({
     className,
@@ -26,30 +27,31 @@ export function LoginForm({
 
     const form = useForm({
         resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: "ff@gmail.com",
-            password: "123456",
-        },
+        // defaultValues: {
+        //     email: "web.omarfaruk.dev@gmail.com",
+        //     password: "F1474542",
+        // },
     });
 
     const { formState: { isSubmitting } } = form;
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        console.log(data);
-        toast.success("Login successful!");
-        router.push("/dashboard");
 
-        // try {
-        //     const res = await signInUser(data);
-        //     if (res.success) {
-        //         toast.success("Login successful!");
-        //         router.push("/");
-        //     } else {
-        //         toast.error("Invalid Credentials!");
-        //     }
-        // } catch (error: any) {
-        //     toast.error("Something went wrong!");
-        // }
+        console.log(data);
+        
+
+        try {
+            const res = await sogIn(data);
+            if (res.success) {
+                toast.success("Login successful!");
+                router.push("/dashboard");
+            } else {
+                toast.error("Invalid Credentials!");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error("Something went wrong!");
+        }
     };
 
     return (
@@ -77,7 +79,8 @@ export function LoginForm({
                                                 name="email"
                                                 id="email"
                                                 type="email"
-                                                placeholder="faruk@gmail.com"
+                                                placeholder="Inpute email"
+                                                defaultValue="web.omarfaruk.dev@gmail.com"
                                                 control={form.control}
                                                 icon={<Mail size={20} />}
                                                 required
@@ -99,6 +102,7 @@ export function LoginForm({
                                                 id="password"
                                                 type="password"
                                                 required
+                                                placeholder="inpute password"
                                                 control={form.control}
                                                 icon={<Lock size={20} />}
                                                 {...{ fdprocessedid: "eltfvr" } as any}
@@ -107,7 +111,7 @@ export function LoginForm({
                                         <Button
                                             type="submit"
                                             {...{ fdprocessedid: "v6g0xg" } as any}
-                                            className="w-full"
+                                            className="w-full cursor-auto"
                                             disabled={isSubmitting}
                                         >
                                             {isSubmitting ? (
