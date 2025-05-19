@@ -33,6 +33,7 @@ import {
 import { useRouter } from "next/navigation"
 import { logout } from "@/service/AuthService"
 import { useState } from "react"
+import { toast } from "sonner"
 
 export function NavUser({
     user,
@@ -50,6 +51,7 @@ export function NavUser({
     const handleLogout = () => {
         logout();
         setIsLoading(true);
+        toast.success('Logout successfully')
         router.push("/")
     };
 
