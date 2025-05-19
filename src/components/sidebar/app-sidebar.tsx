@@ -37,19 +37,9 @@ const data = {
     },
     teams: [
         {
-            name: "Acme Inc",
+            name: "MY DASHBOARD",
             logo: GalleryVerticalEnd,
-            plan: "Enterprise",
-        },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
+            plan: "OMAR FARUK",
         },
     ],
     navMain: [
