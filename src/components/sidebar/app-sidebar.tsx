@@ -25,8 +25,8 @@ import { NavUser } from "./nav-user"
 // This is sample data.
 const data = {
     user: {
-        name: "shadcn",
-        email: "m@example.com",
+        name: "OMAR FARUK",
+        email: "web.omarfaruk.dev@gmail.com",
         avatar: "/avatars/shadcn.jpg",
     },
     teams: [
@@ -41,60 +41,64 @@ const data = {
         {
             title: "Projects",
             icon: AppWindow,
+            isActive: true,
             items: [
                 {
                     title: "Add Project",
-                    url: "#",
+                    url: "/dashboard/addproject",
                 },
                 {
                     title: "All Projects",
-                    url: "#",
+                    url: "/dashboard/allprojects",
                 },
             ],
         },
         {
             title: "Blogs",
             icon: Book,
+            isActive: true,
             items: [
                 {
                     title: "Add Blog",
-                    url: "#",
+                    url: "/dashboard/addblog",
                 },
                 {
                     title: "All Blogs",
-                    url: "#",
+                    url: "/dashboard/allblogs",
                 },
             ],
         },
         {
             title: "Skills",
             icon: Brain,
+            isActive: true,
             items: [
                 {
                     title: "Add Skill",
-                    url: "#",
+                    url: "/dashboard/addskill",
                 },
                 {
                     title: "All Skills",
-                    url: "#",
+                    url: "/dashboard/allakills",
                 },
             ],
         },
         {
             title: "Settings",
             icon: Settings2,
+            isActive: true,
             items: [
                 {
                     title: "General",
-                    url: "#",
+                    url: "/dashboard",
                 },
                 {
                     title: "Team",
-                    url: "#",
+                    url: "/dashboard",
                 },
                 {
                     title: "Billing",
-                    url: "#",
+                    url: "/dashboard",
                 },
             ],
         },

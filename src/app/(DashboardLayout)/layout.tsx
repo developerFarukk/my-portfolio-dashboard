@@ -31,7 +31,7 @@ export default async function DashboardLayout({
                                 <BreadcrumbList>
                                     <BreadcrumbItem className="hidden md:block">
                                         <BreadcrumbLink href="#">
-                                            Building Your Application
+                                            Building My Application
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className="hidden md:block" />

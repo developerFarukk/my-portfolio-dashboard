@@ -1,18 +1,20 @@
 
 
+import { DashboardHome } from "@/components/dashboardComponents/dashboardHome";
+import { getDashboarsData } from "@/service/DashboardService";
 
-const page = () => {
+
+
+const DashboardHomeServer = async () => {
+
+    const data = await getDashboarsData()
 
     return (
         <div>
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-            </div>
+            <DashboardHome data={data} />
         </div>
     );
 };
 
-export default page;
+export default DashboardHomeServer;
 
