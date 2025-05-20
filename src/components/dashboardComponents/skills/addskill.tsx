@@ -22,15 +22,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { skillsSchema } from "./skillsSchema";
+import { toast } from "sonner";
 
 const AddSkill = () => {
 
     const form = useForm({
         resolver: zodResolver(skillsSchema),
-        // defaultValues: {
-        //     email: "web.omarfaruk.dev@gmail.com",
-        //     password: "F1474542",
-        // },
     });
 
     const {
@@ -44,16 +41,10 @@ const AddSkill = () => {
         mode: "onBlur",
     });
 
-    // const {
-    //     formState: { isSubmitting },
-    //     handleSubmit,
-    //     register,
-    // } = form;
-
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
-        // Add your submission logic here
+        toast.success("Skill add Successfuly")
         reset()
     };
 

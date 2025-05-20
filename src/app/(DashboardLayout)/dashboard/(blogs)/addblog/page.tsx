@@ -1,3 +1,4 @@
+import CreateBlog from "@/components/dashboardComponents/blogs/addBlog";
 
 
 
@@ -6,7 +7,7 @@ const AddBlogServer = () => {
 
     return (
         <div>
-            <div> The Component is Start AddBlogServer </div>
+            <CreateBlog />
         </div>
     );
 };

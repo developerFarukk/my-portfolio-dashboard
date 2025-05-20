@@ -1,3 +1,4 @@
+import AddProject from "@/components/dashboardComponents/projects/addProject";
 
 
 
@@ -7,7 +8,7 @@ const AddProjectServer = () => {
 
     return (
         <div>
-            <div> The Component is Start AddProjectServer </div>
+            <AddProject />
         </div>
     );
 };
