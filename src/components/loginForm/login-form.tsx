@@ -27,10 +27,10 @@ export function LoginForm({
 
     const form = useForm({
         resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: "web.omarfaruk.dev@gmail.com",
-            password: "F1474542",
-        },
+        // defaultValues: {
+        //     email: "web.omarfaruk.dev@gmail.com",
+        //     password: "F1474542",
+        // },
     });
 
     const {
@@ -40,7 +40,7 @@ export function LoginForm({
     } = form;
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        console.log(data);
+        // console.log(data);
 
         try {
             const res = await sogIn(data);
@@ -79,6 +79,7 @@ export function LoginForm({
                                                 id="email"
                                                 type="email"
                                                 placeholder="Input email"
+                                                
                                                 icon={<Mail size={20} />}
                                                 required
                                                 {...register("email")}

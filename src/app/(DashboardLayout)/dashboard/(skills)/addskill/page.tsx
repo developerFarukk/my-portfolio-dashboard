@@ -1,3 +1,4 @@
+import AddSkill from "@/components/dashboardComponents/skills/addskill";
 
 
 
@@ -6,7 +7,7 @@ const AddSkillServer = () => {
 
     return (
         <div>
-            <div> The Component is Start AddSkillServer </div>
+            <AddSkill />
         </div>
     );
 };
