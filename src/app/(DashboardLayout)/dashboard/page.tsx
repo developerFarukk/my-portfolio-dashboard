@@ -1,14 +1,20 @@
 
 
+import { DashboardHome } from "@/components/dashboardComponents/dashboardHome";
+import { getDashboarsData } from "@/service/DashboardService";
 
-const page = () => {
+
+
+const DashboardHomeServer = async () => {
+
+    const data = await getDashboarsData()
 
     return (
         <div>
-            <div> The Component is Start page </div>
+            <DashboardHome data={data} />
         </div>
     );
 };
 
-export default page;
+export default DashboardHomeServer;
 

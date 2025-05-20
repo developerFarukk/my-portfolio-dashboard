@@ -4,16 +4,11 @@
 
 import * as React from "react"
 import {
-    AudioWaveform,
-    BookOpen,
-    Bot,
-    Command,
-    Frame,
+    AppWindow,
+    Book,
+    Brain,
     GalleryVerticalEnd,
-    Map,
-    PieChart,
     Settings2,
-    SquareTerminal,
 } from "lucide-react"
 
 import {
@@ -25,135 +20,87 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 
 // This is sample data.
 const data = {
     user: {
-        name: "shadcn",
-        email: "m@example.com",
+        name: "OMAR FARUK",
+        email: "web.omarfaruk.dev@gmail.com",
         avatar: "/avatars/shadcn.jpg",
     },
     teams: [
         {
-            name: "Acme Inc",
+            name: "MY DASHBOARD",
             logo: GalleryVerticalEnd,
-            plan: "Enterprise",
-        },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
+            plan: "OMAR FARUK",
+            isActive: true,
         },
     ],
     navMain: [
         {
-            title: "Playground",
-            url: "#",
-            icon: SquareTerminal,
+            title: "Projects",
+            icon: AppWindow,
             isActive: true,
             items: [
                 {
-                    title: "History",
-                    url: "#",
+                    title: "Add Project",
+                    url: "/dashboard/addproject",
                 },
                 {
-                    title: "Starred",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    url: "#",
+                    title: "All Projects",
+                    url: "/dashboard/allprojects",
                 },
             ],
         },
         {
-            title: "Models",
-            url: "#",
-            icon: Bot,
+            title: "Blogs",
+            icon: Book,
+            isActive: true,
             items: [
                 {
-                    title: "Genesis",
-                    url: "#",
+                    title: "Add Blog",
+                    url: "/dashboard/addblog",
                 },
                 {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
-                    url: "#",
+                    title: "All Blogs",
+                    url: "/dashboard/allblogs",
                 },
             ],
         },
         {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
+            title: "Skills",
+            icon: Brain,
+            isActive: true,
             items: [
                 {
-                    title: "Introduction",
-                    url: "#",
+                    title: "Add Skill",
+                    url: "/dashboard/addskill",
                 },
                 {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
+                    title: "All Skills",
+                    url: "/dashboard/allakills",
                 },
             ],
         },
         {
             title: "Settings",
-            url: "#",
             icon: Settings2,
+            isActive: true,
             items: [
                 {
                     title: "General",
-                    url: "#",
+                    url: "/dashboard",
                 },
                 {
                     title: "Team",
-                    url: "#",
+                    url: "/dashboard",
                 },
                 {
                     title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
+                    url: "/dashboard",
                 },
             ],
-        },
-    ],
-    projects: [
-        {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: PieChart,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Map,
         },
     ],
 }
@@ -166,7 +113,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />

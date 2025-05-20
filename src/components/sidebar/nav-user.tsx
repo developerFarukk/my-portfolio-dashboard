@@ -5,9 +5,7 @@ import {
     BadgeCheck,
     Bell,
     ChevronsUpDown,
-    CreditCard,
     LogOut,
-    Sparkles,
 } from "lucide-react"
 
 import {
@@ -30,6 +28,10 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { logout } from "@/service/AuthService"
+import { useState } from "react"
+import { toast } from "sonner"
 
 export function NavUser({
     user,
@@ -40,7 +42,18 @@ export function NavUser({
         avatar: string
     }
 }) {
+    const [loading, setIsLoading] = useState(false)
     const { isMobile } = useSidebar()
+    const router = useRouter();
+
+    const handleLogout = () => {
+        logout();
+        setIsLoading(true);
+        toast.success('Logout successfully')
+        router.push("/")
+    };
+
+    if (loading) return <div><Bell className="h-5 w-5" /></div>
 
     return (
         <SidebarMenu>
@@ -80,30 +93,14 @@ export function NavUser({
                                 </div>
                             </div>
                         </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
                                 <BadgeCheck />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCard />
-                                Billing
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Bell />
-                                Notifications
-                            </DropdownMenuItem>
+                                Setting
+                            </DropdownMenuItem>             
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleLogout()}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>

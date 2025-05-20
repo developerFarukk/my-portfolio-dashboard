@@ -1,7 +1,7 @@
-"use client"
+
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+"use client"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../homeComponents/Login/loginValidation"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { sogIn } from "@/service/AuthService"
 
 export function LoginForm({
     className,
@@ -27,29 +28,32 @@ export function LoginForm({
     const form = useForm({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            email: "ff@gmail.com",
-            password: "123456",
+            email: "web.omarfaruk.dev@gmail.com",
+            password: "F1474542",
         },
     });
 
-    const { formState: { isSubmitting } } = form;
+    const {
+        formState: { isSubmitting },
+        handleSubmit,
+        register,
+    } = form;
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
-        toast.success("Login successful!");
-        router.push("/dashboard");
 
-        // try {
-        //     const res = await signInUser(data);
-        //     if (res.success) {
-        //         toast.success("Login successful!");
-        //         router.push("/");
-        //     } else {
-        //         toast.error("Invalid Credentials!");
-        //     }
-        // } catch (error: any) {
-        //     toast.error("Something went wrong!");
-        // }
+        try {
+            const res = await sogIn(data);
+            if (res.success) {
+                toast.success("Login successful!");
+                router.push("/dashboard");
+            } else {
+                toast.error("Invalid Credentials!");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error("Something went wrong!");
+        }
     };
 
     return (
@@ -67,47 +71,38 @@ export function LoginForm({
                         </CardHeader>
                         <CardContent>
                             <Form {...form}>
-                                <form
-                                    onSubmit={form.handleSubmit(onSubmit)}
-                                >
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="flex flex-col gap-6">
                                         <div className="grid gap-2">
                                             <Label htmlFor="email">Email</Label>
                                             <Input
-                                                name="email"
                                                 id="email"
                                                 type="email"
-                                                placeholder="faruk@gmail.com"
-                                                control={form.control}
+                                                placeholder="Input email"
                                                 icon={<Mail size={20} />}
                                                 required
+                                                {...register("email")}
                                                 {...{ fdprocessedid: "av252a" } as any}
                                             />
                                         </div>
                                         <div className="grid gap-2">
                                             <div className="flex items-center">
                                                 <Label htmlFor="password">Password</Label>
-                                                {/* <a
-                                                    href="#"
-                                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                                >
-                                                    Forgot your password?
-                                                </a> */}
                                             </div>
                                             <Input
-                                                name="password"
                                                 id="password"
                                                 type="password"
                                                 required
-                                                control={form.control}
+                                                placeholder="Input password"
                                                 icon={<Lock size={20} />}
+                                                {...register("password")}
                                                 {...{ fdprocessedid: "eltfvr" } as any}
                                             />
                                         </div>
                                         <Button
                                             type="submit"
                                             {...{ fdprocessedid: "v6g0xg" } as any}
-                                            className="w-full"
+                                            className="w-full cursor-auto"
                                             disabled={isSubmitting}
                                         >
                                             {isSubmitting ? (
@@ -122,13 +117,10 @@ export function LoginForm({
                                     </div>
                                 </form>
                             </Form>
-
                         </CardContent>
                     </Card>
                 </div>
             </motion.div>
-
         </div>
-
     )
 }
