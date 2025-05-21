@@ -142,6 +142,7 @@ const AddSkill = () => {
                                 {...{ fdprocessedid: "v6g0xg" } as any}
                                 className="w-full cursor-auto"
                                 disabled={isSubmitting}
+                                {...{ fdprocessedid: "l8cjrh" } as any}
                             >
                                 {isSubmitting ? (
                                     <div className="flex items-center gap-2">

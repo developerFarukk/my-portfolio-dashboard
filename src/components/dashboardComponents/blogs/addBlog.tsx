@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 "use client";
@@ -189,6 +190,7 @@ const CreateBlog = () => {
                                     type="submit"
                                     className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-md transition-all transform hover:scale-[1.01]"
                                     disabled={isSubmitting}
+                                    {...{ fdprocessedid: "l8cjrh" } as any}
                                 >
                                     {isSubmitting ? (
                                         <div className="flex items-center justify-center gap-2">
