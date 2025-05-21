@@ -22,6 +22,7 @@ import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import ImageExtension from '@tiptap/extension-image';
 import { Toolbar } from './toolbar';
+import { createBlog } from '@/service/blogService';
 
 const CreateBlog = () => {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -34,14 +35,25 @@ const CreateBlog = () => {
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        console.log(data);
-        toast.success("Blog created successfully");
-        reset();
 
-        editor?.commands.clearContent();
-
-        // Clear image preview
-        setPreviewUrl(null);
+        try {
+            const res = await createBlog(data)
+            if (res.success) {
+                toast.success("Blog created successfully");
+                reset();
+                setPreviewUrl(null);
+                editor?.commands.clearContent();
+            } else {
+                toast.error(res.message || "Failed to create Blog");
+            }
+        } catch (error: any) {
+            console.error("Blog creation error:", error);
+            toast.error(
+                error.response?.data?.message ||
+                error.message ||
+                "An unexpected error occurred"
+            );
+        }
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

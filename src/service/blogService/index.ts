@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 "use server"
 
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
 
-export const createProject  = async (data: FieldValues): Promise<any> => {
+export const createBlog = async (data: FieldValues): Promise<any> => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/create-project`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/create-blog`, {
             method: "POST",
             // body: data,
             body: JSON.stringify(data),
