@@ -7,7 +7,7 @@ import {
     AppWindow,
     Book,
     Brain,
-    GalleryVerticalEnd,
+    Home,
     Settings2,
 } from "lucide-react"
 
@@ -32,14 +32,14 @@ const data = {
     teams: [
         {
             name: "MY DASHBOARD",
-            logo: GalleryVerticalEnd,
+            logo: Home,
             plan: "OMAR FARUK",
             isActive: true,
         },
     ],
     navMain: [
         {
-            title: "Projects",
+            title: "Projects Managments",
             icon: AppWindow,
             isActive: true,
             items: [
@@ -54,7 +54,7 @@ const data = {
             ],
         },
         {
-            title: "Blogs",
+            title: "Blogs Managments",
             icon: Book,
             isActive: true,
             items: [
@@ -69,7 +69,7 @@ const data = {
             ],
         },
         {
-            title: "Skills",
+            title: "Skills Managments",
             icon: Brain,
             isActive: true,
             items: [
