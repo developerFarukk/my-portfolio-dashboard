@@ -17,6 +17,7 @@ import { TProject } from "@/types/projectType";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
+import { createProject } from "@/service/projectService";
 
 
 
@@ -45,12 +46,25 @@ const AddProject = () => {
     };
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        console.log(data);
-        toast.success("Project created successfully");
-        reset();
+        // console.log(data);
+        try {
+            const res = await createProject(data)
+            if (res.success) {
+                toast.success("Project created successfully");
+                reset();
+                setPreviewUrl(null);
+            } else {
+                toast.error(res.message || "Failed to create project");
+            }
+        } catch (error: any) {
+            console.error("Project creation error:", error);
+            toast.error(
+                error.response?.data?.message ||
+                error.message ||
+                "An unexpected error occurred"
+            );
+        }
 
-        // Clear image preview
-        setPreviewUrl(null);
     };
 
     return (
@@ -204,7 +218,7 @@ const AddProject = () => {
                                 <Controller
                                     name="category"
 
-                                    // control={control}
+                                    control={control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <SelectTrigger className="bg-white mt-2 dark:bg-zinc-800 w-full">
