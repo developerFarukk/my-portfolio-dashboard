@@ -22,7 +22,8 @@ import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
-import { VideoUrlPreview } from "@/components/shared/VideoUrlPreview";
+import { Minus, Plus } from "lucide-react";
+// import { VideoUrlPreview } from "@/components/shared/VideoUrlPreview";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -46,7 +47,7 @@ const AddProject = () => {
   const pServerLiveLink = watch("pLiveServerLink");
   const pClientRepoLink = watch("pClientRepoLink");
   const pServerRepoLink = watch("pServerRepoLink");
-  const pOverviewVideoLink = watch("pOverviewVideoLink");
+  //   const pOverviewVideoLink = watch("pOverviewVideoLink");
 
   //   console.log(form.formState.errors);
 
@@ -305,19 +306,52 @@ const AddProject = () => {
                 name="pOverviewVideoLink"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="italic font-semibold text-md">
-                      Project Overview Video URL
-                      <span className="text-red-800 text-xs">(Optional)</span>
-                    </FormLabel>
+                    <div className="flex justify-between items-center">
+                      <FormLabel className="italic font-semibold text-md">
+                        Project Overview Video URL
+                        <span className="text-red-800 text-xs">(Optional)</span>
+                      </FormLabel>
+                      <div>
+                        <Plus />
+                      </div>
+                    </div>
 
                     <FormControl>
-                      <Input
-                        type="text"
-                        value={field.value?.[0] || ""}
-                        onChange={(e) => field.onChange([e.target.value])} // example for single input
-                        placeholder="Input Project Overview Video URL"
-                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
-                      />
+                      <div className="border-2 lg:p-2 p-1 rounded-md">
+                        {/* Link 1 */}
+                        <div className="flex justify-between items-center gap-2 p-1">
+                          <div className="lg:w-24 w-16 italic">
+                            <h2>Link 1:</h2>
+                          </div>
+                          <Input
+                            type="text"
+                            value={field.value?.[0] || ""}
+                            onChange={(e) => field.onChange([e.target.value])} // example for single input
+                            placeholder="Input Project Overview Video URL"
+                            className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                          />
+                          <div>
+                            <Minus />
+                          </div>
+                        </div>
+
+                        {/* Link 2 */}
+                        <div className="flex justify-between items-center gap-2 p-1">
+                          <div className=" lg:w-24 w-16 italic">
+                            <h2>Link 2:</h2>
+                          </div>
+                          <Input
+                            type="text"
+                            value={field.value?.[0] || ""}
+                            onChange={(e) => field.onChange([e.target.value])} // example for single input
+                            placeholder="Input Project Overview Video URL"
+                            className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                          />
+                          <div>
+                            <Minus />
+                          </div>
+                        </div>
+                      </div>
                     </FormControl>
 
                     <FormMessage className="text-xs text-right" />
