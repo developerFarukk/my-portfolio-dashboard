@@ -22,6 +22,7 @@ import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
+import { VideoUrlPreview } from "@/components/shared/VideoUrlPreview";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -45,6 +46,7 @@ const AddProject = () => {
   const pServerLiveLink = watch("pLiveServerLink");
   const pClientRepoLink = watch("pClientRepoLink");
   const pServerRepoLink = watch("pServerRepoLink");
+  const pOverviewVideoLink = watch("pOverviewVideoLink");
 
   //   console.log(form.formState.errors);
 
@@ -293,6 +295,43 @@ const AddProject = () => {
                       url={pServerRepoLink}
                       onClear={() => setValue("pServerRepoLink", "")}
                     />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Video Overview Link */}
+              <FormField
+                control={control}
+                name="pOverviewVideoLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Overview Video URL
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+
+                    <FormControl>
+                      <Input
+                        type="text"
+                        value={field.value?.[0] || ""}
+                        onChange={(e) => field.onChange([e.target.value])} // example for single input
+                        placeholder="Input Project Overview Video URL"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-right" />
+
+                    {/* Video Preview */}
+                    {/* <VideoUrlPreview
+                      urls={field.value}
+                      onRemove={(index) => {
+                        const updated = [...(field.value || [])];
+                        updated.splice(index, 1);
+                        field.onChange(updated);
+                      }}
+                      height={200}
+                    /> */}
                   </FormItem>
                 )}
               />
