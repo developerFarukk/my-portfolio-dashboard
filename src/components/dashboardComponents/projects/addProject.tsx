@@ -37,12 +37,14 @@ const AddProject = () => {
     formState: { isSubmitting },
     setValue,
     watch,
-    control
+    control,
     // reset,
   } = form;
 
   const pClientLiveLink = watch("pLiveClientLink");
   const pServerLiveLink = watch("pLiveServerLink");
+  const pClientRepoLink = watch("pClientRepoLink");
+  const pServerRepoLink = watch("pServerRepoLink");
 
   //   console.log(form.formState.errors);
 
@@ -232,6 +234,64 @@ const AddProject = () => {
                     <WebsitePreviewUrl
                       url={pServerLiveLink}
                       onClear={() => setValue("pLiveServerLink", "")}
+                    />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Client Repository Link */}
+              <FormField
+                control={control}
+                name="pClientRepoLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Client Repository URL
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="Input Project Client Repository URL"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+
+                    {/* Image Preview */}
+                    <WebsitePreviewUrl
+                      url={pClientRepoLink}
+                      onClear={() => setValue("pClientRepoLink", "")}
+                    />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Server Repository Link */}
+              <FormField
+                control={control}
+                name="pServerRepoLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Server Repository URL
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="Input Project Server Repository URL"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+
+                    {/* Image Preview */}
+                    <WebsitePreviewUrl
+                      url={pServerRepoLink}
+                      onClear={() => setValue("pServerRepoLink", "")}
                     />
                   </FormItem>
                 )}
