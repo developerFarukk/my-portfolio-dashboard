@@ -21,6 +21,7 @@ import { MotionButton } from "@/components/shared/MotionButton";
 import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
+import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -34,19 +35,14 @@ const AddProject = () => {
 
   const {
     formState: { isSubmitting },
-    // setValue,
-    // watch,
+    setValue,
+    watch,
+    control
     // reset,
   } = form;
 
-  //   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const file = e.target.files?.[0];
-  //     if (file) {
-  //       setValue("image", e.target.files as unknown as string);
-  //       const url = URL.createObjectURL(file);
-  //       setPreviewUrl(url);
-  //     }
-  //   };
+  const pClientLiveLink = watch("pLiveClientLink");
+  const pServerLiveLink = watch("pLiveServerLink");
 
   //   console.log(form.formState.errors);
 
@@ -88,7 +84,7 @@ const AddProject = () => {
             >
               {/* Project Name */}
               <FormField
-                control={form.control}
+                control={control}
                 name="pName"
                 render={({ field }) => (
                   <FormItem>
@@ -110,7 +106,7 @@ const AddProject = () => {
 
               {/* Project Title */}
               <FormField
-                control={form.control}
+                control={control}
                 name="pTitle"
                 render={({ field }) => (
                   <FormItem>
@@ -132,7 +128,7 @@ const AddProject = () => {
 
               {/* Project Description */}
               <FormField
-                control={form.control}
+                control={control}
                 name="pDescription"
                 render={({ field }) => (
                   <FormItem>
@@ -155,7 +151,7 @@ const AddProject = () => {
 
               {/* Project Logo Link */}
               <FormField
-                control={form.control}
+                control={control}
                 name="pLogoLink"
                 render={({ field }) => (
                   <FormItem>
@@ -178,6 +174,64 @@ const AddProject = () => {
                       url={field.value}
                       onClear={() => field.onChange("")}
                       alt="Project Logo Preview"
+                    />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Live Link */}
+              <FormField
+                control={control}
+                name="pLiveClientLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Live URL
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="Input Project Live URL"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+
+                    {/* Image Preview */}
+                    <WebsitePreviewUrl
+                      url={pClientLiveLink}
+                      onClear={() => setValue("pLiveClientLink", "")}
+                    />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Live Server Link */}
+              <FormField
+                control={control}
+                name="pLiveServerLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Live Server URL
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="Input Project Live Server URL"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+
+                    {/* Image Preview */}
+                    <WebsitePreviewUrl
+                      url={pServerLiveLink}
+                      onClear={() => setValue("pLiveServerLink", "")}
                     />
                   </FormItem>
                 )}
