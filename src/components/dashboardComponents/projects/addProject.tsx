@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/shared/MotionButton";
 import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
-import { ImagePreview } from "@/components/shared/ImagePreview";
+import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -174,8 +174,9 @@ const AddProject = () => {
                     <FormMessage className="text-xs text-right" />
 
                     {/* Image Preview */}
-                    <ImagePreview
+                    <ImageUrlPreview
                       url={field.value}
+                      onClear={() => field.onChange("")}
                       alt="Project Logo Preview"
                     />
                   </FormItem>
