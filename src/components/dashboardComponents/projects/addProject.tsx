@@ -19,6 +19,7 @@ import { projectSchema, TProject } from "./projectSchema";
 import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/shared/MotionButton";
 import { defaultProjectValues } from "@/types/projectType";
+import { Textarea } from "@/components/ui/textarea";
 
 const AddProject = () => {
   //   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -48,7 +49,7 @@ const AddProject = () => {
   //     }
   //   };
 
-//   console.log(form.formState.errors);
+  //   console.log(form.formState.errors);
 
   const onSubmit: SubmitHandler<TProject> = async (data) => {
     console.log("Project Data", data);
@@ -86,7 +87,7 @@ const AddProject = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="grid gap-4 py-4"
             >
-              {/* Title */}
+              {/* Project Name */}
               <FormField
                 control={form.control}
                 name="pName"
@@ -121,7 +122,7 @@ const AddProject = () => {
                       <Input
                         type="text"
                         {...field}
-                        placeholder="Inpute Project Name"
+                        placeholder="Inpute Project Title"
                         className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
                       />
                     </FormControl>
@@ -130,22 +131,51 @@ const AddProject = () => {
                 )}
               />
 
-              {/* Description */}
-              {/* <div>
-                <Label htmlFor="descriptions">Description*</Label>
-                <Textarea
-                  id="descriptions"
-                  className="bg-white mt-2 dark:bg-zinc-800"
-                  {...register("descriptions", {
-                    required: "Description is required",
-                  })}
-                />
-                {errors.descriptions && (
-                  <p className="text-red-500 text-sm">
-                    {errors.descriptions.message}
-                  </p>
+              {/* Project Description */}
+              <FormField
+                control={form.control}
+                name="pDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Description
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        // type="text"
+                        {...field}
+                        placeholder="Inpute Project Description"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 h-28"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
                 )}
-              </div> */}
+              />
+
+              {/* Project Logo Link */}
+              <FormField
+                control={form.control}
+                name="pLogoLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Logo URL
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="Inpute Project Logo URL"
+                        className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
 
               {/* Live Link */}
               {/* <div>

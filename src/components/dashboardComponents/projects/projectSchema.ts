@@ -47,9 +47,9 @@ const projectFeatureSchema = z.object({
 const contributorSchema = z.object({
   name: z.string().optional(),
   role: z.string().optional(),
-  profileLink: z.string().url("Invalid URL").optional(),
-  portfolioLink: z.string().url("Invalid URL").optional(),
-  gitHubLink: z.string().url("Invalid URL").optional(),
+  profileLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+  portfolioLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+  gitHubLink: z.string().url("Invalid URL").optional().or(z.literal("")),
 });
 
 // Review schema
@@ -69,13 +69,13 @@ export const projectSchema = z.object({
 
   pDescription: z.string().optional(),
 
-  pLogoLink: z.string().url("Invalid URL").optional(),
+  pLogoLink: z.string().url("Invalid URL").optional().or(z.literal("")),
 
-  pLiveClientLink: z.string().url("Invalid URL").optional(),
-  pLiveServerLink: z.string().url("Invalid URL").optional(),
+  pLiveClientLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+  pLiveServerLink: z.string().url("Invalid URL").optional().or(z.literal("")),
 
-  pClientRepoLink: z.string().url("Invalid URL").optional(),
-  pServerRepoLink: z.string().url("Invalid URL").optional(),
+  pClientRepoLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+  pServerRepoLink: z.string().url("Invalid URL").optional().or(z.literal("")),
 
   pOverviewVideoLink: z.array(z.string().url("Invalid URL")).optional(),
 
