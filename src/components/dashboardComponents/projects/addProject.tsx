@@ -20,14 +20,9 @@ import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/shared/MotionButton";
 import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
-import { useState } from "react";
+import { ImagePreview } from "@/components/shared/ImagePreview";
 
 const AddProject = () => {
-  //   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  const [previewUrl, setPreviewUrl] = useState<string>("");
-
   const form = useForm<TProject>({
     // resolver: zodResolver(projectSchema),
     resolver: zodResolver(projectSchema),
@@ -159,7 +154,7 @@ const AddProject = () => {
               />
 
               {/* Project Logo Link */}
-              {/* <FormField
+              <FormField
                 control={form.control}
                 name="pLogoLink"
                 render={({ field }) => (
@@ -172,62 +167,19 @@ const AddProject = () => {
                       <Input
                         type="text"
                         {...field}
-                        placeholder="Inpute Project Logo URL"
+                        placeholder="Input Project Logo URL"
                         className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-right" />
+
+                    {/* Image Preview */}
+                    <ImagePreview
+                      url={field.value}
+                      alt="Project Logo Preview"
+                    />
                   </FormItem>
                 )}
-              /> */}
-
-              <FormField
-                control={form.control}
-                name="pLogoLink"
-                render={({ field }) => {
-                  
-
-                  // Update preview whenever input changes
-                  const handleChange = (
-                    e: React.ChangeEvent<HTMLInputElement>,
-                  ) => {
-                    field.onChange(e); // update react-hook-form
-                    setPreviewUrl(e.target.value); // update preview
-                  };
-
-                  return (
-                    <FormItem>
-                      <FormLabel className="italic font-semibold text-md">
-                        Project Logo URL
-                        <span className="text-red-800 text-xs">(Optional)</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          {...field}
-                          value={field.value || ""}
-                          onChange={handleChange}
-                          placeholder="Input Project Logo URL"
-                          className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs text-right" />
-
-                      {/* Preview */}
-                      {previewUrl && (
-                        <div className="mt-2">
-                          <Image
-                            src={previewUrl}
-                            alt="Logo Preview"
-                            className="h-24 w-auto border rounded-md shadow-sm"
-                            height={100}
-                            width={100}
-                          />
-                        </div>
-                      )}
-                    </FormItem>
-                  );
-                }}
               />
 
               {/* Live Link */}
