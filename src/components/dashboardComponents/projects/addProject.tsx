@@ -22,7 +22,9 @@ import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
-import { DynamicVideoLinkInput } from "@/components/shared/DynamicVideoLinkInput";
+import { DynamicVideoUrlInput } from "@/components/shared/DynamicVideoUrlInput";
+import DynTechStackInpute from "@/components/shared/DynTechStackInpute";
+import MultiSkillSelector from "./inputeFild/multiSkillSelector";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -307,17 +309,65 @@ const AddProject = () => {
                   <FormItem>
                     <FormControl>
                       {/* Input field */}
-                      <DynamicVideoLinkInput
+                      <DynamicVideoUrlInput
                         links={field.value || [""]}
                         onChange={(updatedLinks) =>
                           field.onChange(updatedLinks)
                         }
+                        urlTitle="Project Overview Video URL"
+                        inputeHolder="Input Project Overview Video URL"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-right" />
                   </FormItem>
                 )}
               />
+
+              {/* Project Tech Stack */}
+              <FormField
+                control={control}
+                name="pTechStack"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      {/* Input field */}
+                      <DynTechStackInpute
+                        links={field.value || [""]}
+                        onChange={(updatedLinks) =>
+                          field.onChange(updatedLinks)
+                        }
+                        urlTitle="Project Tech Stack"
+                        inputeHolder="Input Project Tech Stack"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="pTechStack"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Tech Stack
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+
+                    <FormControl>
+                      <MultiSkillSelector
+                        value={field.value ?? []} // safe
+                        onChange={field.onChange} // 🔑 RHF sync
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+
+              {/* <MultiSkillSelector /> */}
 
               {/* Live Link */}
               {/* <div>

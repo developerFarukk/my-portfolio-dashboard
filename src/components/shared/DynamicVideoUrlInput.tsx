@@ -6,15 +6,19 @@ import { Input } from "@/components/ui/input";
 import { FormLabel } from "../ui/form";
 import { motion } from "framer-motion";
 
-export interface DynamicVideoLinksProps {
-  links?: string[]; // parent form value
-  onChange?: (links: string[]) => void; // callback to parent
+export interface DynamicVideoUrlInputProps {
+  links?: string[];
+  onChange?: (links: string[]) => void;
+  urlTitle?: string;
+  inputeHolder?: string;
 }
 
-export const DynamicVideoLinkInput = ({
+export const DynamicVideoUrlInput = ({
   links: initialLinks = [""],
   onChange,
-}: DynamicVideoLinksProps) => {
+  urlTitle,
+  inputeHolder,
+}: DynamicVideoUrlInputProps) => {
   const [links, setLinks] = useState<string[]>(
     initialLinks.length ? initialLinks : [""],
   );
@@ -68,7 +72,8 @@ export const DynamicVideoLinkInput = ({
       {/* Header with Plus */}
       <div className="flex justify-between items-center mt-2 mb-2">
         <FormLabel className="italic font-semibold text-md">
-          Project Overview Video URL
+          {/* Project Overview Video URL */}
+          {urlTitle}
           <span className="text-red-800 text-xs">(Optional)</span>
         </FormLabel>
         <motion.button
@@ -97,7 +102,7 @@ export const DynamicVideoLinkInput = ({
               type="text"
               value={link}
               onChange={(e) => handleChange(e.target.value, idx)}
-              placeholder="Input Project Overview Video URL"
+              placeholder={inputeHolder}
               className=" bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
             />
 
@@ -123,11 +128,3 @@ export const DynamicVideoLinkInput = ({
     </div>
   );
 };
-
-
-
-
-
-
-
-
