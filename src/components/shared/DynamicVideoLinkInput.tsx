@@ -1,22 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
-import { Input } from "@/components/ui/input"; // adjust import based on your setup
-import { FormLabel } from "../ui/form";
+import { Input } from "@/components/ui/input";
+import { FormControl, FormLabel } from "../ui/form";
 import { motion } from "framer-motion";
 
 interface DynamicVideoLinksProps {
-  links?: string[];
-  onChange?: (links: string[]) => void;
+  links?: string[]; // parent form value
+  onChange?: (links: string[]) => void; // callback to parent
 }
 
 export const DynamicVideoLinkInput = ({
   links: initialLinks = [""],
   onChange,
 }: DynamicVideoLinksProps) => {
-  const [links, setLinks] = useState<string[]>(initialLinks);
+  const [links, setLinks] = useState<string[]>(
+    initialLinks.length ? initialLinks : [""],
+  );
   const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    // sync parent value if changed
+    if (initialLinks && initialLinks.length) {
+      setLinks(initialLinks);
+    }
+  }, [initialLinks]);
 
   const isValidUrl = (url: string) => {
     try {
@@ -28,25 +37,24 @@ export const DynamicVideoLinkInput = ({
     }
   };
 
-  // Add new input
   const handleAdd = () => {
     const lastIndex = links.length - 1;
     if (!isValidUrl(links[lastIndex])) {
       setError("Please input valid URL");
       return;
     }
-    setLinks([...links, ""]);
+    const updated = [...links, ""];
+    setLinks(updated);
     setError("");
+    onChange?.(updated);
   };
 
-  // Remove input
   const handleRemove = (index: number) => {
     const updated = links.filter((_, i) => i !== index);
     setLinks(updated);
     onChange?.(updated);
   };
 
-  // Handle change
   const handleChange = (value: string, index: number) => {
     const updated = [...links];
     updated[index] = value;
@@ -56,38 +64,25 @@ export const DynamicVideoLinkInput = ({
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center mt-2">
+    <div>
+      {/* Header with Plus */}
+      <div className="flex justify-between items-center mt-2 mb-2">
         <FormLabel className="italic font-semibold text-md">
           Project Overview Video URL
           <span className="text-red-800 text-xs">(Optional)</span>
         </FormLabel>
-        {/* <button type="button" onClick={handleAdd}>
-          <Plus />
-        </button> */}
         <motion.button
           type="button"
           onClick={handleAdd}
-          whileTap={{ scale: 0.8 }}
+          whileTap={{ scale: 1.2 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
           className="hover:border hover:rounded-full hover:dark:border-white"
         >
           <Plus size={20} />
         </motion.button>
       </div>
-      <div className="">
-        {/* Header with Plus */}
-        {/* <div className="flex justify-between items-center">
-          <span className="italic font-semibold text-md">
-            Project Overview Video URL
-            <span className="text-red-800 text-xs">(Optional)</span>
-          </span>
-          <button type="button" onClick={handleAdd}>
-            <Plus />
-          </button>
-        </div> */}
 
-        {/* Input Fields */}
+      <FormControl>
         <div className="border-2 lg:p-2 p-1 rounded-md flex flex-col gap-2">
           {links.map((link, idx) => (
             <div
@@ -103,26 +98,28 @@ export const DynamicVideoLinkInput = ({
                 value={link}
                 onChange={(e) => handleChange(e.target.value, idx)}
                 placeholder="Input Project Overview Video URL"
-                className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
+                className=" bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
               />
 
               {/* Minus button for all except first input */}
               {idx > 0 && (
-                <button
+                <motion.button
                   type="button"
                   onClick={() => handleRemove(idx)}
-                  className="p-1 rounded-full bg-red-500 text-white hover:bg-red-600"
+                  whileTap={{ scale: 1.2 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  className="hover:border hover:rounded-full hover:dark:border-white"
                 >
-                  <Minus />
-                </button>
+                  <Minus size={20} />
+                </motion.button>
               )}
             </div>
           ))}
-        </div>
 
-        {/* Error for last input */}
-        {error && <p className="text-red-600 text-xs">{error}</p>}
-      </div>
-    </>
+          {/* Error for last input */}
+          {error && <p className="text-red-600 text-xs text-right">{error}</p>}
+        </div>
+      </FormControl>
+    </div>
   );
 };
