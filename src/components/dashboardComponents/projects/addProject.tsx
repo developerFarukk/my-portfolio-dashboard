@@ -345,8 +345,6 @@ const AddProject = () => {
                 )}
               />
 
-              {/* <MultiSkillSelector /> */}
-
               {/* Live Link */}
               {/* <div>
                 <Label htmlFor="liveLink">Live Link*</Label>
