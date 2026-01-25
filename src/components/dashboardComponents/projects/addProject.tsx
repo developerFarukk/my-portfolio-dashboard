@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
 import { Minus, Plus } from "lucide-react";
-// import { VideoUrlPreview } from "@/components/shared/VideoUrlPreview";
+import { DynamicVideoLinkInput } from "@/components/shared/DynamicVideoLinkInput";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -366,6 +366,20 @@ const AddProject = () => {
                       }}
                       height={200}
                     /> */}
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="pOverviewVideoLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <DynamicVideoLinkInput
+                      links={field.value || [""]}
+                      onChange={(updatedLinks) => field.onChange(updatedLinks)}
+                    />
+                    <FormMessage className="text-xs text-right" />
                   </FormItem>
                 )}
               />
