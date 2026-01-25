@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input"; // adjust import based on your setup
+import { FormLabel } from "../ui/form";
+import { motion } from "framer-motion";
 
 interface DynamicVideoLinksProps {
   links?: string[];
@@ -54,53 +56,73 @@ export const DynamicVideoLinkInput = ({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      {/* Header with Plus */}
-      <div className="flex justify-between items-center">
-        <span className="italic font-semibold text-md">
+    <>
+      <div className="flex justify-between items-center mt-2">
+        <FormLabel className="italic font-semibold text-md">
           Project Overview Video URL
           <span className="text-red-800 text-xs">(Optional)</span>
-        </span>
-        <button type="button" onClick={handleAdd}>
+        </FormLabel>
+        {/* <button type="button" onClick={handleAdd}>
           <Plus />
-        </button>
+        </button> */}
+        <motion.button
+          type="button"
+          onClick={handleAdd}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          className="hover:border hover:rounded-full hover:dark:border-white"
+        >
+          <Plus size={20} />
+        </motion.button>
       </div>
+      <div className="">
+        {/* Header with Plus */}
+        {/* <div className="flex justify-between items-center">
+          <span className="italic font-semibold text-md">
+            Project Overview Video URL
+            <span className="text-red-800 text-xs">(Optional)</span>
+          </span>
+          <button type="button" onClick={handleAdd}>
+            <Plus />
+          </button>
+        </div> */}
 
-      {/* Input Fields */}
-      <div className="border-2 lg:p-2 p-1 rounded-md flex flex-col gap-2">
-        {links.map((link, idx) => (
-          <div
-            key={idx}
-            className="flex justify-between items-center gap-2 p-1"
-          >
-            <div className="lg:w-24 w-16 italic">
-              <h2>{`Link ${idx + 1}:`}</h2>
+        {/* Input Fields */}
+        <div className="border-2 lg:p-2 p-1 rounded-md flex flex-col gap-2">
+          {links.map((link, idx) => (
+            <div
+              key={idx}
+              className="flex justify-between items-center gap-2 p-1"
+            >
+              <div className="lg:w-24 w-16 italic">
+                <h2>{`Link ${idx + 1}:`}</h2>
+              </div>
+
+              <Input
+                type="text"
+                value={link}
+                onChange={(e) => handleChange(e.target.value, idx)}
+                placeholder="Input Project Overview Video URL"
+                className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
+              />
+
+              {/* Minus button for all except first input */}
+              {idx > 0 && (
+                <button
+                  type="button"
+                  onClick={() => handleRemove(idx)}
+                  className="p-1 rounded-full bg-red-500 text-white hover:bg-red-600"
+                >
+                  <Minus />
+                </button>
+              )}
             </div>
+          ))}
+        </div>
 
-            <Input
-              type="text"
-              value={link}
-              onChange={(e) => handleChange(e.target.value, idx)}
-              placeholder="Input Project Overview Video URL"
-              className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
-            />
-
-            {/* Minus button for all except first input */}
-            {idx > 0 && (
-              <button
-                type="button"
-                onClick={() => handleRemove(idx)}
-                className="p-1 rounded-full bg-red-500 text-white hover:bg-red-600"
-              >
-                <Minus />
-              </button>
-            )}
-          </div>
-        ))}
+        {/* Error for last input */}
+        {error && <p className="text-red-600 text-xs">{error}</p>}
       </div>
-
-      {/* Error for last input */}
-      {error && <p className="text-red-600 text-xs">{error}</p>}
-    </div>
+    </>
   );
 };
