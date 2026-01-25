@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { FormControl, FormLabel } from "../ui/form";
+import { FormLabel } from "../ui/form";
 import { motion } from "framer-motion";
 
-interface DynamicVideoLinksProps {
+export interface DynamicVideoLinksProps {
   links?: string[]; // parent form value
   onChange?: (links: string[]) => void; // callback to parent
 }
@@ -82,44 +82,52 @@ export const DynamicVideoLinkInput = ({
         </motion.button>
       </div>
 
-      <FormControl>
-        <div className="border-2 lg:p-2 p-1 rounded-md flex flex-col gap-2">
-          {links.map((link, idx) => (
-            <div
-              key={idx}
-              className="flex justify-between items-center gap-2 p-1"
-            >
-              <div className="lg:w-24 w-16 italic">
-                <h2>{`Link ${idx + 1}:`}</h2>
-              </div>
-
-              <Input
-                type="text"
-                value={link}
-                onChange={(e) => handleChange(e.target.value, idx)}
-                placeholder="Input Project Overview Video URL"
-                className=" bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
-              />
-
-              {/* Minus button for all except first input */}
-              {idx > 0 && (
-                <motion.button
-                  type="button"
-                  onClick={() => handleRemove(idx)}
-                  whileTap={{ scale: 1.2 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                  className="hover:border hover:rounded-full hover:dark:border-white"
-                >
-                  <Minus size={20} />
-                </motion.button>
-              )}
+      {/* <FormControl> */}
+      <div className="border-2 lg:p-2 p-1 rounded-md flex flex-col gap-2">
+        {links.map((link, idx) => (
+          <div
+            key={idx}
+            className="flex justify-between items-center gap-2 p-1"
+          >
+            <div className="lg:w-24 w-16 italic">
+              <h2>{`Link ${idx + 1}:`}</h2>
             </div>
-          ))}
 
-          {/* Error for last input */}
-          {error && <p className="text-red-600 text-xs text-right">{error}</p>}
-        </div>
-      </FormControl>
+            <Input
+              type="text"
+              value={link}
+              onChange={(e) => handleChange(e.target.value, idx)}
+              placeholder="Input Project Overview Video URL"
+              className=" bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
+            />
+
+            {/* Minus button for all except first input */}
+            {idx > 0 && (
+              <motion.button
+                type="button"
+                onClick={() => handleRemove(idx)}
+                whileTap={{ scale: 1.2 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className="hover:border hover:rounded-full hover:dark:border-white"
+              >
+                <Minus size={20} />
+              </motion.button>
+            )}
+          </div>
+        ))}
+
+        {/* Error for last input */}
+        {error && <p className="text-red-600 text-xs text-right">{error}</p>}
+      </div>
+      {/* </FormControl> */}
     </div>
   );
 };
+
+
+
+
+
+
+
+

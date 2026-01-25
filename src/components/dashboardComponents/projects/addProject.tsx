@@ -22,7 +22,6 @@ import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
-import { Minus, Plus } from "lucide-react";
 import { DynamicVideoLinkInput } from "@/components/shared/DynamicVideoLinkInput";
 
 const AddProject = () => {
@@ -47,7 +46,7 @@ const AddProject = () => {
   const pServerLiveLink = watch("pLiveServerLink");
   const pClientRepoLink = watch("pClientRepoLink");
   const pServerRepoLink = watch("pServerRepoLink");
-  //   const pOverviewVideoLink = watch("pOverviewVideoLink");
+  // const pOverviewVideoLink = watch("pOverviewVideoLink");
 
   //   console.log(form.formState.errors);
 
@@ -306,79 +305,15 @@ const AddProject = () => {
                 name="pOverviewVideoLink"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex justify-between items-center">
-                      <FormLabel className="italic font-semibold text-md">
-                        Project Overview Video URL
-                        <span className="text-red-800 text-xs">(Optional)</span>
-                      </FormLabel>
-                      <div>
-                        <Plus />
-                      </div>
-                    </div>
-
                     <FormControl>
-                      <div className="border-2 lg:p-2 p-1 rounded-md">
-                        {/* Link 1 */}
-                        <div className="flex justify-between items-center gap-2 p-1">
-                          <div className="lg:w-24 w-16 italic">
-                            <h2>Link 1:</h2>
-                          </div>
-                          <Input
-                            type="text"
-                            value={field.value?.[0] || ""}
-                            onChange={(e) => field.onChange([e.target.value])} // example for single input
-                            placeholder="Input Project Overview Video URL"
-                            className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
-                          />
-                          <div>
-                            <Minus />
-                          </div>
-                        </div>
-
-                        {/* Link 2 */}
-                        <div className="flex justify-between items-center gap-2 p-1">
-                          <div className=" lg:w-24 w-16 italic">
-                            <h2>Link 2:</h2>
-                          </div>
-                          <Input
-                            type="text"
-                            value={field.value?.[0] || ""}
-                            onChange={(e) => field.onChange([e.target.value])} // example for single input
-                            placeholder="Input Project Overview Video URL"
-                            className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
-                          />
-                          <div>
-                            <Minus />
-                          </div>
-                        </div>
-                      </div>
+                      {/* Input field */}
+                      <DynamicVideoLinkInput
+                        links={field.value || [""]}
+                        onChange={(updatedLinks) =>
+                          field.onChange(updatedLinks)
+                        }
+                      />
                     </FormControl>
-
-                    <FormMessage className="text-xs text-right" />
-
-                    {/* Video Preview */}
-                    {/* <VideoUrlPreview
-                      urls={field.value}
-                      onRemove={(index) => {
-                        const updated = [...(field.value || [])];
-                        updated.splice(index, 1);
-                        field.onChange(updated);
-                      }}
-                      height={200}
-                    /> */}
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={control}
-                name="pOverviewVideoLink"
-                render={({ field }) => (
-                  <FormItem>
-                    <DynamicVideoLinkInput
-                      links={field.value || [""]}
-                      onChange={(updatedLinks) => field.onChange(updatedLinks)}
-                    />
                     <FormMessage className="text-xs text-right" />
                   </FormItem>
                 )}
