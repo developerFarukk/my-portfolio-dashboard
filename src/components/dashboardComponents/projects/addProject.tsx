@@ -23,8 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
 import { DynamicVideoUrlInput } from "@/components/shared/DynamicVideoUrlInput";
-import DynTechStackInpute from "@/components/shared/DynTechStackInpute";
-import MultiSkillSelector from "./inputeFild/multiSkillSelector";
+import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -329,27 +328,6 @@ const AddProject = () => {
                 name="pTechStack"
                 render={({ field }) => (
                   <FormItem>
-                    <FormControl>
-                      {/* Input field */}
-                      <DynTechStackInpute
-                        links={field.value || [""]}
-                        onChange={(updatedLinks) =>
-                          field.onChange(updatedLinks)
-                        }
-                        urlTitle="Project Tech Stack"
-                        inputeHolder="Input Project Tech Stack"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs text-right" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={control}
-                name="pTechStack"
-                render={({ field }) => (
-                  <FormItem>
                     <FormLabel className="italic font-semibold text-md">
                       Project Tech Stack
                       <span className="text-red-800 text-xs">(Optional)</span>
@@ -357,8 +335,8 @@ const AddProject = () => {
 
                     <FormControl>
                       <MultiSkillSelector
-                        value={field.value ?? []} // safe
-                        onChange={field.onChange} // 🔑 RHF sync
+                        value={field.value ?? []}
+                        onChange={field.onChange}
                       />
                     </FormControl>
 

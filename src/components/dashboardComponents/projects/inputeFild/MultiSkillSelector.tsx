@@ -3,88 +3,64 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import React, { useState, useRef, useEffect } from "react";
+import { CheckIcon, XIcon } from "lucide-react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 
 /* ---------------- Types ---------------- */
-interface Tag {
+interface Option {
   id: number;
   name: string;
   value: string;
-  color: string;
 }
 
 interface MultiSkillSelectorProps {
-  value: string[];
-  onChange: (values: string[]) => void;
+  value: string[]; // RHF value
+  onChange: (values: string[]) => void; // RHF setter
 }
 
-/* ---------------- Tags ---------------- */
-const ALL_TAGS: Tag[] = [
-  {
-    id: 1,
-    name: "JavaScript",
-    value: "javascript",
-    color:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  },
-  {
-    id: 2,
-    name: "TypeScript",
-    value: "typescript",
-    color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-  },
-  {
-    id: 3,
-    name: "React",
-    value: "react",
-    color: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200",
-  },
-  {
-    id: 4,
-    name: "Vue",
-    value: "vue",
-    color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  },
-  {
-    id: 5,
-    name: "Angular",
-    value: "angular",
-    color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-  },
-  {
-    id: 6,
-    name: "Node.js",
-    value: "nodejs",
-    color:
-      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200",
-  },
-  {
-    id: 7,
-    name: "Python",
-    value: "python",
-    color:
-      "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
-  },
+/* ---------------- Options ---------------- */
+const ALL_OPTIONS: Option[] = [
+  { id: 1, name: "React", value: "react" },
+  { id: 2, name: "Vue", value: "vue" },
+  { id: 3, name: "Angular", value: "angular" },
+  { id: 4, name: "Svelte", value: "svelte" },
+  { id: 5, name: "Ember", value: "ember" },
+  { id: 6, name: "Backbone", value: "backbone" },
+  { id: 7, name: "Preact", value: "preact" },
+  { id: 8, name: "Alpine.js", value: "alpine" },
+  { id: 9, name: "Solid.js", value: "solid" },
+  { id: 10, name: "Qwik", value: "qwik" },
 ];
 
 /* ---------------- Component ---------------- */
 export default function MultiSkillSelector({
-  value,
+  value = [],
   onChange,
 }: MultiSkillSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const selectedTags = ALL_TAGS.filter((tag) => value.includes(tag.value));
-
-  const filteredTags = ALL_TAGS.filter(
-    (tag) =>
-      !value.includes(tag.value) &&
-      tag.name.toLowerCase().includes(search.toLowerCase()),
+  /* 🔑 derive selected options from RHF value */
+  const selectedOptions = useMemo(
+    () => ALL_OPTIONS.filter((opt) => value.includes(opt.value)),
+    [value],
   );
 
+  const filteredOptions = useMemo(
+    () =>
+      ALL_OPTIONS.filter(
+        (opt) =>
+          !value.includes(opt.value) &&
+          opt.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    [value, searchTerm],
+  );
+
+  /* outside click */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (
@@ -98,55 +74,116 @@ export default function MultiSkillSelector({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const toggleTag = (tag: Tag) => {
-    const updated = value.includes(tag.value)
-      ? value.filter((v) => v !== tag.value)
-      : [...value, tag.value];
-
-    onChange(updated);
-    setSearch("");
+  /* ---------------- Actions ---------------- */
+  const addOption = (option: Option) => {
+    onChange([...value, option.value]);
+    setSearchTerm("");
+    inputRef.current?.focus();
   };
 
+  const removeOption = (option: Option) => {
+    onChange(value.filter((v) => v !== option.value));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && searchTerm === "" && selectedOptions.length) {
+      removeOption(selectedOptions[selectedOptions.length - 1]);
+      return;
+    }
+
+    if (!isOpen && (e.key === "Enter" || e.key === "ArrowDown")) {
+      setIsOpen(true);
+      setHighlightedIndex(0);
+      return;
+    }
+
+    if (!isOpen) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((i) => (i + 1) % filteredOptions.length);
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex(
+        (i) => (i - 1 + filteredOptions.length) % filteredOptions.length,
+      );
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const opt = filteredOptions[highlightedIndex];
+      if (opt) addOption(opt);
+    }
+
+    if (e.key === "Escape") setIsOpen(false);
+  };
+
+  /* ---------------- UI ---------------- */
   return (
     <div ref={wrapperRef}>
       <div
         className="border-2 rounded-md p-2 flex flex-wrap gap-2 cursor-text"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          inputRef.current?.focus();
+        }}
       >
-        {selectedTags.map((tag) => (
-          <span
-            key={tag.id}
-            className={`px-2 py-1 rounded-full text-xs ${tag.color}`}
+        {selectedOptions.map((option) => (
+          <div
+            key={option.id}
+            className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 rounded-md"
           >
-            {tag.name}
-          </span>
+            {option.name}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeOption(option);
+              }}
+            >
+              <XIcon size={14} />
+            </button>
+          </div>
         ))}
 
         <Input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={value.length === 0 ? "Select tech skills..." : ""}
-          className="border-none shadow-none focus-visible:ring-0 w-auto flex-1"
+          ref={inputRef}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onFocus={() => setIsOpen(true)}
+          onKeyDown={handleKeyDown}
+          placeholder={!selectedOptions.length ? "Select frameworks..." : ""}
+          className="border-none shadow-none focus-visible:ring-0 flex-1 bg-transparent"
         />
       </div>
 
       {isOpen && (
         <div className="mt-1 border rounded-md bg-white dark:bg-black shadow max-h-52 overflow-y-auto">
-          {filteredTags.length ? (
-            filteredTags.map((tag) => (
-              <div
-                key={tag.id}
-                onClick={() => toggleTag(tag)}
-                className="px-3 py-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                {tag.name}
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-sm text-muted-foreground p-2">
-              No skills found
-            </p>
-          )}
+          <ul className="p-1">
+            {filteredOptions.length ? (
+              filteredOptions.map((option, index) => (
+                <li
+                  key={option.id}
+                  onClick={() => addOption(option)}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                  className={`p-2 rounded-md cursor-pointer ${
+                    index === highlightedIndex
+                      ? "bg-slate-100 dark:bg-slate-800"
+                      : ""
+                  }`}
+                >
+                  {option.name}
+                  {value.includes(option.value) && <CheckIcon />}
+                </li>
+              ))
+            ) : (
+              <li className="p-2 text-center text-slate-400">
+                No options found
+              </li>
+            )}
+          </ul>
         </div>
       )}
     </div>
