@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,8 @@ import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGro
 import { SelectForm } from "@/components/shared/SelectForm";
 import Divider from "@/components/ui/divider";
 import { DynamicFeaturesInput } from "@/components/shared/DynamicFeaturesInpute";
+import { toast } from "sonner";
+import { createProject } from "@/service/projectService";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -51,7 +54,7 @@ const AddProject = () => {
     setValue,
     watch,
     control,
-    // reset,
+    reset,
   } = form;
 
   const pClientLiveLink = watch("pLiveClientLink");
@@ -60,27 +63,28 @@ const AddProject = () => {
   const pServerRepoLink = watch("pServerRepoLink");
   // const pOverviewVideoLink = watch("pOverviewVideoLink");
 
-    // console.log("err me", form.formState.errors);
+  // console.log("err me", form.formState.errors);
 
   const onSubmit: SubmitHandler<TProject> = async (data) => {
-    console.log("Project Data", data);
-    // try {
-    //   const res = await createProject(data);
-    //   if (res.success) {
-    //     toast.success("Project created successfully");
-    //     reset();
-    //     setPreviewUrl(null);
-    //   } else {
-    //     toast.error(res.message || "Failed to create project");
-    //   }
-    // } catch (error: any) {
-    //   console.error("Project creation error:", error);
-    //   toast.error(
-    //     error.response?.data?.message ||
-    //       error.message ||
-    //       "An unexpected error occurred",
-    //   );
-    // }
+    // console.log("Project Data", data);
+    try {
+      const res = await createProject(data);
+      // console.log("res data", res);
+
+      if (res.success) {
+        toast.success(res?.message);
+        reset();
+      } else {
+        toast.error(res?.details);
+      }
+    } catch (error: any) {
+      console.error("Project creation error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "An unexpected error occurred",
+      );
+    }
   };
 
   return (
@@ -532,7 +536,6 @@ const AddProject = () => {
 
               {/* Divider Project Features */}
               <Divider variant="dashed" thickness={1} color="blue">
-                {/* <h2 className="border-2 border-fuchsia-400 dark:border-yellow-950 p-2 rounded-3xl  text-xl font-semibold italic text-green-900 dark:text-green-100">Projects Features</h2> */}
                 Projects Features
               </Divider>
 

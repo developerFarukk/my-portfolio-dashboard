@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
+import { TProject } from "@/components/dashboardComponents/projects/projectSchema";
 import { cookies } from "next/headers";
-import { FieldValues } from "react-hook-form";
 
 
-export const createProject  = async (data: FieldValues): Promise<any> => {
+export const createProject  = async (data: TProject): Promise<any> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/create-project`, {
             method: "POST",
