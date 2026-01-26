@@ -23,7 +23,7 @@ const Divider = ({
 }: DividerProps) => {
   const baseClasses = "flex items-center";
   const orientationClasses =
-    orientation === "horizontal" ? "w-full my-4" : "h-full self-stretch mx-8";
+    orientation === "horizontal" ? "w-full mt-4" : "h-full self-stretch mx-8";
 
   const variantStyles = {
     solid: "border-solid",
@@ -59,7 +59,9 @@ const Divider = ({
             style={{ ...colorStyle, ...thicknessStyle }}
           ></div>
           <span className="flex items-center px-4 text-sm text-zinc-500 font-medium">
-            {children}
+            <h2 className="border-2 border-fuchsia-400 dark:border-yellow-950 px-2  rounded-3xl  text-lg font-semibold italic text-green-900 dark:text-green-100">
+              {children}
+            </h2>
           </span>
           <div
             className={lineClasses}

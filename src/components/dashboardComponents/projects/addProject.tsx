@@ -10,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { motion } from "framer-motion";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -34,6 +35,7 @@ import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview
 import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGroup";
 import { SelectForm } from "@/components/shared/SelectForm";
 import Divider from "@/components/ui/divider";
+import { DynamicFeaturesInput } from "@/components/shared/DynamicFeaturesInpute";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -529,14 +531,10 @@ const AddProject = () => {
                 </div>
               </div>
 
-              {/* Divider */}
-              <Divider
-                variant="dashed"
-                thickness={2}
-                color="blue"
-                className="my-2"
-              >
-                <h2 className="border-2 border-fuchsia-400 dark:border-yellow-950 p-2 rounded-3xl  text-xl font-semibold italic text-green-900 dark:text-green-100">Projects Features</h2>
+              {/* Divider Project Features */}
+              <Divider variant="dashed" thickness={1} color="blue">
+                {/* <h2 className="border-2 border-fuchsia-400 dark:border-yellow-950 p-2 rounded-3xl  text-xl font-semibold italic text-green-900 dark:text-green-100">Projects Features</h2> */}
+                Projects Features
               </Divider>
 
               {/* Project Features */}
@@ -546,34 +544,12 @@ const AddProject = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <DynamicUrlInput
-                        links={field.value || [""]}
-                        onChange={(updatedLinks) =>
-                          field.onChange(updatedLinks)
-                        }
-                        urlTitle="Project "
-                        inputeHolder="Input Project Image URL"
+                      <DynamicFeaturesInput
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     </FormControl>
-
                     <FormMessage className="text-xs text-right" />
-
-                    {/* ✅ Multi preview */}
-                    <MultiImagePreviewGroup
-                      urls={field.value}
-                      alt="Project image preview"
-                      onClear={(index) => {
-                        if (!Array.isArray(field.value)) {
-                          field.onChange([]);
-                          return;
-                        }
-
-                        const updated = field.value.filter(
-                          (_, i) => i !== index,
-                        );
-                        field.onChange(updated);
-                      }}
-                    />
                   </FormItem>
                 )}
               />
