@@ -10,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { motion } from "framer-motion";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -61,7 +60,7 @@ const AddProject = () => {
   const pServerRepoLink = watch("pServerRepoLink");
   // const pOverviewVideoLink = watch("pOverviewVideoLink");
 
-  //   console.log(form.formState.errors);
+    // console.log("err me", form.formState.errors);
 
   const onSubmit: SubmitHandler<TProject> = async (data) => {
     console.log("Project Data", data);

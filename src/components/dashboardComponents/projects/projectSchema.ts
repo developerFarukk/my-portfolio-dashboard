@@ -30,14 +30,14 @@ import { z } from "zod";
 
 // Feature description with title
 const projectDescriptionTitleSchema = z.object({
-  pDescriptionTitle: z.string().min(1).optional(),
-  pDescriptionPoints: z.string().min(1).optional(),
+  pDescriptionTitle: z.string().optional(),
+  pDescriptionPoints: z.string().optional(),
 });
 
 // Project feature schema
 const projectFeatureSchema = z.object({
   pFeatureTitle: z.string().min(1).optional(),
-  pFeatureDescriptions: z.array(z.string().min(1)).optional(),
+  pFeatureDescriptions: z.array(z.string()).optional(),
   pFeaturesDescriptionWithTitle: z
     .array(projectDescriptionTitleSchema)
     .optional(),

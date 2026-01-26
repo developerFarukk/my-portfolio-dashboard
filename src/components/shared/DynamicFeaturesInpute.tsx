@@ -1,12 +1,12 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Minus, StarIcon, ChevronDown } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { FormLabel } from "@/components/ui/form";
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
 
 /* ================= TYPES ================= */
 
@@ -17,7 +17,6 @@ export type TProjectDescriptionTitle = {
 
 export type TProjectFeature = {
   pFeatureTitle?: string;
-  pFeatureDescriptions?: string[];
   pFeaturesDescriptionWithTitle?: TProjectDescriptionTitle[];
 };
 
@@ -32,16 +31,17 @@ interface DynamicFeaturesInputProps {
 export const DynamicFeaturesInput = ({
   value = [],
   onChange,
-  label = "Project Features 1",
 }: DynamicFeaturesInputProps) => {
   const [features, setFeatures] = useState<TProjectFeature[]>([
     {
       pFeatureTitle: "",
-      pFeatureDescriptions: [""],
+      pFeaturesDescriptionWithTitle: [
+        { pDescriptionTitle: "", pDescriptionPoints: "" },
+      ],
     },
   ]);
 
-  /* sync RHF -> local state */
+  /* sync RHF -> local */
   useEffect(() => {
     if (value && value.length) {
       setFeatures(value);
@@ -56,157 +56,178 @@ export const DynamicFeaturesInput = ({
   /* ---------- Feature handlers ---------- */
 
   const addFeature = () => {
-    update([...features, { pFeatureTitle: "", pFeatureDescriptions: [""] }]);
+    update([
+      ...features,
+      {
+        pFeatureTitle: "",
+        pFeaturesDescriptionWithTitle: [
+          { pDescriptionTitle: "", pDescriptionPoints: "" },
+        ],
+      },
+    ]);
   };
 
-  const removeFeature = (index: number) => {
-    update(features.filter((_, i) => i !== index));
+  const removeFeature = (fIdx: number) => {
+    update(features.filter((_, i) => i !== fIdx));
   };
 
-  const updateFeatureTitle = (index: number, title: string) => {
+  const updateFeatureTitle = (fIdx: number, value: string) => {
     const updated = [...features];
-    updated[index].pFeatureTitle = title;
+    updated[fIdx].pFeatureTitle = value;
     update(updated);
   };
 
   /* ---------- Description handlers ---------- */
 
   const updateDescription = (
-    featureIndex: number,
-    descIndex: number,
+    fIdx: number,
+    dIdx: number,
+    key: keyof TProjectDescriptionTitle,
     value: string,
   ) => {
     const updated = [...features];
-    const descs = [...(updated[featureIndex].pFeatureDescriptions || [])];
-    descs[descIndex] = value;
-    updated[featureIndex].pFeatureDescriptions = descs;
+    const descs = updated[fIdx].pFeaturesDescriptionWithTitle ?? [];
+    descs[dIdx] = { ...descs[dIdx], [key]: value };
+    updated[fIdx].pFeaturesDescriptionWithTitle = descs;
     update(updated);
   };
 
-  const addDescription = (featureIndex: number) => {
+  const addDescription = (fIdx: number) => {
     const updated = [...features];
-    updated[featureIndex].pFeatureDescriptions = [
-      ...(updated[featureIndex].pFeatureDescriptions || []),
-      "",
+    updated[fIdx].pFeaturesDescriptionWithTitle = [
+      ...(updated[fIdx].pFeaturesDescriptionWithTitle ?? []),
+      { pDescriptionTitle: "", pDescriptionPoints: "" },
     ];
     update(updated);
   };
 
-  const removeDescription = (featureIndex: number, descIndex: number) => {
+  const removeDescription = (fIdx: number, dIdx: number) => {
     const updated = [...features];
-    updated[featureIndex].pFeatureDescriptions = updated[
-      featureIndex
-    ].pFeatureDescriptions?.filter((_, i) => i !== descIndex);
+    const filtered =
+      updated[fIdx].pFeaturesDescriptionWithTitle?.filter(
+        (_, i) => i !== dIdx,
+      ) ?? [];
+
+    updated[fIdx].pFeaturesDescriptionWithTitle = filtered.length
+      ? filtered
+      : [{ pDescriptionTitle: "", pDescriptionPoints: "" }];
+
     update(updated);
   };
 
   /* ================= RENDER ================= */
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
+    <div className="space-y-6">
+      {/* Add Feature */}
       <div className="flex justify-end">
         <motion.button
           type="button"
+          whileTap={{ scale: 1.1 }}
           onClick={addFeature}
-          whileTap={{ scale: 1.15 }}
-          className="dark:bg-slate-700 bg-gray-400/30 hover:bg-slate-400/50 hover:dark:bg-slate-700/80 text-black dark:text-white text-md font-semibold rounded-3xl px-3 py-1"
+          className="rounded-3xl px-3 py-1 bg-gray-400/30 dark:bg-slate-700 font-semibold italic"
         >
-          <div className="flex items-center gap-2 text-lg font-semibold italic">
-            <Plus size={20} />
-            <h2>Add Feature</h2>
+          <div className="flex gap-2 items-center">
+            <Plus size={18} /> Add Feature
           </div>
         </motion.button>
       </div>
 
       {/* Features */}
       {features.map((feature, fIdx) => (
-        <div key={fIdx} className="border rounded-md p-3 space-y-3 bg-muted/30">
-          <FormLabel className="font-semibold italic">
-            {`Project Feature ${fIdx + 1}`}{" "}
-            <span className="text-xs text-red-600">(Optional)</span>
+        <div key={fIdx} className="border rounded-md p-4 space-y-4 bg-muted/30">
+          <FormLabel className="italic font-semibold">
+            Project Feature {fIdx + 1}
           </FormLabel>
-          {/* Feature Title */}
+
+          {/* Feature title */}
           <div className="flex gap-2 justify-start items-center">
             <div className="lg:w-24 w-16 italic">
               <h2>Title {`${fIdx + 1}`} :</h2>
             </div>
             <Input
-              placeholder={`Inpute feature title ${fIdx + 1}`}
+              placeholder={`Input feature title ${fIdx + 1}`}
               value={feature.pFeatureTitle ?? ""}
               onChange={(e) => updateFeatureTitle(fIdx, e.target.value)}
             />
           </div>
 
           {/* Descriptions */}
-          <div className="space-y-2 border p-2 rounded-md bg-fuchsia-100 dark:bg-cyan-950">
-            <div className="text-center italic">
-              <h2 className="text-md font-medium p-1 mb-2">Descriptions</h2>
-            </div>
-            {feature.pFeatureDescriptions?.map((desc, dIdx) => (
-              <div key={dIdx} className="mt-2">
-                <div className="lg:flex gap-2 lg:items-start">
-                  {/* <div className=" italic flex justify-center items-center m-2">
-                    <h2 className="border rounded-full p-1 border-blue-200 dark:border-amber-900">{` ${fIdx + 1}`}</h2>
-                  </div> */}
+          <div className="border rounded-md p-3 space-y-4 bg-fuchsia-100 dark:bg-cyan-950">
+            <h2 className="text-center italic font-medium">Descriptions</h2>
 
-                  <div className="flex justify-center items-center my-2 lg:my-0 italic">
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full border border-blue-200 dark:border-amber-900 text-sm font-semibold">
-                      {fIdx + 1}
-                    </div>
+            {feature.pFeaturesDescriptionWithTitle?.map((desc, dIdx) => (
+              <div key={dIdx} className="lg:flex gap-3 items-start">
+                {/* Serial */}
+                <div className="flex justify-center items-center italic py-1 lg:py-0">
+                  <div className="w-6 h-6 flex items-center justify-center rounded-md border border-blue-200 dark:border-amber-900 text-sm font-semibold">
+                    {dIdx + 1}
                   </div>
-
-                  <Input
-                    placeholder={`Point ${fIdx + 1} (Optional) `}
-                    value={desc}
-                    onChange={(e) =>
-                      updateDescription(fIdx, dIdx, e.target.value)
-                    }
-                    className="max-w-xs my-2 lg:my-0"
-                  />
-                  <div>
-                    
-                  </div>
-                  <Textarea
-                    placeholder={`Inpute feature description ${fIdx + 1}`}
-                    value={desc}
-                    onChange={(e) =>
-                      updateDescription(fIdx, dIdx, e.target.value)
-                    }
-                    className="lg:py-0 py-2"
-                  />
-
-                  {dIdx > 0 && (
-                    <motion.button
-                      type="button"
-                      onClick={() => removeDescription(fIdx, dIdx)}
-                      whileTap={{ scale: 1.2 }}
-                      className="hover:border hover:rounded-full hover:dark:border-white"
-                    >
-                      <Minus size={18} />
-                    </motion.button>
-                  )}
                 </div>
+
+                {/* Point → pDescriptionPoints */}
+                {/* <div className="py-1 lg:py-0"> */}
+                <Input
+                  placeholder={`Key Point ${dIdx + 1} (Optional)`}
+                  value={desc.pDescriptionPoints ?? ""}
+                  onChange={(e) =>
+                    updateDescription(
+                      fIdx,
+                      dIdx,
+                      "pDescriptionPoints",
+                      e.target.value,
+                    )
+                  }
+                  className="lg:max-w-xs my-2 lg:my-0"
+                />
+                {/* </div> */}
+
+                {/* Title → pDescriptionTitle */}
+                {/* <div className="py-1 lg:py-0"> */}
+                <Textarea
+                  placeholder={`Inpute feature description ${dIdx + 1}`}
+                  value={desc.pDescriptionTitle ?? ""}
+                  onChange={(e) =>
+                    updateDescription(
+                      fIdx,
+                      dIdx,
+                      "pDescriptionTitle",
+                      e.target.value,
+                    )
+                  }
+                  className="my-2 lg:my-0"
+                />
+                {/* </div> */}
+
+                {dIdx > 0 && (
+                  <motion.button
+                    type="button"
+                    whileTap={{ scale: 1.2 }}
+                    onClick={() => removeDescription(fIdx, dIdx)}
+                    className="border rounded-full dark:border-white"
+                  >
+                    <Minus size={18} />
+                  </motion.button>
+                )}
               </div>
             ))}
 
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end">
               <button
                 type="button"
                 onClick={() => addDescription(fIdx)}
-                className="text-xs dark:text-blue-200 border p-1 rounded-2xl border-amber-800"
+                className="text-xs border rounded-2xl px-2 py-1"
               >
                 + Add description
               </button>
             </div>
           </div>
 
-          {/* Remove Feature */}
           {fIdx > 0 && (
             <button
               type="button"
               onClick={() => removeFeature(fIdx)}
-              className="text-xs text-red-600"
+              className="text-xs border rounded-2xl px-2 py-1"
             >
               Remove Feature
             </button>

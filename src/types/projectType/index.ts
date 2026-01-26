@@ -46,7 +46,7 @@ export type TProjects = {
 // Project Feature Type
 export type TProjectFeature = {
   pFeatureTitle?: string;
-  pFeatureDescriptions?: string[];
+  // pFeatureDescriptions?: string[];
   pFeaturesDescriptionWithTitle?: TProjectDescriptionTitle[];
 };
 
