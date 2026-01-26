@@ -25,6 +25,7 @@ import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
 import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
 import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
 import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
+import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGroup";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -319,6 +320,23 @@ const AddProject = () => {
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-right" />
+
+                    {/* ✅ Multi preview */}
+                    <MultiVideoPreviewGroup
+                      urls={field.value}
+                      // alt="Project image preview"
+                      onClear={(index) => {
+                        if (!Array.isArray(field.value)) {
+                          field.onChange([]);
+                          return;
+                        }
+
+                        const updated = field.value.filter(
+                          (_, i) => i !== index,
+                        );
+                        field.onChange(updated);
+                      }}
+                    />
                   </FormItem>
                 )}
               />
