@@ -35,7 +35,6 @@ export type TProjects = {
   pVisibility?: ProjectVisibility;
   pPricingType?: ProjectPricingType;
   pType?: TWebsiteType;
-  //   pType?: string;
   pFeatures?: TProjectFeature[];
   pContributors?: TPContributors[];
   pReviewAvgRating?: string;
