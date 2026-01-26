@@ -144,10 +144,28 @@ export const DynamicFeaturesInput = ({
               <h2 className="text-md font-medium p-1 mb-2">Descriptions</h2>
             </div>
             {feature.pFeatureDescriptions?.map((desc, dIdx) => (
-              <div key={dIdx} className="">
-                <div className="flex gap-2 items-center">
-                  <div className=" italic w-6">
-                    <h2 className="border rounded-full p-2 border-blue-200 dark:border-amber-900">{` ${fIdx + 1}`}</h2>
+              <div key={dIdx} className="mt-2">
+                <div className="lg:flex gap-2 lg:items-start">
+                  {/* <div className=" italic flex justify-center items-center m-2">
+                    <h2 className="border rounded-full p-1 border-blue-200 dark:border-amber-900">{` ${fIdx + 1}`}</h2>
+                  </div> */}
+
+                  <div className="flex justify-center items-center my-2 lg:my-0 italic">
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full border border-blue-200 dark:border-amber-900 text-sm font-semibold">
+                      {fIdx + 1}
+                    </div>
+                  </div>
+
+                  <Input
+                    placeholder={`Point ${fIdx + 1} (Optional) `}
+                    value={desc}
+                    onChange={(e) =>
+                      updateDescription(fIdx, dIdx, e.target.value)
+                    }
+                    className="max-w-xs my-2 lg:my-0"
+                  />
+                  <div>
+                    
                   </div>
                   <Textarea
                     placeholder={`Inpute feature description ${fIdx + 1}`}
@@ -155,6 +173,7 @@ export const DynamicFeaturesInput = ({
                     onChange={(e) =>
                       updateDescription(fIdx, dIdx, e.target.value)
                     }
+                    className="lg:py-0 py-2"
                   />
 
                   {dIdx > 0 && (
@@ -162,6 +181,7 @@ export const DynamicFeaturesInput = ({
                       type="button"
                       onClick={() => removeDescription(fIdx, dIdx)}
                       whileTap={{ scale: 1.2 }}
+                      className="hover:border hover:rounded-full hover:dark:border-white"
                     >
                       <Minus size={18} />
                     </motion.button>
