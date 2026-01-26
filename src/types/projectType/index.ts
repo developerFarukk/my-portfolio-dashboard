@@ -152,4 +152,39 @@ export const PROJECTCATEGORIES = [
   { label: "UPCOMING", value: "Upcoming" },
   { label: "ALFA", value: "Alfa" },
   { label: "SUBSCRIPTION", value: "Subscription" },
-];
+] as const;
+
+export const PROJECTVSISIVILITY = [
+  { label: "PUBLIC", value: "Public" },
+  { label: "PRIVATE", value: "Private" },
+] as const;
+
+export const PROJECTPRICING = [
+  { label: "FREE", value: "Free" },
+  { label: "PAID", value: "Paid" },
+] as const;
+
+export const WEBSITE_TYPE_OPTIONS = [
+  { label: "BUSINESS_CORPORATE", value: "Business & Corporate" },
+  { label: "ECOMMERCE", value: "E-Commerce" },
+  { label: "BLOG_NEWS", value: "Blog & News" },
+  { label: "PORTFOLIO_PERSONAL", value: "Portfolio & Personal" },
+  { label: "EDUCATION", value: "Education" },
+  { label: "HEALTH_MEDICAL", value: "Health & Medical" },
+  { label: "REAL_ESTATE", value: "Real Estate" },
+  { label: "FOOD_RESTAURANT", value: "Food & Restaurant" },
+  { label: "MEDIA_ENTERTAINMENT", value: "Media & Entertainment" },
+  { label: "SOCIAL_COMMUNITY", value: "Social & Community" },
+  { label: "JOB_CAREER", value: "Job & Career" },
+  { label: "FINANCE", value: "Finance" },
+  { label: "TRAVEL_HOSPITALITY", value: "Travel & Hospitality" },
+  { label: "TOOLS_SAAS", value: "Tools & SaaS" },
+  { label: "GOVERNMENT_NONPROFIT", value: "Government & Non-Profit" },
+  { label: "RELIGIOUS_CULTURAL", value: "Religious & Cultural" },
+  { label: "TECHNOLOGY", value: "Technology & IT" },
+  { label: "SPORTS_FITNESS", value: "Sports & Fitness" },
+  { label: "BEAUTY_FASHION", value: "Beauty & Fashion" },
+  { label: "ART_DESIGN", value: "Art & Design" },
+  { label: "EVENT_CONFERENCE", value: "Event & Conference" },
+  { label: "NON_PROFIT", value: "Non-Profit" },
+] as const;

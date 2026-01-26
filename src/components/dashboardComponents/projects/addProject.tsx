@@ -18,7 +18,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { projectSchema, TProject } from "./projectSchema";
 import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/shared/MotionButton";
-import { defaultProjectValues, PROJECTCATEGORIES } from "@/types/projectType";
+import {
+  defaultProjectValues,
+  PROJECTCATEGORIES,
+  PROJECTPRICING,
+  PROJECTVSISIVILITY,
+  WEBSITE_TYPE_OPTIONS,
+} from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
@@ -404,31 +410,123 @@ const AddProject = () => {
                 )}
               />
 
-              {/* Project Category */}
-              <FormField
-                control={control}
-                name="pCategory"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="italic font-semibold text-md">
-                      Project Category
-                      <span className="text-red-800 text-xs">(Optional)</span>
-                    </FormLabel>
+              <div className="lg:grid lg:grid-cols-2 lg:gap-4 lg:justify-start lg:items-center">
+                {/* Project Category */}
+                <FormField
+                  control={control}
+                  name="pCategory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="italic font-semibold text-md">
+                        Project Category
+                        <span className="text-red-800 text-xs">(Optional)</span>
+                      </FormLabel>
 
-                    <FormControl>
-                      <SelectForm
-                        value={field.value ?? ""}
-                        onChange={field.onChange}
-                        placeholder="Input Project Category"
-                        label="Select Category"
-                        options={PROJECTCATEGORIES}
-                      />
-                    </FormControl>
+                      <FormControl>
+                        <SelectForm
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
+                          placeholder="Input Project Category"
+                          label="Select Category"
+                          options={PROJECTCATEGORIES}
+                        />
+                      </FormControl>
 
-                    <FormMessage className="text-xs text-right" />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage className="text-xs text-right" />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Project Visibility */}
+                <div className="mt-4 lg:mt-0">
+                  <FormField
+                    control={control}
+                    name="pVisibility"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="italic font-semibold text-md">
+                          Project Visibility
+                          <span className="text-red-800 text-xs">
+                            (Optional)
+                          </span>
+                        </FormLabel>
+
+                        <FormControl>
+                          <SelectForm
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            placeholder="Input Project Visibility"
+                            label="Select Visibility"
+                            options={PROJECTVSISIVILITY}
+                          />
+                        </FormControl>
+
+                        <FormMessage className="text-xs text-right" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Project Pricing */}
+                <div className="mt-4 lg:mt-0">
+                  <FormField
+                    control={control}
+                    name="pPricingType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="italic font-semibold text-md">
+                          Project Pricing Type
+                          <span className="text-red-800 text-xs">
+                            (Optional)
+                          </span>
+                        </FormLabel>
+
+                        <FormControl>
+                          <SelectForm
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            placeholder="Input Project Pricing"
+                            label="Select Pricing"
+                            options={PROJECTPRICING}
+                          />
+                        </FormControl>
+
+                        <FormMessage className="text-xs text-right" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Project Website type */}
+                <div className="mt-4 lg:mt-0">
+                  <FormField
+                    control={control}
+                    name="pType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="italic font-semibold text-md">
+                          Project Website Type
+                          <span className="text-red-800 text-xs">
+                            (Optional)
+                          </span>
+                        </FormLabel>
+
+                        <FormControl>
+                          <SelectForm
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            placeholder="Input project website type"
+                            label="Select website type"
+                            options={WEBSITE_TYPE_OPTIONS}
+                          />
+                        </FormControl>
+
+                        <FormMessage className="text-xs text-right" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
               {/* Live Link */}
               {/* <div>
