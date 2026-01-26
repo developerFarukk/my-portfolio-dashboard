@@ -26,15 +26,7 @@ import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
 import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
 import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
 import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGroup";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectForm } from "@/components/shared/SelectForm";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -424,28 +416,13 @@ const AddProject = () => {
                     </FormLabel>
 
                     <FormControl>
-                      <Select
+                      <SelectForm
                         value={field.value ?? ""}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger className="w-full bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none">
-                          <SelectValue placeholder="Input Project Category" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel className="text-center">
-                              Select Category
-                            </SelectLabel>
-
-                            {PROJECTCATEGORIES.map((item) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                        onChange={field.onChange}
+                        placeholder="Input Project Category"
+                        label="Select Category"
+                        options={PROJECTCATEGORIES}
+                      />
                     </FormControl>
 
                     <FormMessage className="text-xs text-right" />
