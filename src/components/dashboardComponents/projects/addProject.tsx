@@ -18,7 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { projectSchema, TProject } from "./projectSchema";
 import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/shared/MotionButton";
-import { defaultProjectValues } from "@/types/projectType";
+import { defaultProjectValues, PROJECTCATEGORIES } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
@@ -26,6 +26,15 @@ import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
 import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
 import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
 import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGroup";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -396,6 +405,47 @@ const AddProject = () => {
                         value={field.value ?? []}
                         onChange={field.onChange}
                       />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Category */}
+              <FormField
+                control={control}
+                name="pCategory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Category
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+
+                    <FormControl>
+                      <Select
+                        value={field.value ?? ""}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger className="w-full bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none">
+                          <SelectValue placeholder="Input Project Category" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel className="text-center">
+                              Select Category
+                            </SelectLabel>
+
+                            {PROJECTCATEGORIES.map((item) => (
+                              <SelectItem key={item.value} value={item.value}>
+                                {item.label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
 
                     <FormMessage className="text-xs text-right" />

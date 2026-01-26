@@ -143,3 +143,13 @@ export const defaultProjectValues: TProject = {
   pReviewAvgRating: "",
   pReviews: [],
 };
+
+// extra feture
+
+export const PROJECTCATEGORIES = [
+  { label: "FEATURE", value: "Feature" },
+  { label: "RECENT", value: "Recent" },
+  { label: "UPCOMING", value: "Upcoming" },
+  { label: "ALFA", value: "Alfa" },
+  { label: "SUBSCRIPTION", value: "Subscription" },
+];
