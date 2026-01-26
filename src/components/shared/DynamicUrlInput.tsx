@@ -6,19 +6,19 @@ import { Input } from "@/components/ui/input";
 import { FormLabel } from "../ui/form";
 import { motion } from "framer-motion";
 
-export interface DynamicVideoUrlInputProps {
+export interface DynamicUrlInputInputProps {
   links?: string[];
   onChange?: (links: string[]) => void;
   urlTitle?: string;
   inputeHolder?: string;
 }
 
-export const DynamicVideoUrlInput = ({
+export const DynamicUrlInput = ({
   links: initialLinks = [""],
   onChange,
   urlTitle,
   inputeHolder,
-}: DynamicVideoUrlInputProps) => {
+}: DynamicUrlInputInputProps) => {
   const [links, setLinks] = useState<string[]>(
     initialLinks.length ? initialLinks : [""],
   );

@@ -22,8 +22,9 @@ import { defaultProjectValues } from "@/types/projectType";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
-import { DynamicVideoUrlInput } from "@/components/shared/DynamicVideoUrlInput";
+import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
 import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
+import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -308,7 +309,7 @@ const AddProject = () => {
                   <FormItem>
                     <FormControl>
                       {/* Input field */}
-                      <DynamicVideoUrlInput
+                      <DynamicUrlInput
                         links={field.value || [""]}
                         onChange={(updatedLinks) =>
                           field.onChange(updatedLinks)
@@ -318,6 +319,45 @@ const AddProject = () => {
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Image Link */}
+              <FormField
+                control={control}
+                name="pImageLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <DynamicUrlInput
+                        links={field.value || [""]}
+                        onChange={(updatedLinks) =>
+                          field.onChange(updatedLinks)
+                        }
+                        urlTitle="Project Image URL"
+                        inputeHolder="Input Project Image URL"
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-right" />
+
+                    {/* ✅ Multi preview */}
+                    <MultiImagePreviewGroup
+                      urls={field.value}
+                      alt="Project image preview"
+                      onClear={(index) => {
+                        if (!Array.isArray(field.value)) {
+                          field.onChange([]);
+                          return;
+                        }
+
+                        const updated = field.value.filter(
+                          (_, i) => i !== index,
+                        );
+                        field.onChange(updated);
+                      }}
+                    />
                   </FormItem>
                 )}
               />
