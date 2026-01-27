@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 
@@ -23,22 +22,12 @@ export const ImageUrlPreview = ({
   width = 100,
   height = 100,
 }: ImagePreviewProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (url && url.trim() !== "") {
-      setPreviewUrl(url);
-    } else {
-      setPreviewUrl("");
-    }
-  }, [url]);
-
-  if (!previewUrl) return null;
+  if (!url || url.trim() === "") return null;
 
   return (
     <div className="relative mt-2 inline-flex w-fit">
       <Image
-        src={previewUrl}
+        src={url}
         alt={alt}
         width={width}
         height={height}
@@ -54,14 +43,13 @@ export const ImageUrlPreview = ({
         `}
       />
 
-      {/* Always visible clear button */}
+      {/* Clear button */}
       <button
         type="button"
         onClick={onClear}
         className="
           absolute top-1 right-1
-          flex
-          items-center justify-center
+          flex items-center justify-center
           h-5 w-5
           rounded-full
           bg-black/70 text-white

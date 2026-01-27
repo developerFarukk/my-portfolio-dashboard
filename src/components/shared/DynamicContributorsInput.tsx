@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -37,7 +36,19 @@ export const DynamicContributorsInput = ({
   ]);
 
   useEffect(() => {
-    if (value?.length) setContributors(value);
+    setContributors(
+      value && value.length > 0
+        ? value
+        : [
+            {
+              name: "",
+              role: "",
+              profileLink: "",
+              portfolioLink: "",
+              gitHubLink: "",
+            },
+          ],
+    );
   }, [value]);
 
   const update = (updated: TPContributors[]) => {

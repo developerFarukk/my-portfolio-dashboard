@@ -67,7 +67,7 @@ const AddProject = () => {
   // console.log("err me", form.formState.errors);
 
   const onSubmit: SubmitHandler<TProject> = async (data) => {
-    console.log("Project Data", data);
+    // console.log("Project Data", data);
     try {
       const res = await createProject(data);
       // console.log("res data", res);
@@ -79,6 +79,7 @@ const AddProject = () => {
           ...defaultProjectValues,
           pFeatures: [],
           pContributors: [],
+          pLogoLink: ""
         });
 
         setValue("pLiveClientLink", "");
