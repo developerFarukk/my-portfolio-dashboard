@@ -31,7 +31,6 @@ import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
 import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
 import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
-import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
 import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGroup";
 import { SelectForm } from "@/components/shared/SelectForm";
 import Divider from "@/components/ui/divider";
@@ -39,6 +38,7 @@ import { DynamicFeaturesInput } from "@/components/shared/DynamicFeaturesInpute"
 import { DynamicContributorsInput } from "@/components/shared/DynamicContributorsInput";
 import { toast } from "sonner";
 import { createProject } from "@/service/projectService";
+import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -77,9 +77,10 @@ const AddProject = () => {
         // reset();
         reset({
           ...defaultProjectValues,
+          pImageLink: [],
           pFeatures: [],
           pContributors: [],
-          pLogoLink: ""
+          pLogoLink: "",
         });
 
         setValue("pLiveClientLink", "");
@@ -376,10 +377,8 @@ const AddProject = () => {
                   <FormItem>
                     <FormControl>
                       <DynamicUrlInput
-                        links={field.value || [""]}
-                        onChange={(updatedLinks) =>
-                          field.onChange(updatedLinks)
-                        }
+                        links={field.value?.length ? field.value : [""]}
+                        onChange={field.onChange}
                         urlTitle="Project Image URL"
                         inputeHolder="Input Project Image URL"
                       />
@@ -387,20 +386,24 @@ const AddProject = () => {
 
                     <FormMessage className="text-xs text-right" />
 
-                    {/* ✅ Multi preview */}
-                    <MultiImagePreviewGroup
-                      urls={field.value}
+                    {/* <MultiImagePreviewGroup
+                      urls={field.value?.filter(Boolean) || []}
                       alt="Project image preview"
                       onClear={(index) => {
-                        if (!Array.isArray(field.value)) {
-                          field.onChange([]);
-                          return;
-                        }
-
                         const updated = field.value.filter(
                           (_, i) => i !== index,
                         );
-                        field.onChange(updated);
+                        field.onChange(updated.length ? updated : [""]);
+                      }}
+                    /> */}
+                    <MultiImagePreviewGroup
+                      urls={field.value?.filter(Boolean) || []}
+                      alt="Project image preview"
+                      onClear={(index) => {
+                        // Use optional chaining and fallback to empty array
+                        const current = field.value || [];
+                        const updated = current.filter((_, i) => i !== index);
+                        field.onChange(updated.length ? updated : [""]); // reset to [""] if empty
                       }}
                     />
                   </FormItem>

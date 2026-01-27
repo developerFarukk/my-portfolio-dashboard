@@ -1,9 +1,19 @@
+
 "use client";
 
+import React from "react";
 import { useMemo } from "react";
 import { X, ExternalLink } from "lucide-react";
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+  FormLabel,
+} from "@/components/ui/form";
+import { DynamicUrlInput } from "./DynamicUrlInput";
 
-/* -------------------------------- Utils -------------------------------- */
+/* --------------------------- Utils --------------------------- */
 
 const isDirectVideo = (url: string) => /\.(mp4|webm|ogg)$/i.test(url);
 
@@ -47,7 +57,7 @@ const getEmbedUrl = (url: string): string | null => {
   }
 };
 
-/* -------------------------------- Types -------------------------------- */
+/* ---------------------------- Types -------------------------- */
 
 interface VideoPreviewProps {
   url: string;
@@ -55,11 +65,11 @@ interface VideoPreviewProps {
 }
 
 interface MultiVideoPreviewGroupProps {
-  urls?: string | string[];
+  urls?: string[];
   onClear?: (index: number) => void;
 }
 
-/* ------------------------- Single Video Preview -------------------------- */
+/* ----------------------- Single Video Preview ---------------- */
 
 const VideoPreview = ({ url, onClear }: VideoPreviewProps) => {
   const embedUrl = useMemo(() => getEmbedUrl(url), [url]);
@@ -67,7 +77,6 @@ const VideoPreview = ({ url, onClear }: VideoPreviewProps) => {
 
   return (
     <div className="relative w-[260px] h-[160px] border rounded-md overflow-hidden bg-black">
-      {/* Clear Button */}
       {onClear && (
         <button
           type="button"
@@ -78,12 +87,10 @@ const VideoPreview = ({ url, onClear }: VideoPreviewProps) => {
         </button>
       )}
 
-      {/* Direct Video */}
       {isVideoFile && (
         <video src={url} controls className="w-full h-full object-contain" />
       )}
 
-      {/* Embed Platforms */}
       {!isVideoFile && embedUrl && (
         <iframe
           src={embedUrl}
@@ -93,7 +100,6 @@ const VideoPreview = ({ url, onClear }: VideoPreviewProps) => {
         />
       )}
 
-      {/* Fallback */}
       {!isVideoFile && !embedUrl && (
         <div className="flex flex-col items-center justify-center h-full text-white text-xs gap-2">
           <p>Preview not supported</p>
@@ -111,7 +117,7 @@ const VideoPreview = ({ url, onClear }: VideoPreviewProps) => {
   );
 };
 
-/* ------------------------- Multi Video Preview ---------------------------- */
+/* --------------------- Multi Video Preview ------------------- */
 
 export const MultiVideoPreviewGroup = ({
   urls,
@@ -119,13 +125,61 @@ export const MultiVideoPreviewGroup = ({
 }: MultiVideoPreviewGroupProps) => {
   if (!urls) return null;
 
-  const normalized = Array.isArray(urls) ? urls : [urls];
+  // ✅ Only show previews for non-empty strings
+  const validUrls = urls.filter((url) => url && url.trim() !== "");
+
+  if (validUrls.length === 0) return null;
 
   return (
     <div className="flex flex-wrap gap-3 mt-2">
-      {normalized.map((url, index) => (
+      {validUrls.map((url, index) => (
         <VideoPreview key={index} url={url} onClear={() => onClear?.(index)} />
       ))}
     </div>
+  );
+};
+
+/* --------------------- Form Field Wrapper ------------------- */
+
+export const ProjectVideoField = ({ control }: { control: any }) => {
+  return (
+    <FormField
+      control={control}
+      name="pOverviewVideoLink"
+      render={({ field }) => (
+        <FormItem>
+          <div className="flex justify-between items-center mt-2 mb-2">
+            <FormLabel className="italic font-semibold text-md">
+              Project Overview Video URL
+              <span className="text-red-800 text-xs">(Optional)</span>
+            </FormLabel>
+          </div>
+
+          <FormControl>
+            <DynamicUrlInput
+              links={field.value || [""]}
+              onChange={(updatedLinks) => field.onChange(updatedLinks)}
+              urlTitle="Project Overview Video URL"
+              inputeHolder="Input Project Overview Video URL"
+            />
+          </FormControl>
+
+          <FormMessage className="text-xs text-right" />
+
+          {/* ✅ Only show previews after user enters a URL */}
+          <MultiVideoPreviewGroup
+            urls={field.value || []}
+            onClear={(index) => {
+              if (!Array.isArray(field.value)) {
+                field.onChange([]);
+                return;
+              }
+              const updated = field.value.filter((_, i) => i !== index);
+              field.onChange(updated);
+            }}
+          />
+        </FormItem>
+      )}
+    />
   );
 };

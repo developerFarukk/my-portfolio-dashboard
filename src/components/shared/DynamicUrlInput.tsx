@@ -1,14 +1,16 @@
+
+
 "use client";
 
-import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { FormLabel } from "../ui/form";
 import { motion } from "framer-motion";
+import React from "react";
 
-export interface DynamicUrlInputInputProps {
-  links?: string[];
-  onChange?: (links: string[]) => void;
+export interface DynamicUrlInputProps {
+  links?: string[]; // accept optional array from RHF
+  onChange: (links: string[]) => void;
   urlTitle?: string;
   inputeHolder?: string;
 }
@@ -18,22 +20,24 @@ export const DynamicUrlInput = ({
   onChange,
   urlTitle,
   inputeHolder,
-}: DynamicUrlInputInputProps) => {
-  const [links, setLinks] = useState<string[]>(
+}: DynamicUrlInputProps) => {
+  const [links, setLinks] = React.useState<string[]>(
     initialLinks.length ? initialLinks : [""],
   );
-  const [error, setError] = useState<string>("");
+  const [error, setError] = React.useState<string>("");
 
-  useEffect(() => {
-    // sync parent value if changed
+  // sync parent changes (e.g., form reset)
+  React.useEffect(() => {
     if (initialLinks && initialLinks.length) {
       setLinks(initialLinks);
+    } else {
+      setLinks([""]);
     }
   }, [initialLinks]);
 
   const isValidUrl = (url: string) => {
     try {
-      if (!url) return false;
+      if (!url || url.trim() === "") return false;
       new URL(url);
       return true;
     } catch {
@@ -42,37 +46,37 @@ export const DynamicUrlInput = ({
   };
 
   const handleAdd = () => {
-    const lastIndex = links.length - 1;
-    if (!isValidUrl(links[lastIndex])) {
-      setError("Please input valid URL");
+    const last = links[links.length - 1];
+    if (!isValidUrl(last)) {
+      setError("Please input a valid URL before adding a new field");
       return;
     }
     const updated = [...links, ""];
     setLinks(updated);
+    onChange(updated);
     setError("");
-    onChange?.(updated);
   };
 
   const handleRemove = (index: number) => {
     const updated = links.filter((_, i) => i !== index);
-    setLinks(updated);
-    onChange?.(updated);
+    const final = updated.length ? updated : [""]; // always at least one field
+    setLinks(final);
+    onChange(final);
   };
 
   const handleChange = (value: string, index: number) => {
     const updated = [...links];
     updated[index] = value;
     setLinks(updated);
+    onChange(updated);
     setError("");
-    onChange?.(updated);
   };
 
   return (
     <div>
-      {/* Header with Plus */}
-      <div className="flex justify-between items-center mt-2 mb-2">
+      {/* Header with title + add button */}
+      <div className="flex justify-between items-center mb-2">
         <FormLabel className="italic font-semibold text-md">
-          {/* Project Overview Video URL */}
           {urlTitle}
           <span className="text-red-800 text-xs">(Optional)</span>
         </FormLabel>
@@ -87,33 +91,26 @@ export const DynamicUrlInput = ({
         </motion.button>
       </div>
 
-      {/* <FormControl> */}
+      {/* Input fields */}
       <div className="border-2 lg:p-2 p-1 rounded-md flex flex-col gap-2">
         {links.map((link, idx) => (
-          <div
-            key={idx}
-            className="flex justify-between items-center gap-2 p-1"
-          >
-            <div className="lg:w-24 w-16 italic">
-              <h2>{`Link ${idx + 1}:`}</h2>
-            </div>
+          <div key={idx} className="flex items-center gap-2 w-full">
+            <div className="lg:w-24 w-20 italic flex-shrink-0">{`Link ${idx + 1}:`}</div>
 
             <Input
-              type="text"
               value={link}
               onChange={(e) => handleChange(e.target.value, idx)}
               placeholder={inputeHolder}
-              className=" bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 flex-1"
+              className="flex-1 w-full"
             />
 
-            {/* Minus button for all except first input */}
             {idx > 0 && (
               <motion.button
                 type="button"
                 onClick={() => handleRemove(idx)}
                 whileTap={{ scale: 1.2 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                className="hover:border hover:rounded-full hover:dark:border-white"
+                className="flex-shrink-0"
               >
                 <Minus size={20} />
               </motion.button>
@@ -121,10 +118,9 @@ export const DynamicUrlInput = ({
           </div>
         ))}
 
-        {/* Error for last input */}
+        {/* Show error if last URL invalid */}
         {error && <p className="text-red-600 text-xs text-right">{error}</p>}
       </div>
-      {/* </FormControl> */}
     </div>
   );
 };

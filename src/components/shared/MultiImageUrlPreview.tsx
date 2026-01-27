@@ -1,15 +1,13 @@
+
+
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 
 interface ImagePreviewProps {
-  url?: string;
+  url: string;
   alt?: string;
-  className?: string;
-  width?: number;
-  height?: number;
   onClear?: () => void;
 }
 
@@ -17,55 +15,23 @@ export const MultiImageUrlPreview = ({
   url,
   alt = "Preview",
   onClear,
-  className,
-  width = 100,
-  height = 100,
 }: ImagePreviewProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (url && url.trim() !== "") {
-      setPreviewUrl(url);
-    } else {
-      setPreviewUrl("");
-    }
-  }, [url]);
-
-  if (!previewUrl) return null;
+  if (!url) return null;
 
   return (
     <div className="relative mt-2 inline-flex w-fit">
       <Image
-        src={previewUrl}
+        src={url}
         alt={alt}
-        width={width}
-        height={height}
-        className={`
-          block
-          max-h-24
-          w-auto
-          object-contain
-          border
-          rounded-md
-          shadow-sm
-          ${className || ""}
-        `}
+        width={100}
+        height={100}
+        className="max-h-24 w-auto object-contain border rounded-md shadow-sm"
       />
 
       <button
         type="button"
         onClick={onClear}
-        className="
-          absolute top-1 right-1
-          flex items-center justify-center
-          h-5 w-5
-          rounded-full
-          bg-black/70 text-white
-          hover:bg-red-300
-          hover:text-black
-          z-10
-        "
-        aria-label="Remove image"
+        className="absolute top-1 right-1 h-5 w-5 rounded-full bg-black/70 text-white hover:bg-red-300 hover:text-black"
       >
         <X size={12} />
       </button>
@@ -74,7 +40,7 @@ export const MultiImageUrlPreview = ({
 };
 
 interface MultiImagePreviewGroupProps {
-  urls?: string | string[];
+  urls: string[];
   alt?: string;
   onClear?: (index: number) => void;
 }
@@ -84,13 +50,11 @@ export const MultiImagePreviewGroup = ({
   alt,
   onClear,
 }: MultiImagePreviewGroupProps) => {
-  if (!urls) return null;
-
-  const normalizedUrls = Array.isArray(urls) ? urls : [urls];
+  if (!urls.length) return null;
 
   return (
     <div className="flex flex-wrap gap-2">
-      {normalizedUrls.map((url, index) => (
+      {urls.map((url, index) => (
         <MultiImageUrlPreview
           key={index}
           url={url}
