@@ -37,8 +37,6 @@ export type TProjects = {
   pType?: TWebsiteType;
   pFeatures?: TProjectFeature[];
   pContributors?: TPContributors[];
-  pReviewAvgRating?: string;
-  pReviews?: string[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -87,12 +85,12 @@ export type TPContributors = {
 };
 
 // Project review type
-export type TProjectReview = {
-  reviewerName?: string;
-  reating?: string;
-  reviewText?: string;
-  reviewDate?: string;
-};
+// export type TProjectReview = {
+//   reviewerName?: string;
+//   reating?: string;
+//   reviewText?: string;
+//   reviewDate?: string;
+// };
 
 // Project Type Enum
 export enum TWebsiteType {

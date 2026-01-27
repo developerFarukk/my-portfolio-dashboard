@@ -36,6 +36,7 @@ import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGro
 import { SelectForm } from "@/components/shared/SelectForm";
 import Divider from "@/components/ui/divider";
 import { DynamicFeaturesInput } from "@/components/shared/DynamicFeaturesInpute";
+import { DynamicContributorsInput } from "@/components/shared/DynamicContributorsInput";
 import { toast } from "sonner";
 import { createProject } from "@/service/projectService";
 
@@ -66,14 +67,24 @@ const AddProject = () => {
   // console.log("err me", form.formState.errors);
 
   const onSubmit: SubmitHandler<TProject> = async (data) => {
-    // console.log("Project Data", data);
+    console.log("Project Data", data);
     try {
       const res = await createProject(data);
       // console.log("res data", res);
 
       if (res.success) {
         toast.success(res?.message);
-        reset();
+        // reset();
+        reset({
+          ...defaultProjectValues,
+          pFeatures: [],
+          pContributors: [],
+        });
+
+        setValue("pLiveClientLink", "");
+        setValue("pLiveServerLink", "");
+        setValue("pClientRepoLink", "");
+        setValue("pServerRepoLink", "");
       } else {
         toast.error(res?.details);
       }
@@ -549,6 +560,28 @@ const AddProject = () => {
                   <FormItem>
                     <FormControl>
                       <DynamicFeaturesInput
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Divider Contibutors*/}
+              <Divider variant="dashed" thickness={1} color="blue">
+                Projects Contibutors
+              </Divider>
+
+              {/* Add contibutor fild */}
+              <FormField
+                control={control}
+                name="pContributors"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <DynamicContributorsInput
                         value={field.value}
                         onChange={field.onChange}
                       />
