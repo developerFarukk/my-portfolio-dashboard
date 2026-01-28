@@ -1,7 +1,8 @@
 
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,7 +24,6 @@ export type TProjectFeature = {
 interface DynamicFeaturesInputProps {
   value?: TProjectFeature[];
   onChange?: (value: TProjectFeature[]) => void;
-  label?: string;
 }
 
 /* ================= COMPONENT ================= */
@@ -32,19 +32,24 @@ export const DynamicFeaturesInput = ({
   value = [],
   onChange,
 }: DynamicFeaturesInputProps) => {
+  /* ✅ stable empty feature */
+  const emptyFeatureRef = useRef<TProjectFeature>({
+    pFeatureTitle: "",
+    pFeaturesDescriptionWithTitle: [
+      { pDescriptionTitle: "", pDescriptionPoints: "" },
+    ],
+  });
+
   const [features, setFeatures] = useState<TProjectFeature[]>([
-    {
-      pFeatureTitle: "",
-      pFeaturesDescriptionWithTitle: [
-        { pDescriptionTitle: "", pDescriptionPoints: "" },
-      ],
-    },
+    emptyFeatureRef.current,
   ]);
 
-  /* sync RHF -> local */
+  /* ================= FIX ================= */
   useEffect(() => {
-    if (value && value.length) {
+    if (value && value.length > 0) {
       setFeatures(value);
+    } else {
+      setFeatures([emptyFeatureRef.current]);
     }
   }, [value]);
 
@@ -56,15 +61,7 @@ export const DynamicFeaturesInput = ({
   /* ---------- Feature handlers ---------- */
 
   const addFeature = () => {
-    update([
-      ...features,
-      {
-        pFeatureTitle: "",
-        pFeaturesDescriptionWithTitle: [
-          { pDescriptionTitle: "", pDescriptionPoints: "" },
-        ],
-      },
-    ]);
+    update([...features, { ...emptyFeatureRef.current }]);
   };
 
   const removeFeature = (fIdx: number) => {
@@ -119,7 +116,6 @@ export const DynamicFeaturesInput = ({
 
   return (
     <div className="space-y-6">
-      {/* Add Feature */}
       <div className="flex justify-end">
         <motion.button
           type="button"
@@ -133,17 +129,15 @@ export const DynamicFeaturesInput = ({
         </motion.button>
       </div>
 
-      {/* Features */}
       {features.map((feature, fIdx) => (
         <div key={fIdx} className="border rounded-md p-4 space-y-4 bg-muted/30">
           <FormLabel className="italic font-semibold">
             Project Feature {fIdx + 1}
           </FormLabel>
 
-          {/* Feature title */}
-          <div className="flex gap-2 justify-start items-center">
+          <div className="flex gap-2 items-center">
             <div className="lg:w-24 w-16 italic">
-              <h2>Title {`${fIdx + 1}`} :</h2>
+              <h2>Title {fIdx + 1} :</h2>
             </div>
             <Input
               placeholder={`Input feature title ${fIdx + 1}`}
@@ -152,21 +146,15 @@ export const DynamicFeaturesInput = ({
             />
           </div>
 
-          {/* Descriptions */}
           <div className="border rounded-md p-3 space-y-4 bg-fuchsia-100 dark:bg-cyan-950">
             <h2 className="text-center italic font-medium">Descriptions</h2>
 
             {feature.pFeaturesDescriptionWithTitle?.map((desc, dIdx) => (
               <div key={dIdx} className="lg:flex gap-3 items-start">
-                {/* Serial */}
-                <div className="flex justify-center items-center italic py-1 lg:py-0">
-                  <div className="w-6 h-6 flex items-center justify-center rounded-md border border-blue-200 dark:border-amber-900 text-sm font-semibold">
-                    {dIdx + 1}
-                  </div>
+                <div className="w-6 h-6 flex items-center justify-center rounded-md border text-sm font-semibold">
+                  {dIdx + 1}
                 </div>
 
-                {/* Point → pDescriptionPoints */}
-                {/* <div className="py-1 lg:py-0"> */}
                 <Input
                   placeholder={`Key Point ${dIdx + 1} (Optional)`}
                   value={desc.pDescriptionPoints ?? ""}
@@ -178,14 +166,11 @@ export const DynamicFeaturesInput = ({
                       e.target.value,
                     )
                   }
-                  className="lg:max-w-xs my-2 lg:my-0"
+                  className="lg:max-w-xs my-2"
                 />
-                {/* </div> */}
 
-                {/* Title → pDescriptionTitle */}
-                {/* <div className="py-1 lg:py-0"> */}
                 <Textarea
-                  placeholder={`Inpute feature description ${dIdx + 1}`}
+                  placeholder={`Input feature description ${dIdx + 1}`}
                   value={desc.pDescriptionTitle ?? ""}
                   onChange={(e) =>
                     updateDescription(
@@ -195,16 +180,15 @@ export const DynamicFeaturesInput = ({
                       e.target.value,
                     )
                   }
-                  className="my-2 lg:my-0"
+                  className="my-2"
                 />
-                {/* </div> */}
 
                 {dIdx > 0 && (
                   <motion.button
                     type="button"
                     whileTap={{ scale: 1.2 }}
                     onClick={() => removeDescription(fIdx, dIdx)}
-                    className="border rounded-full dark:border-white"
+                    className="border rounded-full"
                   >
                     <Minus size={18} />
                   </motion.button>
