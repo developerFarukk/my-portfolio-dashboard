@@ -27,44 +27,42 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <header className="flex h-16 items-center transition-[width,height] ease-linear px-4">
-            {/* LEFT */}
-            <div className="flex items-center gap-2">
-              <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 h-4" />
+    <SidebarProvider >
+      <AppSidebar />
+      <SidebarInset className="flex h-screen flex-col">
+        <header className="flex h-16 items-center transition-[width,height] ease-linear px-4 sticky top-0 z-10 bg-white dark:bg-black py-2">
+          {/* LEFT */}
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
 
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building My Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
-
-            {/* RIGHT */}
-            <div className="ml-auto">
-              <ThemeTogol />{" "}
-            </div>
-          </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
-            <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
-              {children}
-            </div>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">
+                    Building My Application
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
-        </SidebarInset>
-      </SidebarProvider>
-    </div>
+
+          {/* RIGHT */}
+          <div className="ml-auto">
+            <ThemeTogol />{" "}
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
+            {children}
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
