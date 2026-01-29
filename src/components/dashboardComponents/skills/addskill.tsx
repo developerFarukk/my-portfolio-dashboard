@@ -1,18 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { defaultSkillsValus } from "@/types/skillsType";
+import {
+  defaultSkillsValus,
+  SKILLS_CATEGORY_OPTIONS,
+} from "@/types/skillsType";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
@@ -22,17 +17,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-// import { Label } from "@/components/ui/label";
-// import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { skillsSchema, TSkills } from "./skillsSchema";
-// import { toast } from "sonner";
-// import { createSkills } from "@/service/skillService";
-
-// import { UploadIcon } from "lucide-react";
 import { MotionButton } from "@/components/shared/MotionButton";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
+import { SelectForm } from "@/components/shared/SelectForm";
+import { createSkills } from "@/service/skillService";
+import { toast } from "sonner";
 
 const AddSkill = () => {
   const form = useForm<TSkills>({
@@ -43,44 +35,35 @@ const AddSkill = () => {
     defaultValues: defaultSkillsValus,
   });
 
-  //   const {
-  //     formState: { isSubmitting, errors },
-  //     register,
-  //     handleSubmit,
-  //     // reset,
-  //     setValue,
-  //     watch,
-  //   } = useForm<TSkills>({
-  //     mode: "onBlur",
-  //   });
-
   const {
     formState: { isSubmitting },
     // setValue,
     // watch,
     control,
-    // reset,
+    reset,
   } = form;
 
   const onSubmit: SubmitHandler<TSkills> = async (data) => {
-    console.log(data);
+    // console.log(data);
 
-    // try {
-    //   const res = await createSkills(data);
-    //   if (res.success) {
-    //     toast.success("Skill created successfully");
-    //     reset();
-    //   } else {
-    //     toast.error(res.message || "Failed to create Skill");
-    //   }
-    // } catch (error: any) {
-    //   console.error("Skill creation error:", error);
-    //   toast.error(
-    //     error.response?.data?.message ||
-    //       error.message ||
-    //       "An unexpected error occurred",
-    //   );
-    // }
+    try {
+      const res = await createSkills(data);
+      if (res.success) {
+        toast.success(res?.message);
+        reset({
+          image: "",
+        });
+      } else {
+        toast.error(res?.details);
+      }
+    } catch (error: any) {
+      console.error("Skill creation error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "An unexpected error occurred",
+      );
+    }
   };
 
   return (
@@ -194,6 +177,34 @@ const AddSkill = () => {
                 </FormItem>
               )}
             />
+
+            {/* Skills category */}
+            <div className="">
+              <FormField
+                control={control}
+                name="skillCategory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Skill Category
+                      <span className="text-red-800 text-xs">(Optional)</span>
+                    </FormLabel>
+
+                    <FormControl>
+                      <SelectForm
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        placeholder="Input skill category"
+                        label="Select skill category"
+                        options={SKILLS_CATEGORY_OPTIONS}
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             {/* Skill Title */}
             {/* <div>

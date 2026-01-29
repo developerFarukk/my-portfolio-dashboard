@@ -9,10 +9,18 @@ import { z } from "zod";
 //   "UI-Tools",
 // ]);
 
-const skillCategorySchema = z.union([
-  z.nativeEnum(SkillCategory),
-  z.literal(""),
-]);
+// const skillCategorySchema = z.union([
+//   z.nativeEnum(SkillCategory),
+//   z.literal(""),
+// ]);
+
+const skillCategorySchema = z.preprocess(
+  (val) => {
+    if (val === "__NONE__") return "";
+    return val;
+  },
+  z.union([z.nativeEnum(SkillCategory), z.literal("")]),
+) as z.ZodType<"" | SkillCategory>;
 
 // export const skillsSchema = z.object({
 //   _id: z.string().optional(),

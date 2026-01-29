@@ -36,6 +36,15 @@ export const defaultSkillsValus: TSkills = {
   name: "",
   title: "",
   description: "",
-  image: undefined,
-  skillCategory: undefined,
+  image: "",
+  skillCategory: "",
 };
+
+export const SKILLS_CATEGORY_OPTIONS = [
+  { label: "None", value: "__NONE__" },
+  { label: "Technical", value: "Technical" },
+  { label: "Soft", value: "Soft" },
+  { label: "Front-End", value: "Front-end" },
+  { label: "Backend", value: "Backend" },
+  { label: "UI-Tools", value: "UI-Tools" },
+] as const;
