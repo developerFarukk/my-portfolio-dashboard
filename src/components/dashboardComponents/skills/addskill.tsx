@@ -31,6 +31,8 @@ import { skillsSchema, TSkills } from "./skillsSchema";
 
 // import { UploadIcon } from "lucide-react";
 import { MotionButton } from "@/components/shared/MotionButton";
+import { Textarea } from "@/components/ui/textarea";
+import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 
 const AddSkill = () => {
   const form = useForm<TSkills>({
@@ -96,7 +98,6 @@ const AddSkill = () => {
             className="grid gap-4 py-4"
           >
             {/* Skills name */}
-
             <FormField
               control={control}
               name="name"
@@ -114,6 +115,82 @@ const AddSkill = () => {
                     />
                   </FormControl>
                   <FormMessage className="text-xs text-right" />
+                </FormItem>
+              )}
+            />
+
+            {/* Skills Title */}
+
+            <FormField
+              control={control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="italic font-semibold text-md">
+                    Skill Title
+                    <span className="text-red-800 text-xs">(Optional)</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Inpute Skill Title"
+                      className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-right" />
+                </FormItem>
+              )}
+            />
+
+            {/* Skills Description */}
+            <FormField
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="italic font-semibold text-md">
+                    Skill Description
+                    <span className="text-red-800 text-xs">(Optional)</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Inpute Skill Description"
+                      className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0 h-28"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-right" />
+                </FormItem>
+              )}
+            />
+
+            {/* Skills image Link */}
+            <FormField
+              control={control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="italic font-semibold text-md">
+                    Skill Image URL
+                    <span className="text-red-800 text-xs">(Optional)</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Input skill image URL"
+                      className="bg-fuchsia-200/30 border-blue-200 border-2 dark:bg-none dark:border-none dark:border-0"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-right" />
+
+                  {/* Image Preview */}
+                  <ImageUrlPreview
+                    url={field.value}
+                    onClear={() => field.onChange("")}
+                    alt="Skill Image Preview"
+                  />
                 </FormItem>
               )}
             />
