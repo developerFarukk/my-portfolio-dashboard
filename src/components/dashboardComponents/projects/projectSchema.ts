@@ -98,7 +98,7 @@ export const projectSchema = z.object({
   pReviewAvgRating: z.string().optional(),
 
   pReviews: z.array(reviewSchema).optional(),
-  pPinned: z.boolean().default(false),
+  pPinned: z.boolean().optional()
 });
 
 /* ---------- Infer Type ---------- */
