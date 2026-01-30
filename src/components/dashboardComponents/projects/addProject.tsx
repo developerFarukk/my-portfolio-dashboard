@@ -11,6 +11,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -39,6 +45,7 @@ import { DynamicContributorsInput } from "@/components/shared/DynamicContributor
 import { toast } from "sonner";
 import { createProject } from "@/service/projectService";
 import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
+import { Switch } from "@/components/ui/switch";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -591,6 +598,40 @@ const AddProject = () => {
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-right" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Project Pin */}
+              <FormField
+                control={control}
+                name="pPinned"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="italic font-semibold text-md">
+                      Project Pin
+                    </FormLabel>
+
+                    <FormControl>
+                      <div className="border rounded-md p-4">
+                        <Field orientation="horizontal">
+                          <FieldContent>
+                            <FieldLabel>Pin this project</FieldLabel>
+                            <FieldDescription>
+                              Pinned projects remain fixed at the top of your
+                              workspace.
+                            </FieldDescription>
+                          </FieldContent>
+
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </Field>
+                      </div>
+                    </FormControl>
+
+                    <FormMessage />
                   </FormItem>
                 )}
               />

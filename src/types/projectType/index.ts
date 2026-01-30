@@ -37,6 +37,7 @@ export type TProjects = {
   pType?: TWebsiteType;
   pFeatures?: TProjectFeature[];
   pContributors?: TPContributors[];
+  pPinned: boolean
   createdAt?: string;
   updatedAt?: string;
 };
@@ -122,8 +123,8 @@ export const defaultProjectValues: TProject = {
   pName: "",
   pTitle: "",
   pDescription: "",
-  pLogoLink: undefined, // <-- empty string নয়
-  pLiveClientLink: undefined, // <-- empty string নয়
+  pLogoLink: undefined,
+  pLiveClientLink: undefined,
   pLiveServerLink: undefined,
   pClientRepoLink: undefined,
   pServerRepoLink: undefined,
@@ -139,6 +140,7 @@ export const defaultProjectValues: TProject = {
   pContributors: [],
   pReviewAvgRating: "",
   pReviews: [],
+  pPinned: false
 };
 
 // extra feture
