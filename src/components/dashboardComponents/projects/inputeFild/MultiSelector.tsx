@@ -1,42 +1,23 @@
-
-
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { MultiSelectOption } from "@/types/projectType";
 import { CheckIcon, XIcon } from "lucide-react";
 import React, { useState, useRef, useEffect, useMemo } from "react";
 
-/* ---------------- Types ---------------- */
-interface Option {
-  id: number;
-  name: string;
-  value: string;
+interface MultiSelectorProps {
+  options: MultiSelectOption[];
+  value: string[];
+  onChange: (values: string[]) => void;
+  placeholder?: string;
 }
 
-interface MultiSkillSelectorProps {
-  value: string[]; // RHF value
-  onChange: (values: string[]) => void; // RHF setter
-}
-
-/* ---------------- Options ---------------- */
-const ALL_OPTIONS: Option[] = [
-  { id: 1, name: "React", value: "react" },
-  { id: 2, name: "Vue", value: "vue" },
-  { id: 3, name: "Angular", value: "angular" },
-  { id: 4, name: "Svelte", value: "svelte" },
-  { id: 5, name: "Ember", value: "ember" },
-  { id: 6, name: "Backbone", value: "backbone" },
-  { id: 7, name: "Preact", value: "preact" },
-  { id: 8, name: "Alpine.js", value: "alpine" },
-  { id: 9, name: "Solid.js", value: "solid" },
-  { id: 10, name: "Qwik", value: "qwik" },
-];
-
-/* ---------------- Component ---------------- */
-export default function MultiSkillSelector({
+export default function MultiSelector({
   value = [],
   onChange,
-}: MultiSkillSelectorProps) {
+  options = [],
+  placeholder = "Select options...",
+}: MultiSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -46,18 +27,18 @@ export default function MultiSkillSelector({
 
   /* 🔑 derive selected options from RHF value */
   const selectedOptions = useMemo(
-    () => ALL_OPTIONS.filter((opt) => value.includes(opt.value)),
-    [value],
+    () => options.filter((opt) => value.includes(opt.value)),
+    [value, options],
   );
 
   const filteredOptions = useMemo(
     () =>
-      ALL_OPTIONS.filter(
+      options.filter(
         (opt) =>
           !value.includes(opt.value) &&
           opt.name.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
-    [value, searchTerm],
+    [value, searchTerm, options],
   );
 
   /* outside click */
@@ -75,13 +56,13 @@ export default function MultiSkillSelector({
   }, []);
 
   /* ---------------- Actions ---------------- */
-  const addOption = (option: Option) => {
+  const addOption = (option: MultiSelectOption) => {
     onChange([...value, option.value]);
     setSearchTerm("");
     inputRef.current?.focus();
   };
 
-  const removeOption = (option: Option) => {
+  const removeOption = (option: MultiSelectOption) => {
     onChange(value.filter((v) => v !== option.value));
   };
 
@@ -154,7 +135,9 @@ export default function MultiSkillSelector({
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          placeholder={!selectedOptions.length ? "Select frameworks..." : ""}
+          placeholder={
+            !selectedOptions.length ? `${placeholder}` : "Search option..."
+          }
           className="border-none shadow-none focus-visible:ring-0 flex-1 bg-transparent"
         />
       </div>

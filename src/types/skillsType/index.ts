@@ -1,6 +1,7 @@
 // export type TSkillCategory = 'Technical' | 'Soft' | 'Front-end' | 'Backend' | 'UI-Tools';
 
 import { TSkills } from "@/components/dashboardComponents/skills/skillsSchema";
+import { MultiSelectOption } from "../projectType";
 
 // export type TSkills = {
 //     _id?: string,
@@ -30,6 +31,7 @@ export type TSkill = {
   description?: string;
   image?: string;
   skillCategory?: TSkillCategory;
+  sPinned: boolean;
 };
 
 export const defaultSkillsValus: TSkills = {
@@ -37,7 +39,8 @@ export const defaultSkillsValus: TSkills = {
   title: "",
   description: "",
   image: "",
-  skillCategory: "",
+  skillCategory: [],
+  sPinned: false,
 };
 
 export const SKILLS_CATEGORY_OPTIONS = [
@@ -48,3 +51,12 @@ export const SKILLS_CATEGORY_OPTIONS = [
   { label: "Backend", value: "Backend" },
   { label: "UI-Tools", value: "UI-Tools" },
 ] as const;
+
+// multi category skills
+export const SKILLS_CATEGORY: MultiSelectOption[] = [
+  { id: 1, name: "UI-Tools", value: "UI-Tools" },
+  { id: 2, name: "Technical", value: "Technical" },
+  { id: 3, name: "Soft", value: "Soft" },
+  { id: 4, name: "Front-End", value: "Front-end" },
+  { id: 5, name: "Backend", value: "Backend" },
+];

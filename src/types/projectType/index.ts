@@ -37,7 +37,7 @@ export type TProjects = {
   pType?: TWebsiteType;
   pFeatures?: TProjectFeature[];
   pContributors?: TPContributors[];
-  pPinned: boolean
+  pPinned: boolean;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -140,7 +140,7 @@ export const defaultProjectValues: TProject = {
   pContributors: [],
   pReviewAvgRating: "",
   pReviews: [],
-  pPinned: false
+  pPinned: false,
 };
 
 // extra feture
@@ -187,3 +187,25 @@ export const WEBSITE_TYPE_OPTIONS = [
   { label: "EVENT_CONFERENCE", value: "Event & Conference" },
   { label: "NON_PROFIT", value: "Non-Profit" },
 ] as const;
+
+
+// Project stack selected option
+
+export interface MultiSelectOption {
+  id: number;
+  name: string;
+  value: string;
+}
+
+export const PROJECT_CATEGORY: MultiSelectOption[] = [
+  { id: 1, name: "React", value: "react" },
+  { id: 2, name: "Vue", value: "vue" },
+  { id: 3, name: "Angular", value: "angular" },
+  { id: 4, name: "Svelte", value: "svelte" },
+  { id: 5, name: "Ember", value: "ember" },
+  { id: 6, name: "Backbone", value: "backbone" },
+  { id: 7, name: "Preact", value: "preact" },
+  { id: 8, name: "Alpine.js", value: "alpine" },
+  { id: 9, name: "Solid.js", value: "solid" },
+  { id: 10, name: "Qwik", value: "qwik" },
+];

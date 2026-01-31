@@ -3,10 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  defaultSkillsValus,
-  SKILLS_CATEGORY_OPTIONS,
-} from "@/types/skillsType";
+import { defaultSkillsValus, SKILLS_CATEGORY } from "@/types/skillsType";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -22,9 +19,16 @@ import { skillsSchema, TSkills } from "./skillsSchema";
 import { MotionButton } from "@/components/shared/MotionButton";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
-import { SelectForm } from "@/components/shared/SelectForm";
 import { createSkills } from "@/service/skillService";
 import { toast } from "sonner";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
+import MultiSelector from "../projects/inputeFild/MultiSelector";
 
 const AddSkill = () => {
   const form = useForm<TSkills>({
@@ -44,7 +48,7 @@ const AddSkill = () => {
   } = form;
 
   const onSubmit: SubmitHandler<TSkills> = async (data) => {
-    // console.log(data);
+    console.log(data);
 
     try {
       const res = await createSkills(data);
@@ -179,7 +183,7 @@ const AddSkill = () => {
             />
 
             {/* Skills category */}
-            <div className="">
+            {/* <div className="">
               <FormField
                 control={control}
                 name="skillCategory"
@@ -204,7 +208,67 @@ const AddSkill = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
+
+            <FormField
+              control={control}
+              name="skillCategory"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="italic font-semibold text-md">
+                    Skill Category
+                    <span className="text-red-800 text-xs">(Optional)</span>
+                  </FormLabel>
+
+                  <FormControl>
+                    <MultiSelector
+                      // value={field.value ?? []}
+                      // onChange={field.onChange}
+                      options={SKILLS_CATEGORY}
+                      value={field.value ?? []}
+                      onChange={field.onChange}
+                      placeholder="Select skill categories..."
+                    />
+                  </FormControl>
+
+                  <FormMessage className="text-xs text-right" />
+                </FormItem>
+              )}
+            />
+
+            {/* Project Pin */}
+            <FormField
+              control={control}
+              name="sPinned"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="italic font-semibold text-md">
+                    Skill Pineed
+                  </FormLabel>
+
+                  <FormControl>
+                    <div className="border rounded-md p-4">
+                      <Field orientation="horizontal">
+                        <FieldContent>
+                          <FieldLabel>Pin this skill</FieldLabel>
+                          <FieldDescription>
+                            Pinned skill remain fixed at the top of your
+                            workspace.
+                          </FieldDescription>
+                        </FieldContent>
+
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </Field>
+                    </div>
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* Skill Title */}
             {/* <div>

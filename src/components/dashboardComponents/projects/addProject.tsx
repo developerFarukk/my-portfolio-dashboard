@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/shared/MotionButton";
 import {
   defaultProjectValues,
+  PROJECT_CATEGORY,
   PROJECTCATEGORIES,
   PROJECTPRICING,
   PROJECTVSISIVILITY,
@@ -36,7 +37,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
 import { WebsitePreviewUrl } from "@/components/shared/WebsitePreviewUrl";
 import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
-import MultiSkillSelector from "./inputeFild/MultiSkillSelector";
 import { MultiVideoPreviewGroup } from "@/components/shared/MultiVideoPreviewGroup";
 import { SelectForm } from "@/components/shared/SelectForm";
 import Divider from "@/components/ui/divider";
@@ -46,6 +46,7 @@ import { toast } from "sonner";
 import { createProject } from "@/service/projectService";
 import { MultiImagePreviewGroup } from "@/components/shared/MultiImageUrlPreview";
 import { Switch } from "@/components/ui/switch";
+import MultiSelector from "./inputeFild/MultiSelector";
 
 const AddProject = () => {
   const form = useForm<TProject>({
@@ -429,9 +430,13 @@ const AddProject = () => {
                     </FormLabel>
 
                     <FormControl>
-                      <MultiSkillSelector
+                      <MultiSelector
+                        // value={field.value ?? []}
+                        // onChange={field.onChange}
+                        options={PROJECT_CATEGORY}
                         value={field.value ?? []}
                         onChange={field.onChange}
+                        placeholder="Select project categories..."
                       />
                     </FormControl>
 

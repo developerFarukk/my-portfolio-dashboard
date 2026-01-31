@@ -1,4 +1,4 @@
-import { SkillCategory } from "@/types/skillsType";
+// import { SkillCategory } from "@/types/skillsType";
 import { z } from "zod";
 
 // export const skillCategoryEnum = z.enum([
@@ -14,13 +14,13 @@ import { z } from "zod";
 //   z.literal(""),
 // ]);
 
-const skillCategorySchema = z.preprocess(
-  (val) => {
-    if (val === "__NONE__") return "";
-    return val;
-  },
-  z.union([z.nativeEnum(SkillCategory), z.literal("")]),
-) as z.ZodType<"" | SkillCategory>;
+// const skillCategorySchema = z.preprocess(
+//   (val) => {
+//     if (val === "__NONE__") return "";
+//     return val;
+//   },
+//   z.union([z.nativeEnum(SkillCategory), z.literal("")]),
+// ) as z.ZodType<"" | SkillCategory>;
 
 // export const skillsSchema = z.object({
 //   _id: z.string().optional(),
@@ -48,7 +48,9 @@ export const skillsSchema = z.object({
     .optional()
     .or(z.literal("")),
 
-  skillCategory: skillCategorySchema.optional(),
+  // skillCategory: skillCategorySchema.optional(),
+  skillCategory: z.array(z.string()).optional(),
+  sPinned: z.boolean().optional(),
   //   }),
 });
 
