@@ -74,37 +74,64 @@ const AddProject = () => {
 
   // console.log("err me", form.formState.errors);
 
+  // const onSubmit: SubmitHandler<TProject> = async (data) => {
+  //   // console.log("Project Data", data);
+  //   try {
+  //     const res = await createProject(data);
+  //     // console.log("res data", res);
+
+  //     if (res.success) {
+  //       toast.success(res?.message);
+  //       // reset();
+  //       reset({
+  //         ...defaultProjectValues,
+  //         pImageLink: [],
+  //         pFeatures: [],
+  //         pContributors: [],
+  //         pLogoLink: "",
+  //       });
+
+  //       setValue("pLiveClientLink", "");
+  //       setValue("pLiveServerLink", "");
+  //       setValue("pClientRepoLink", "");
+  //       setValue("pServerRepoLink", "");
+  //     } else {
+  //       console.log("res error", res.error);
+
+  //       toast.error(res?.details);
+  //     }
+  //   } catch (error: any) {
+  //     console.error("Project creation error:", error);
+  //     toast.error(
+  //       error.response?.data?.message ||
+  //         error.message ||
+  //         "An unexpected error occurred",
+  //     );
+  //   }
+  // };
+
   const onSubmit: SubmitHandler<TProject> = async (data) => {
-    // console.log("Project Data", data);
     try {
       const res = await createProject(data);
-      // console.log("res data", res);
 
-      if (res.success) {
-        toast.success(res?.message);
-        // reset();
-        reset({
-          ...defaultProjectValues,
-          pImageLink: [],
-          pFeatures: [],
-          pContributors: [],
-          pLogoLink: "",
-        });
+      toast.success(res?.message);
 
-        setValue("pLiveClientLink", "");
-        setValue("pLiveServerLink", "");
-        setValue("pClientRepoLink", "");
-        setValue("pServerRepoLink", "");
-      } else {
-        toast.error(res?.details);
-      }
+      reset({
+        ...defaultProjectValues,
+        pImageLink: [],
+        pFeatures: [],
+        pContributors: [],
+        pLogoLink: "",
+      });
+
+      setValue("pLiveClientLink", "");
+      setValue("pLiveServerLink", "");
+      setValue("pClientRepoLink", "");
+      setValue("pServerRepoLink", "");
     } catch (error: any) {
-      console.error("Project creation error:", error);
-      toast.error(
-        error.response?.data?.message ||
-          error.message ||
-          "An unexpected error occurred",
-      );
+      // console.log(error.message);
+
+      toast.error(error.message);
     }
   };
 

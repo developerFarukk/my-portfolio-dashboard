@@ -1,14 +1,11 @@
-
-
-
+import AllProjectClient from "@/components/dashboardComponents/projects/allProject/AllProjectClient";
 
 const AllProjectServer = () => {
-
-    return (
-        <div>
-            <div> The Component is Start AllProjectServer </div>
-        </div>
-    );
+  return (
+    <div>
+      <AllProjectClient />
+    </div>
+  );
 };
 
 export default AllProjectServer;
