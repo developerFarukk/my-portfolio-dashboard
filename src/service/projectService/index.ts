@@ -73,3 +73,17 @@ export const getAllprojects = async ({
     throw new Error(message);
   }
 };
+
+// Updated Project
+export const updatProject = async (projectId: string, data: any) => {
+  try {
+    const res = await app_axios.patch(`/projects/update/${projectId}`, data);
+    return res.data;
+  } catch (error: any) {
+    // console.log(error);
+
+    const message = error?.response?.data?.details || "Project updated failed";
+    throw new Error(message);
+    // return new Error(message);
+  }
+};

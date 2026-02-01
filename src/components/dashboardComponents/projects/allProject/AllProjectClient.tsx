@@ -13,11 +13,14 @@ import { getAllprojects } from "@/service/projectService";
 import { TGlobalMeta, TMetaProjectResponse } from "@/types/global";
 import { TProjects } from "@/types/projectType";
 import { useQuery } from "@tanstack/react-query";
-import { FolderKanban } from "lucide-react";
+import { Eye, FolderKanban } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Switch } from "@/components/ui/switch";
+import PinnedSwitch from "@/components/shared/PinnedSwitch";
+import Link from "next/link";
+import ActionTultipButton from "@/components/shared/ActionTultipButton";
+import ActionButton from "@/components/ui/ActionButton";
 
 const AllProjectClient = () => {
   const [page, setPage] = useState(1);
@@ -270,8 +273,12 @@ const AllProjectClient = () => {
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
-                      {/* {project?.pType} */}
-                      <Switch checked={project?.pPinned === true} />
+                      {project?._id && (
+                        <PinnedSwitch
+                          projectId={project._id}
+                          initialPinned={project.pPinned}
+                        />
+                      )}
                     </td>
 
                     {/* <td className="px-4 py-4 whitespace-nowrap">
@@ -323,7 +330,7 @@ const AllProjectClient = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2 justify-center items-center border-1 p-1 rounded-md">
                         {/* Show Details */}
-                        {/* <Link href={`/dashboard/orders/${order?.orderId}`}>
+                        <Link href={`/dashboard/project/${project?._id}`}>
                           <ActionTultipButton
                             iconButton={
                               <ActionButton
@@ -332,9 +339,9 @@ const AllProjectClient = () => {
                                 iconLeft={<Eye />}
                               />
                             }
-                            tole="See Order Details"
+                            tole="See project details"
                           />
-                        </Link> */}
+                        </Link>
                         {/* <OrderDetailsModal orderData={order?.orderId} /> */}
                         {/* Edite Order */}
                         {/* <Link href={`/dashboard/orders/${order?.orderId}`}>
@@ -349,7 +356,7 @@ const AllProjectClient = () => {
                             tole="Edite Order"
                           />
                         </Link> */}
-                        Project details
+                        {/* Project details */}
                         {/* Download Order Ricipt */}
                         {/* <ActionTultipButton
                           iconButton={
