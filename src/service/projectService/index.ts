@@ -73,6 +73,17 @@ export const getAllprojects = async ({
   }
 };
 
+// Get Single Projects
+export const getSinglProject = async (projectId: string): Promise<any> => {
+  try {
+    const res = await app_axios.get(`/projects/${projectId}`);
+    return res.data;
+  } catch (error: any) {
+    const message = error?.response?.data?.details || "Single project get faield";
+    throw new Error(message);
+  }
+};
+
 // Updated Project
 export const updatProject = async (projectId: string, data: any) => {
   try {

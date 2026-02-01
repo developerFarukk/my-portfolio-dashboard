@@ -1,14 +1,24 @@
+import SingleProjectClient from "@/components/dashboardComponents/projects/singleProject/SingleProjectClient";
+import { getSinglProject } from "@/service/projectService";
 
+const ProjectDetailsServer = async ({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}) => {
+  const { projectId } = await params;
 
+  const projectData = await getSinglProject(projectId);
 
+  const project = projectData?.data
 
-const ProjectDetailsServer = () => {
+//   console.log("project is ", project);
 
-    return (
-        <div>
-            <div> The Component is Start ProjectDetailsServer </div>
-        </div>
-    );
+  return (
+    <div>
+      <SingleProjectClient project={project} />
+    </div>
+  );
 };
 
 export default ProjectDetailsServer;
