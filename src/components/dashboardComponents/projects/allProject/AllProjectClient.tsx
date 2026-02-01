@@ -16,6 +16,8 @@ import { useQuery } from "@tanstack/react-query";
 import { FolderKanban } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { Switch } from "@/components/ui/switch";
 
 const AllProjectClient = () => {
   const [page, setPage] = useState(1);
@@ -97,7 +99,7 @@ const AllProjectClient = () => {
   };
 
   return (
-    <div className="mt-2">
+    <div className="mt-4">
       {/* Title */}
       <div className="mb-4">
         <TitleHooks
@@ -190,7 +192,7 @@ const AllProjectClient = () => {
             <thead className="bg-gray-300 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-700 italic">
               <tr>
                 <th className="px-4 py-3 text-left font-bold">SL</th>
-                <th className="px-4 py-3 text-left font-bold">Name</th>
+                <th className="px-4 py-3 text-left font-bold">Project Name</th>
                 <th className="px-4 py-3 text-left font-bold">Category</th>
                 <th className="px-4 py-3 text-left font-bold">Visibility</th>
                 <th className="px-4 py-3 text-left font-bold">Type</th>
@@ -229,11 +231,47 @@ const AllProjectClient = () => {
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
-                      {project?.pName}
+                      <div className="flex items-center gap-3">
+                        <Image
+                          src={
+                            project?.pLogoLink ||
+                            "https://cdni.iconscout.com/illustration/premium/thumb/female-user-image-illustration-svg-download-png-6515859.png"
+                          }
+                          alt={project?.pName}
+                          width={40}
+                          height={40}
+                          className="rounded-full object-cover border border-gray-300 dark:border-slate-700"
+                        />
+                        <div>
+                          <p className="font-semibold text-gray-900 dark:text-gray-100">
+                            {project?.pName}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            ID: {project?._id}
+                          </p>
+                        </div>
+                      </div>
                     </td>
+
+                    {/* <td className="px-4 py-4 whitespace-nowrap">
+                      {project?.pName}
+                    </td> */}
 
                     <td className="px-4 py-4 whitespace-nowrap">
                       {project?.pCategory}
+                    </td>
+
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      {project?.pVisibility}
+                    </td>
+
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      {project?.pType}
+                    </td>
+
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      {/* {project?.pType} */}
+                      <Switch checked={project?.pPinned === true} />
                     </td>
 
                     {/* <td className="px-4 py-4 whitespace-nowrap">
@@ -298,7 +336,6 @@ const AllProjectClient = () => {
                           />
                         </Link> */}
                         {/* <OrderDetailsModal orderData={order?.orderId} /> */}
-
                         {/* Edite Order */}
                         {/* <Link href={`/dashboard/orders/${order?.orderId}`}>
                           <ActionTultipButton
@@ -313,7 +350,6 @@ const AllProjectClient = () => {
                           />
                         </Link> */}
                         Project details
-
                         {/* Download Order Ricipt */}
                         {/* <ActionTultipButton
                           iconButton={
