@@ -98,9 +98,49 @@ export const projectSchema = z.object({
   pReviewAvgRating: z.string().optional(),
 
   pReviews: z.array(reviewSchema).optional(),
-  pPinned: z.boolean().optional()
+  pPinned: z.boolean().optional(),
+});
+
+export const updateProjectSchema = z.object({
+  pName: z.string().optional(),
+
+  pTitle: z.string().optional(),
+
+  pDescription: z.string().optional(),
+
+  pLogoLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+
+  pLiveClientLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+  pLiveServerLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+
+  pClientRepoLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+  pServerRepoLink: z.string().url("Invalid URL").optional().or(z.literal("")),
+
+  pOverviewVideoLink: z.array(z.string().url("Invalid URL")).optional(),
+
+  pImageLink: z.array(z.string().url("Invalid URL")).optional(),
+
+  pTechStack: z.array(z.string()).optional(),
+
+  pCategory: z.nativeEnum(ProjectCategory).optional(),
+
+  pVisibility: z.nativeEnum(ProjectVisibility).optional(),
+
+  pPricingType: z.nativeEnum(ProjectPricingType).optional(),
+
+  pType: z.nativeEnum(TWebsiteType).optional(),
+
+  pFeatures: z.array(projectFeatureSchema).optional(),
+
+  pContributors: z.array(contributorSchema).optional(),
+
+  pReviewAvgRating: z.string().optional(),
+
+  pReviews: z.array(reviewSchema).optional(),
+  pPinned: z.boolean().optional(),
 });
 
 /* ---------- Infer Type ---------- */
 
 export type TProject = z.infer<typeof projectSchema>;
+export type TUpdateProject = z.infer<typeof updateProjectSchema>;
