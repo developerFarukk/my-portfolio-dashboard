@@ -3,7 +3,6 @@
 
 import { TProject } from "@/components/dashboardComponents/projects/projectSchema";
 import app_axios from "@/lib/axios";
-// import { cookies } from "next/headers";
 
 // Create Project
 export const createProject = async (data: TProject): Promise<any> => {
@@ -85,5 +84,16 @@ export const updatProject = async (projectId: string, data: any) => {
     const message = error?.response?.data?.details || "Project updated failed";
     throw new Error(message);
     // return new Error(message);
+  }
+};
+
+// Delete Project
+export const deleteProject = async (projectId: string): Promise<any> => {
+  try {
+    const res = await app_axios.delete(`/projects/delete/${projectId}`);
+    return res.data;
+  } catch (error: any) {
+    const message = error?.response?.data?.details || "Project delete failed";
+    throw new Error(message);
   }
 };

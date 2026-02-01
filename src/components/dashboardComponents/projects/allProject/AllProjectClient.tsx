@@ -21,6 +21,7 @@ import PinnedSwitch from "@/components/shared/PinnedSwitch";
 import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
+import DeleteProject from "../../delete/DeleteProject";
 
 const AllProjectClient = () => {
   const [page, setPage] = useState(1);
@@ -48,7 +49,7 @@ const AllProjectClient = () => {
 
   const resultData: TProjects[] = data?.result || [];
 
-  console.log("project data", resultData);
+  // console.log("project data", resultData);
 
   const meta: TGlobalMeta = data?.meta || {
     page: 1,
@@ -57,7 +58,7 @@ const AllProjectClient = () => {
     totalPage: 0,
   };
 
-  console.log(meta);
+  // console.log(meta);
 
   if (isError) return <p>Error: {(error as any).message}</p>;
 
@@ -197,6 +198,7 @@ const AllProjectClient = () => {
                 <th className="px-4 py-3 text-left font-bold">SL</th>
                 <th className="px-4 py-3 text-left font-bold">Project Name</th>
                 <th className="px-4 py-3 text-left font-bold">Category</th>
+                <th className="px-4 py-3 text-left font-bold">Live URL</th>
                 <th className="px-4 py-3 text-left font-bold">Visibility</th>
                 <th className="px-4 py-3 text-left font-bold">Type</th>
                 <th className="px-4 py-3 text-left font-bold">Pinned</th>
@@ -262,6 +264,19 @@ const AllProjectClient = () => {
 
                     <td className="px-4 py-4 whitespace-nowrap">
                       {project?.pCategory}
+                    </td>
+
+                    {/* Live url */}
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <Link
+                        href={project?.pLiveClientLink || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <h2 className="underline hover:text-blue-400">
+                          {project?.pLiveClientLink}
+                        </h2>
+                      </Link>
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
@@ -357,17 +372,10 @@ const AllProjectClient = () => {
                           />
                         </Link> */}
                         {/* Project details */}
-                        {/* Download Order Ricipt */}
-                        {/* <ActionTultipButton
-                          iconButton={
-                            <ActionButton
-                              variant="outline"
-                              size="sm"
-                              iconLeft={<Download />}
-                            />
-                          }
-                          tole="Download Order Recipt"
-                        /> */}
+                        {/* Delete Project */}
+                        {project?._id && (
+                          <DeleteProject projectId={project?._id} />
+                        )}
                         {/* <InvoiceDownload orders={order} /> */}
                       </div>
                     </td>
