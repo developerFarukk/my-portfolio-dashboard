@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { DynamicUrlInput } from "@/components/shared/DynamicUrlInput";
@@ -19,12 +20,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  defaultProjectValues,
+  defaultUpdateProjectValues,
   PROJECT_CATEGORY,
-  PROJECTCATEGORIES,
   PROJECTPRICING,
   PROJECTVSISIVILITY,
   TProjects,
+  UPDATEPROJECTCATEGORIES,
   WEBSITE_TYPE_OPTIONS,
 } from "@/types/projectType";
 import MultiSelector from "../inputeFild/MultiSelector";
@@ -42,31 +43,39 @@ import { Switch } from "@/components/ui/switch";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TUpdateProject, updateProjectSchema } from "../projectSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { updatProject } from "@/service/projectService";
 
 interface TSingleProjectProps {
   project: TProjects;
 }
 
 const SingleProjectClient = ({ project }: TSingleProjectProps) => {
-//   console.log("new data", project);
+  // console.log("new data", project?._id);
+
+  const [mounted, setMounted] = useState(false);
 
   const form = useForm<TUpdateProject>({
     resolver: zodResolver(updateProjectSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     shouldFocusError: true,
-    defaultValues: defaultProjectValues,
+    defaultValues: defaultUpdateProjectValues,
   });
 
   useEffect(() => {
     if (project) {
       form.reset({
-        ...defaultProjectValues,
+        ...defaultUpdateProjectValues,
         ...project,
       });
     }
   }, [project, form]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const {
     formState: { isSubmitting },
@@ -82,31 +91,21 @@ const SingleProjectClient = ({ project }: TSingleProjectProps) => {
   const pServerRepoLink = watch("pServerRepoLink");
 
   const onSubmit: SubmitHandler<TUpdateProject> = async (data) => {
-    console.log(data);
+    // console.log(data);
+    if (!project?._id) return toast.error("Project ID missing");
 
-    // try {
-    //   const res = await createProject(data);
+    try {
+      const res = await updatProject(project._id, data);
 
-    //   toast.success(res?.message);
+      toast.success(res?.message);
+    } catch (error: any) {
+      // console.log(error.message);
 
-    //   reset({
-    //     ...defaultProjectValues,
-    //     pImageLink: [],
-    //     pFeatures: [],
-    //     pContributors: [],
-    //     pLogoLink: "",
-    //   });
-
-    //   setValue("pLiveClientLink", "");
-    //   setValue("pLiveServerLink", "");
-    //   setValue("pClientRepoLink", "");
-    //   setValue("pServerRepoLink", "");
-    // } catch (error: any) {
-    //   // console.log(error.message);
-
-    //   toast.error(error.message);
-    // }
+      toast.error(error.message);
+    }
   };
+
+  if (!mounted) return null;
 
   return (
     <div className="p-6 ">
@@ -444,10 +443,10 @@ const SingleProjectClient = ({ project }: TSingleProjectProps) => {
                     <FormControl>
                       <SelectForm
                         value={field.value ?? ""}
-                        onChange={field.onChange}
+                        onChange={(val) => field.onChange(val)}
                         placeholder="Input Project Category"
                         label="Select Category"
-                        options={PROJECTCATEGORIES}
+                        options={UPDATEPROJECTCATEGORIES}
                       />
                     </FormControl>
 

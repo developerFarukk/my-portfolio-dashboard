@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { TProject } from "@/components/dashboardComponents/projects/projectSchema";
+import { TProject, TUpdateProject } from "@/components/dashboardComponents/projects/projectSchema";
 import app_axios from "@/lib/axios";
 
 // Create Project
@@ -85,7 +85,7 @@ export const getSinglProject = async (projectId: string): Promise<any> => {
 };
 
 // Updated Project
-export const updatProject = async (projectId: string, data: any) => {
+export const updatProject = async (projectId: string, data: TUpdateProject) => {
   try {
     const res = await app_axios.patch(`/projects/update/${projectId}`, data);
     return res.data;

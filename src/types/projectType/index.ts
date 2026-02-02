@@ -16,7 +16,11 @@
 //   updatedAt: string;
 // };
 
-import { TProject } from "@/components/dashboardComponents/projects/projectSchema";
+import {
+  TProject,
+  TUpdateProject,
+} from "@/components/dashboardComponents/projects/projectSchema";
+import { Option } from "@/components/shared/SelectForm";
 
 export type TProjects = {
   _id?: string;
@@ -144,7 +148,6 @@ export const defaultProjectValues: TProject = {
 };
 
 // extra feture
-
 export const PROJECTCATEGORIES = [
   { label: "FEATURE", value: "Feature" },
   { label: "RECENT", value: "Recent" },
@@ -152,6 +155,14 @@ export const PROJECTCATEGORIES = [
   { label: "ALFA", value: "Alfa" },
   { label: "SUBSCRIPTION", value: "Subscription" },
 ] as const;
+
+export const UPDATEPROJECTCATEGORIES: readonly Option<ProjectCategory>[] = [
+  { label: "FEATURE", value: ProjectCategory.FEATURE },
+  { label: "RECENT", value: ProjectCategory.RECENT },
+  { label: "UPCOMING", value: ProjectCategory.UPCOMING },
+  { label: "ALFA", value: ProjectCategory.ALFA },
+  { label: "SUBSCRIPTION", value: ProjectCategory.SUBSCRIPTION },
+];
 
 export const PROJECTVSISIVILITY = [
   { label: "PUBLIC", value: "Public" },
@@ -188,7 +199,6 @@ export const WEBSITE_TYPE_OPTIONS = [
   { label: "NON_PROFIT", value: "Non-Profit" },
 ] as const;
 
-
 // Project stack selected option
 
 export interface MultiSelectOption {
@@ -209,3 +219,28 @@ export const PROJECT_CATEGORY: MultiSelectOption[] = [
   { id: 9, name: "Solid.js", value: "solid" },
   { id: 10, name: "Qwik", value: "qwik" },
 ];
+
+// Update default values
+export const defaultUpdateProjectValues: TUpdateProject = {
+  pName: "",
+  pTitle: "",
+  pDescription: "",
+  pLogoLink: undefined,
+  pLiveClientLink: undefined,
+  pLiveServerLink: undefined,
+  pClientRepoLink: undefined,
+  pServerRepoLink: undefined,
+
+  pOverviewVideoLink: [],
+  pImageLink: [],
+  pTechStack: [],
+  pCategory: undefined,
+  pVisibility: undefined,
+  pPricingType: undefined,
+  pType: undefined,
+  pFeatures: [],
+  pContributors: [],
+  pReviewAvgRating: "",
+  pReviews: [],
+  pPinned: false,
+};

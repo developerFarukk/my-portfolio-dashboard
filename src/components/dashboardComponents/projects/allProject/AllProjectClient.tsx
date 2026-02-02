@@ -242,9 +242,9 @@ const AllProjectClient = () => {
                             project?.pLogoLink ||
                             "https://cdni.iconscout.com/illustration/premium/thumb/female-user-image-illustration-svg-download-png-6515859.png"
                           }
-                          alt={project?.pName}
                           width={40}
                           height={40}
+                          alt="pic_name"
                           className="rounded-full object-cover border border-gray-300 dark:border-slate-700"
                         />
                         <div>
