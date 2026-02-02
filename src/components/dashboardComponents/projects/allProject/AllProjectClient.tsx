@@ -11,9 +11,9 @@ import TablePagination from "@/components/shared/pagination/TablePagination";
 import TitleHooks from "@/components/shared/TitleHook";
 import { getAllprojects } from "@/service/projectService";
 import { TGlobalMeta, TMetaProjectResponse } from "@/types/global";
-import { TProjects } from "@/types/projectType";
+import { PINNED_OPTIONS, TProjects } from "@/types/projectType";
 import { useQuery } from "@tanstack/react-query";
-import { Eye, FolderKanban } from "lucide-react";
+import { Eye, FolderKanban, Pencil, Pipette } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -29,14 +29,13 @@ const AllProjectClient = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("-createdAt");
   const [category, setCategory] = useState("");
-  //   const [startDate, setStartDate] = useState("");
-  //   const [endDate, setEndDate] = useState("");
+  const [pinned, setPinned] = useState("");
 
   const { data, isLoading, isError, error } = useQuery<
     TMetaProjectResponse,
     Error
   >({
-    queryKey: ["projects", page, limit, searchTerm, sort, category],
+    queryKey: ["projects", page, limit, searchTerm, sort, category, pinned],
     queryFn: () =>
       getAllprojects({
         page,
@@ -44,6 +43,8 @@ const AllProjectClient = () => {
         searchTerm,
         sort,
         pCategory: category,
+        pPinned:
+          pinned === "true" ? true : pinned === "false" ? false : undefined,
       }),
     staleTime: 5000,
   });
@@ -70,6 +71,7 @@ const AllProjectClient = () => {
     setLimit(5);
     setPage(1);
     setCategory("");
+    setPinned("");
     // setStartDate("");
     // setEndDate("");
   };
@@ -86,6 +88,7 @@ const AllProjectClient = () => {
     setPage(1);
     setSort("-createdAt");
     setLimit(5);
+    setPinned("");
     // setStartDate("");
     // setEndDate("");
   };
@@ -166,7 +169,7 @@ const AllProjectClient = () => {
           />
         </div>
 
-        {/* 📦 Status Dropdown */}
+        {/* 📦 Project Category Filter Dropdown */}
         <div className="w-full sm:w-[48%] md:w-auto">
           <SortComponents
             value={category}
@@ -180,6 +183,17 @@ const AllProjectClient = () => {
               { value: "Alfa", label: "Alfa" },
               { value: "Subscription", label: "Subscription" },
             ]}
+          />
+        </div>
+
+        {/* 🔢 Project Pinned Dropdown */}
+        <div className="w-full sm:w-[48%] md:w-auto">
+          <SortComponents
+            value={pinned}
+            onChange={(val) => setPinned(val)}
+            placeholder="Select Pinned Status"
+            label="Pinned Status"
+            options={PINNED_OPTIONS}
           />
         </div>
 
@@ -248,8 +262,11 @@ const AllProjectClient = () => {
                           className="rounded-full object-cover border border-gray-300 dark:border-slate-700"
                         />
                         <div>
-                          <p className="font-semibold text-gray-900 dark:text-gray-100">
+                          <p className="flex justify-start items-center gap-2 font-semibold text-gray-900 dark:text-gray-100">
                             {project?.pName}
+                            {project?.pPinned === true ? (
+                              <Pipette size={18} />
+                            ) : null}
                           </p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
                             ID: {project?._id}
@@ -257,10 +274,6 @@ const AllProjectClient = () => {
                         </div>
                       </div>
                     </td>
-
-                    {/* <td className="px-4 py-4 whitespace-nowrap">
-                      {project?.pName}
-                    </td> */}
 
                     <td className="px-4 py-4 whitespace-nowrap">
                       {project?.pCategory}
@@ -296,56 +309,11 @@ const AllProjectClient = () => {
                       )}
                     </td>
 
-                    {/* <td className="px-4 py-4 whitespace-nowrap">
-                      {order?.email ? order?.email : "N/A"}
-                    </td> */}
-
-                    {/* <DateTimeCell date={order?.createdAt} /> */}
-
-                    {/* <td className="px-4 py-4 whitespace-nowrap">
-                      {order?.division}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      {order?.districts}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      {order?.upozila}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      {order?.fullAddress}
-                    </td> */}
-                    {/* <td className="px-2 py-4 whitespace-nowrap">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-gray-900 dark:text-gray-100">
-                          {order?.division}, {order?.districts},{" "}
-                          {order?.upozila}
-                        </span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          {order?.fullAddress}
-                        </span>
-                      </div>
-                    </td> */}
-
-                    {/* order status updated */}
-                    {/* <td className="px-4 py-4 whitespace-nowrap">
-                      <UpdateOrderStatus
-                        orderId={order?.orderId}
-                        currentStatus={order.orderStatus}
-                        options={[
-                          { value: "Pending", label: "Pending" },
-                          { value: "Processing", label: "Processing" },
-                          { value: "Shipped", label: "Shipped" },
-                          { value: "Delivered", label: "Delivered" },
-                          { value: "Cancelled", label: "Cancelled" },
-                        ]}
-                      />
-                    </td> */}
-
                     {/* Action */}
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2 justify-center items-center border-1 p-1 rounded-md">
                         {/* Show Details */}
-                        <Link href={`/dashboard/project/${project?._id}`}>
+                        <Link href="/dashboard/allprojects">
                           <ActionTultipButton
                             iconButton={
                               <ActionButton
@@ -357,9 +325,9 @@ const AllProjectClient = () => {
                             tole="See project details"
                           />
                         </Link>
-                        {/* <OrderDetailsModal orderData={order?.orderId} /> */}
-                        {/* Edite Order */}
-                        {/* <Link href={`/dashboard/orders/${order?.orderId}`}>
+
+                        {/* Edite project */}
+                        <Link href={`/dashboard/project/${project?._id}`}>
                           <ActionTultipButton
                             iconButton={
                               <ActionButton
@@ -368,15 +336,15 @@ const AllProjectClient = () => {
                                 iconLeft={<Pencil />}
                               />
                             }
-                            tole="Edite Order"
+                            tole="Edite project"
                           />
-                        </Link> */}
-                        {/* Project details */}
+                        </Link>
+
                         {/* Delete Project */}
                         {project?._id && (
                           <DeleteProject projectId={project?._id} />
                         )}
-                        {/* <InvoiceDownload orders={order} /> */}
+
                       </div>
                     </td>
                   </motion.tr>

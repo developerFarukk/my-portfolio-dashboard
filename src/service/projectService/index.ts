@@ -39,7 +39,7 @@ export const getAllprojects = async ({
   searchTerm,
   sort,
   pCategory,
-  //   orderStatus,
+  pPinned,
   //   startDate,
   //   endDate,
 }: {
@@ -48,7 +48,7 @@ export const getAllprojects = async ({
   searchTerm?: string;
   sort?: string;
   pCategory?: string;
-  //   orderStatus?: string;
+  pPinned?: boolean;
   //   startDate?: string;
   //   endDate?: string;
 } = {}) => {
@@ -60,7 +60,10 @@ export const getAllprojects = async ({
     if (searchTerm) params.append("searchTerm", searchTerm);
     if (sort) params.append("sort", sort);
     if (pCategory) params.append("pCategory", pCategory);
-    // if (orderStatus) params.append("orderStatus", orderStatus);
+    if (typeof pPinned === "boolean") {
+      params.append("pPinned", String(pPinned));
+    }
+    // if (pPinned) params.append("pPinned", pPinned);
     // if (startDate) params.append("startDate", startDate);
     // if (endDate) params.append("endDate", endDate);
 

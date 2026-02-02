@@ -244,3 +244,8 @@ export const defaultUpdateProjectValues: TUpdateProject = {
   pReviews: [],
   pPinned: false,
 };
+
+export const PINNED_OPTIONS = [
+  { label: "Pinned", value: "true" },
+  { label: "Unpinned", value: "false" },
+];
