@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { TProject, TUpdateProject } from "@/components/dashboardComponents/projects/projectSchema";
+import {
+  TProject,
+  TUpdateProject,
+} from "@/components/dashboardComponents/projects/projectSchema";
 import app_axios from "@/lib/axios";
 
 // Create Project
@@ -35,7 +38,7 @@ export const getAllprojects = async ({
   limit = 5,
   searchTerm,
   sort,
-  //   sortOrder,
+  pCategory,
   //   orderStatus,
   //   startDate,
   //   endDate,
@@ -44,7 +47,7 @@ export const getAllprojects = async ({
   limit?: number;
   searchTerm?: string;
   sort?: string;
-  //   sortOrder?: string;
+  pCategory?: string;
   //   orderStatus?: string;
   //   startDate?: string;
   //   endDate?: string;
@@ -56,7 +59,7 @@ export const getAllprojects = async ({
     params.append("limit", limit.toString());
     if (searchTerm) params.append("searchTerm", searchTerm);
     if (sort) params.append("sort", sort);
-    // if (sortOrder) params.append("sortOrder", sortOrder);
+    if (pCategory) params.append("pCategory", pCategory);
     // if (orderStatus) params.append("orderStatus", orderStatus);
     // if (startDate) params.append("startDate", startDate);
     // if (endDate) params.append("endDate", endDate);
@@ -79,7 +82,8 @@ export const getSinglProject = async (projectId: string): Promise<any> => {
     const res = await app_axios.get(`/projects/${projectId}`);
     return res.data;
   } catch (error: any) {
-    const message = error?.response?.data?.details || "Single project get faield";
+    const message =
+      error?.response?.data?.details || "Single project get faield";
     throw new Error(message);
   }
 };

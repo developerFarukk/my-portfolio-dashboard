@@ -28,7 +28,7 @@ const AllProjectClient = () => {
   const [limit, setLimit] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("-createdAt");
-  const [status, setStatus] = useState("");
+  const [category, setCategory] = useState("");
   //   const [startDate, setStartDate] = useState("");
   //   const [endDate, setEndDate] = useState("");
 
@@ -36,13 +36,14 @@ const AllProjectClient = () => {
     TMetaProjectResponse,
     Error
   >({
-    queryKey: ["projects", page, limit, searchTerm, sort],
+    queryKey: ["projects", page, limit, searchTerm, sort, category],
     queryFn: () =>
       getAllprojects({
         page,
         limit,
         searchTerm,
         sort,
+        pCategory: category,
       }),
     staleTime: 5000,
   });
@@ -68,7 +69,7 @@ const AllProjectClient = () => {
     setSort("-createdAt");
     setLimit(5);
     setPage(1);
-    setStatus("");
+    setCategory("");
     // setStartDate("");
     // setEndDate("");
   };
@@ -161,7 +162,6 @@ const AllProjectClient = () => {
               { value: "createdAt", label: "Oldest" },
               { value: "name", label: "Name A-Z" },
               { value: "-name", label: "Name Z-A" },
-              { value: "sPinned", label: "Pinned" },
             ]}
           />
         </div>
@@ -169,8 +169,8 @@ const AllProjectClient = () => {
         {/* 📦 Status Dropdown */}
         <div className="w-full sm:w-[48%] md:w-auto">
           <SortComponents
-            value={status}
-            onChange={(value) => setStatus(value)}
+            value={category}
+            onChange={(value) => setCategory(value)}
             placeholder="Select Category"
             label="Project Category"
             options={[
