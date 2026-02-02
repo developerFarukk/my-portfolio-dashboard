@@ -79,7 +79,7 @@ const data = {
                 },
                 {
                     title: "All Skills",
-                    url: "/dashboard/allakills",
+                    url: "/dashboard/allskills",
                 },
             ],
         },

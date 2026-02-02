@@ -26,3 +26,43 @@ export const createSkills = async (data: TSkills): Promise<any> => {
 };
 
 // Get All Skills
+export const getAllSkills = async ({
+  page = 1,
+  limit = 5,
+  searchTerm,
+  sort,
+  skillCategory,
+  pPinned,
+  //   startDate,
+  //   endDate,
+}: {
+  page?: number;
+  limit?: number;
+  searchTerm?: string;
+  sort?: string;
+  skillCategory?: string;
+  pPinned?: boolean;
+} = {}) => {
+  try {
+    const params = new URLSearchParams();
+
+    params.append("page", page.toString());
+    params.append("limit", limit.toString());
+    if (searchTerm) params.append("searchTerm", searchTerm);
+    if (sort) params.append("sort", sort);
+    if (skillCategory) params.append("skillCategory", skillCategory);
+    if (typeof pPinned === "boolean") {
+      params.append("pPinned", String(pPinned));
+    }
+
+    const res = await app_axios.get(`/skills?${params.toString()}`);
+
+    // console.log("main",res.data);
+    return res.data?.data;
+  } catch (error: any) {
+    const message =
+      error?.response?.data?.details ||
+      "Something went wrong while fetching skills!";
+    throw new Error(message);
+  }
+};

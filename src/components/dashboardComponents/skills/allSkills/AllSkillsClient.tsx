@@ -1,30 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import LoaderCustom from "@/components/shared/LoaderCustom";
-import NotFundData from "@/components/shared/NotFundData";
+import { getAllSkills } from "@/service/skillService";
+import { TGlobalMeta, TMetaSkillsResponse } from "@/types/global";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { TSkill } from "@/types/skillsType";
+import { motion } from "framer-motion";
+import TitleHooks from "@/components/shared/TitleHook";
+import { Brain, Pencil, Pipette } from "lucide-react";
 import ClearFilterButton from "@/components/shared/pagination/ClearFilterButton";
-import LimitSelect from "@/components/shared/pagination/LimitSelect";
 import SearchInput from "@/components/shared/pagination/SearchInput";
 import SortComponents from "@/components/shared/pagination/SortComponents";
-import TablePagination from "@/components/shared/pagination/TablePagination";
-import TitleHooks from "@/components/shared/TitleHook";
-import { getAllprojects } from "@/service/projectService";
-import { TGlobalMeta, TMetaProjectResponse } from "@/types/global";
-import { PINNED_OPTIONS, TProjects } from "@/types/projectType";
-import { useQuery } from "@tanstack/react-query";
-import { FolderKanban, Pencil, Pipette } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { PINNED_OPTIONS } from "@/types/projectType";
+import LimitSelect from "@/components/shared/pagination/LimitSelect";
+import LoaderCustom from "@/components/shared/LoaderCustom";
+import NotFundData from "@/components/shared/NotFundData";
 import Image from "next/image";
 import PinnedSwitch from "@/components/shared/PinnedSwitch";
+import ProjectDetailsModal from "../../projects/singleProject/ProjectDetailsModal";
 import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
 import DeleteProject from "../../delete/DeleteProject";
-import ProjectDetailsModal from "../singleProject/ProjectDetailsModal";
+import TablePagination from "@/components/shared/pagination/TablePagination";
 
-const AllProjectClient = () => {
+const AllSkillsClient = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,26 +34,26 @@ const AllProjectClient = () => {
   const [pinned, setPinned] = useState("");
 
   const { data, isLoading, isError, error } = useQuery<
-    TMetaProjectResponse,
+    TMetaSkillsResponse,
     Error
   >({
-    queryKey: ["projects", page, limit, searchTerm, sort, category, pinned],
+    queryKey: ["skills", page, limit, searchTerm, sort, category, pinned],
     queryFn: () =>
-      getAllprojects({
+      getAllSkills({
         page,
         limit,
         searchTerm,
         sort,
-        pCategory: category,
+        skillCategory: category,
         pPinned:
           pinned === "true" ? true : pinned === "false" ? false : undefined,
       }),
     staleTime: 5000,
   });
 
-  const resultData: TProjects[] = data?.result || [];
+  const resultData: TSkill[] = data?.result || [];
 
-  // console.log("project data", resultData);
+  console.log("Skills data", resultData);
 
   const meta: TGlobalMeta = data?.meta || {
     page: 1,
@@ -61,7 +62,7 @@ const AllProjectClient = () => {
     totalPage: 0,
   };
 
-  // console.log(meta);
+  console.log(meta);
 
   if (isError) return <p>Error: {(error as any).message}</p>;
 
@@ -112,8 +113,8 @@ const AllProjectClient = () => {
       {/* Title */}
       <div className="mb-4">
         <TitleHooks
-          title="ALL PROJECTS"
-          icon={<FolderKanban />}
+          title="ALL Skills"
+          icon={<Brain />}
           count={meta?.total || 0}
         />
       </div>
@@ -124,19 +125,6 @@ const AllProjectClient = () => {
         <div className="flex justify-start lg:justify-start italic">
           <ClearFilterButton filterClick={handleClearAllFilters} />
         </div>
-
-        {/* Date Filtering */}
-        {/* <div className="w-full lg:w-auto">
-          <DateFilter
-            key={`${startDate}-${endDate}`}
-            startDate={startDate}
-            endDate={endDate}
-            onDateChange={(start, end) => {
-              setStartDate(start);
-              setEndDate(end);
-            }}
-          />
-        </div> */}
       </div>
 
       {/* search and other filter function */}
@@ -150,7 +138,7 @@ const AllProjectClient = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onClear={handleClearFilters}
-            placeholder="Search by project name, title, id..."
+            placeholder="Search by skill name, title, id..."
           />
         </form>
 
@@ -176,14 +164,15 @@ const AllProjectClient = () => {
             value={category}
             onChange={(value) => setCategory(value)}
             placeholder="Select Category"
-            label="Project Category"
+            label="Skills Category"
             options={[
-              { value: "Feature", label: "Feature" },
-              { value: "Recent", label: "Recent" },
-              { value: "Upcoming", label: "Upcoming" },
-              { value: "Alfa", label: "Alfa" },
-              { value: "Subscription", label: "Subscription" },
+              { label: "Technical", value: "Technical" },
+              { label: "Soft", value: "Soft" },
+              { label: "Front-End", value: "Front-end" },
+              { label: "Backend", value: "Backend" },
+              { label: "UI-Tools", value: "UI-Tools" },
             ]}
+            // options={SKILLS_CATEGORY_OPTIONS}
           />
         </div>
 
@@ -211,11 +200,9 @@ const AllProjectClient = () => {
             <thead className="bg-gray-300 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-700 italic">
               <tr>
                 <th className="px-4 py-3 text-left font-bold">SL</th>
-                <th className="px-4 py-3 text-left font-bold">Project Name</th>
+                <th className="px-4 py-3 text-left font-bold">Skill Name</th>
+                <th className="px-4 py-3 text-left font-bold">Skill Title</th>
                 <th className="px-4 py-3 text-left font-bold">Category</th>
-                <th className="px-4 py-3 text-left font-bold">Live URL</th>
-                <th className="px-4 py-3 text-left font-bold">Visibility</th>
-                <th className="px-4 py-3 text-left font-bold">Type</th>
                 <th className="px-4 py-3 text-left font-bold">Pinned</th>
                 {/* <th className="px-4 py-3 text-left font-bold">
                   <ToltipHooks title="Number" tole="Order Phone Number" />
@@ -238,9 +225,9 @@ const AllProjectClient = () => {
                   </td>
                 </tr>
               ) : (
-                resultData.map((project: TProjects, index) => (
+                resultData.map((skill: TSkill, index) => (
                   <motion.tr
-                    key={project._id}
+                    key={skill._id}
                     variants={rowVariant}
                     initial="hidden"
                     animate="show"
@@ -254,7 +241,7 @@ const AllProjectClient = () => {
                       <div className="flex items-center gap-3">
                         <Image
                           src={
-                            project?.pLogoLink ||
+                            skill?.image ||
                             "https://cdni.iconscout.com/illustration/premium/thumb/female-user-image-illustration-svg-download-png-6515859.png"
                           }
                           width={40}
@@ -264,48 +251,31 @@ const AllProjectClient = () => {
                         />
                         <div>
                           <p className="flex justify-start items-center gap-2 font-semibold text-gray-900 dark:text-gray-100">
-                            {project?.pName}
-                            {project?.pPinned === true ? (
+                            {skill?.name}
+                            {skill?.sPinned === true ? (
                               <Pipette size={18} />
                             ) : null}
                           </p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
-                            ID: {project?._id}
+                            ID: {skill?._id}
                           </p>
                         </div>
                       </div>
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
-                      {project?.pCategory}
-                    </td>
-
-                    {/* Live url */}
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <Link
-                        href={project?.pLiveClientLink || "#"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <h2 className="underline hover:text-blue-400">
-                          {project?.pLiveClientLink}
-                        </h2>
-                      </Link>
+                      {skill?.title}
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
-                      {project?.pVisibility}
+                      {skill?.skillCategory}
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
-                      {project?.pType}
-                    </td>
-
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      {project?._id && (
+                      {skill?._id && (
                         <PinnedSwitch
-                          projectId={project._id}
-                          initialPinned={project.pPinned}
+                          projectId={skill?._id}
+                          initialPinned={skill?.sPinned}
                         />
                       )}
                     </td>
@@ -314,10 +284,10 @@ const AllProjectClient = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2 justify-center items-center border-1 p-1 rounded-md">
                         {/* Show Details */}
-                        <ProjectDetailsModal projectData={project?._id} />
+                        <ProjectDetailsModal projectData={skill?._id} />
 
                         {/* Edite project */}
-                        <Link href={`/dashboard/project/${project?._id}`}>
+                        <Link href={`/dashboard/project/${skill?._id}`}>
                           <ActionTultipButton
                             iconButton={
                               <ActionButton
@@ -326,15 +296,12 @@ const AllProjectClient = () => {
                                 iconLeft={<Pencil />}
                               />
                             }
-                            tole="Edite project"
+                            tole="Edite Skill"
                           />
                         </Link>
 
                         {/* Delete Project */}
-                        {project?._id && (
-                          <DeleteProject projectId={project?._id} />
-                        )}
-
+                        {skill?._id && <DeleteProject projectId={skill?._id} />}
                       </div>
                     </td>
                   </motion.tr>
@@ -355,4 +322,4 @@ const AllProjectClient = () => {
   );
 };
 
-export default AllProjectClient;
+export default AllSkillsClient;
