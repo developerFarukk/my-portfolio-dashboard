@@ -48,25 +48,18 @@ const AddSkill = () => {
   } = form;
 
   const onSubmit: SubmitHandler<TSkills> = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     try {
       const res = await createSkills(data);
-      if (res.success) {
-        toast.success(res?.message);
-        reset({
-          image: "",
-        });
-      } else {
-        toast.error(res?.details);
-      }
+
+      toast.success(res?.message);
+
+      reset({
+        image: "",
+      });
     } catch (error: any) {
-      console.error("Skill creation error:", error);
-      toast.error(
-        error.response?.data?.message ||
-          error.message ||
-          "An unexpected error occurred",
-      );
+      toast.error(error.message);
     }
   };
 
