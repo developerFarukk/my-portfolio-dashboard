@@ -22,6 +22,7 @@ import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
 import DeleteProject from "../../delete/DeleteProject";
+import ProjectDetailsModal from "../singleProject/ProjectDetailsModal";
 
 const AllProjectClient = () => {
   const [page, setPage] = useState(1);
@@ -313,18 +314,7 @@ const AllProjectClient = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2 justify-center items-center border-1 p-1 rounded-md">
                         {/* Show Details */}
-                        <Link href="/dashboard/allprojects">
-                          <ActionTultipButton
-                            iconButton={
-                              <ActionButton
-                                variant="outline"
-                                size="sm"
-                                iconLeft={<Eye />}
-                              />
-                            }
-                            tole="See project details"
-                          />
-                        </Link>
+                        <ProjectDetailsModal projectData={project?._id} />
 
                         {/* Edite project */}
                         <Link href={`/dashboard/project/${project?._id}`}>
