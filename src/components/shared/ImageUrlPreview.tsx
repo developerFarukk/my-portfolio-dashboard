@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import Image from "next/image";
@@ -31,6 +29,7 @@ export const ImageUrlPreview = ({
         alt={alt}
         width={width}
         height={height}
+        unoptimized={true}
         className={`
           block
           max-h-24
