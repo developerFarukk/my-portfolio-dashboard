@@ -41,7 +41,7 @@ export type TProjects = {
   pType?: TWebsiteType;
   pFeatures?: TProjectFeature[];
   pContributors?: TPContributors[];
-  pPinned: boolean;
+  pPinned?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

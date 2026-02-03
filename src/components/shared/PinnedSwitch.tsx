@@ -14,7 +14,7 @@ export type PinnedSwitchProps = {
 
 export type PinnedSwitchSkillsProps = {
   id: string;
-  initialPinned: boolean;
+  initialPinned: boolean | undefined
 };
 
 // Project pinned componnets

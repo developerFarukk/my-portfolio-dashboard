@@ -1,6 +1,6 @@
 // export type TSkillCategory = 'Technical' | 'Soft' | 'Front-end' | 'Backend' | 'UI-Tools';
 
-import { TSkills } from "@/components/dashboardComponents/skills/skillsSchema";
+import { TSkills, TUpdateSkills } from "@/components/dashboardComponents/skills/skillsSchema";
 import { MultiSelectOption } from "../projectType";
 
 // export type TSkills = {
@@ -31,10 +31,21 @@ export type TSkill = {
   description?: string;
   image?: string;
   skillCategory?: TSkillCategory;
-  sPinned: boolean;
+  sPinned?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export const defaultSkillsValus: TSkills = {
+  name: "",
+  title: "",
+  description: "",
+  image: "",
+  skillCategory: [],
+  sPinned: false,
+};
+
+export const defaultUpdateSkillsValus: TUpdateSkills = {
   name: "",
   title: "",
   description: "",
