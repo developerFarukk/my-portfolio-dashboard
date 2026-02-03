@@ -284,7 +284,7 @@ const AllSkillsClient = () => {
                         <SingleSkillsDetailsModal id={skill?._id} />
 
                         {/* Edite project */}
-                        <Link href={`/dashboard/project/${skill?._id}`}>
+                        <Link href={`/dashboard/skill/${skill?._id}`}>
                           <ActionTultipButton
                             iconButton={
                               <ActionButton
