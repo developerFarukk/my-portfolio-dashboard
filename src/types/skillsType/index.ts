@@ -13,6 +13,14 @@ import { MultiSelectOption } from "../projectType";
 //     updatedAt: string;
 // };
 
+export type SkillCategoryMap =
+  | "Technical"
+  | "Soft"
+  | "Front-end"
+  | "Backend"
+  | "UI-Tools";
+
+
 export enum SkillCategory {
   Technical = "Technical",
   Soft = "Soft",
@@ -30,7 +38,7 @@ export type TSkill = {
   title?: string;
   description?: string;
   image?: string;
-  skillCategory?: TSkillCategory;
+  skillCategory?: TSkillCategory[];
   sPinned?: boolean;
   createdAt?: string;
   updatedAt?: string;

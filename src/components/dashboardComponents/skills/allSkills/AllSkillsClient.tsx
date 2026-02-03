@@ -5,7 +5,7 @@ import { getAllSkills } from "@/service/skillService";
 import { TGlobalMeta, TMetaSkillsResponse } from "@/types/global";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { TSkill } from "@/types/skillsType";
+import { SkillCategoryMap, TSkill } from "@/types/skillsType";
 import { motion } from "framer-motion";
 import TitleHooks from "@/components/shared/TitleHook";
 import { Brain, Pencil, Pipette } from "lucide-react";
@@ -24,6 +24,7 @@ import TablePagination from "@/components/shared/pagination/TablePagination";
 import SingleSkillsDetailsModal from "../singleSkills/SingleSkillsDetailsModal";
 import DeleteSkill from "../../delete/DeleteSkill";
 import { SkillsPinnedSwitch } from "../../projects/singleProject/SkillsPinnedSwitch";
+import { Badge } from "@/components/ui/badge";
 
 const AllSkillsClient = () => {
   const [page, setPage] = useState(1);
@@ -264,8 +265,13 @@ const AllSkillsClient = () => {
                       {skill?.title}
                     </td>
 
+                    {/* Skill Category */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      {skill?.skillCategory}
+                      <div className="flex gap-2 flex-wrap">
+                        {skill?.skillCategory?.map((cat: SkillCategoryMap) => (
+                          <Badge size="sm" key={cat} >{cat}</Badge>
+                        ))}
+                      </div>
                     </td>
 
                     <td className="px-4 py-4 whitespace-nowrap">
