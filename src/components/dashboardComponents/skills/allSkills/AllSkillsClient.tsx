@@ -45,7 +45,7 @@ const AllSkillsClient = () => {
         searchTerm,
         sort,
         skillCategory: category,
-        pPinned:
+        sPinned:
           pinned === "true" ? true : pinned === "false" ? false : undefined,
       }),
     staleTime: 5000,
@@ -53,7 +53,7 @@ const AllSkillsClient = () => {
 
   const resultData: TSkill[] = data?.result || [];
 
-  console.log("Skills data", resultData);
+  // console.log("Skills data", resultData);
 
   const meta: TGlobalMeta = data?.meta || {
     page: 1,
@@ -62,7 +62,7 @@ const AllSkillsClient = () => {
     totalPage: 0,
   };
 
-  console.log(meta);
+  // console.log(meta);
 
   if (isError) return <p>Error: {(error as any).message}</p>;
 

@@ -32,7 +32,7 @@ export const getAllSkills = async ({
   searchTerm,
   sort,
   skillCategory,
-  pPinned,
+  sPinned,
   //   startDate,
   //   endDate,
 }: {
@@ -41,7 +41,7 @@ export const getAllSkills = async ({
   searchTerm?: string;
   sort?: string;
   skillCategory?: string;
-  pPinned?: boolean;
+  sPinned?: boolean;
 } = {}) => {
   try {
     const params = new URLSearchParams();
@@ -51,8 +51,8 @@ export const getAllSkills = async ({
     if (searchTerm) params.append("searchTerm", searchTerm);
     if (sort) params.append("sort", sort);
     if (skillCategory) params.append("skillCategory", skillCategory);
-    if (typeof pPinned === "boolean") {
-      params.append("pPinned", String(pPinned));
+    if (typeof sPinned === "boolean") {
+      params.append("sPinned", String(sPinned));
     }
 
     const res = await app_axios.get(`/skills?${params.toString()}`);
