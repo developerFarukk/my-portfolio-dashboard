@@ -21,9 +21,9 @@ import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
 import TablePagination from "@/components/shared/pagination/TablePagination";
-import { SkillsPinnedSwitch } from "@/components/shared/PinnedSwitch";
 import SingleSkillsDetailsModal from "../singleSkills/SingleSkillsDetailsModal";
 import DeleteSkill from "../../delete/DeleteSkill";
+import { SkillsPinnedSwitch } from "../../projects/singleProject/SkillsPinnedSwitch";
 
 const AllSkillsClient = () => {
   const [page, setPage] = useState(1);

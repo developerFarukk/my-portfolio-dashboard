@@ -83,16 +83,13 @@ export const getSinglSkills = async (id: string): Promise<any> => {
 
 // Updated Skills
 export const updatSkills = async (id: string, data: TUpdateSkills) => {
-  console.log("id", id);
-  console.log("data", data);
-
   try {
     const res = await app_axios.patch(`/skills/update/${id}`, data);
-    console.log(res);
+    // console.log(res);
 
     return res.data;
   } catch (error: any) {
-    console.log("neweeee", error);
+    // console.log("neweeee", error);
 
     const message = error?.response?.data?.details || "Skills updated failed";
     // console.log(message);
