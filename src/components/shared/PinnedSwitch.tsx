@@ -3,15 +3,25 @@
 
 import { Switch } from "@/components/ui/switch";
 import { updatProject } from "@/service/projectService";
+import { updatSkills } from "@/service/skillService";
 import { useState } from "react";
 import { toast } from "sonner";
 
-type PinnedSwitchProps = {
+export type PinnedSwitchProps = {
   projectId: string;
   initialPinned: boolean;
 };
 
-const PinnedSwitch = ({ projectId, initialPinned }: PinnedSwitchProps) => {
+export type PinnedSwitchSkillsProps = {
+  id: string;
+  initialPinned: boolean;
+};
+
+// Project pinned componnets
+export const ProjectPinnedSwitch = ({
+  projectId,
+  initialPinned,
+}: PinnedSwitchProps) => {
   const [pinned, setPinned] = useState(initialPinned);
   const [loading, setLoading] = useState(false);
 
@@ -45,4 +55,44 @@ const PinnedSwitch = ({ projectId, initialPinned }: PinnedSwitchProps) => {
   );
 };
 
-export default PinnedSwitch;
+// Skills pinned componnets
+export const SkillsPinnedSwitch = ({
+  id,
+  initialPinned,
+}: PinnedSwitchSkillsProps) => {
+  const [pinned, setPinned] = useState(initialPinned);
+  const [loading, setLoading] = useState(false);
+
+  const handleToggle = async (value: boolean) => {
+    // console.log(value);
+    
+    if (loading) return;
+
+    setPinned(value);
+    setLoading(true);
+
+    try {
+      const res = await updatSkills(id, { sPinned: value });
+       console.log(res);
+
+      toast.success(
+        value ? "Skill pinned success" : "Skill unpinned success",
+      );
+    } catch (error: any) {
+      console.log(error);
+      
+      setPinned(!value);
+      toast.error(error.message || "Update failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Switch
+      checked={pinned}
+      onCheckedChange={handleToggle}
+      disabled={loading}
+    />
+  );
+};

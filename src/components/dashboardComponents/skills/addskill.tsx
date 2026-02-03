@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { skillsSchema, TSkills } from "./skillsSchema";
+import { creatSkillsSchema, TSkills } from "./skillsSchema";
 import { MotionButton } from "@/components/shared/MotionButton";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUrlPreview } from "@/components/shared/ImageUrlPreview";
@@ -32,7 +32,7 @@ import MultiSelector from "../projects/inputeFild/MultiSelector";
 
 const AddSkill = () => {
   const form = useForm<TSkills>({
-    resolver: zodResolver(skillsSchema),
+    resolver: zodResolver(creatSkillsSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     shouldFocusError: true,

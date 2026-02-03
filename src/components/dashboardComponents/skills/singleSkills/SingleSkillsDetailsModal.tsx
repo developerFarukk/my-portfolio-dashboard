@@ -2,35 +2,24 @@
 
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
-import { Eye } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Variants, TargetAndTransition } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
+import { Eye } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { fadeInUp } from "../../projects/singleProject/ProjectDetailsModal";
 
-interface ProjectDataProps {
-  projectData: string | undefined;
+interface SkillsDataProps {
+  id: string | undefined;
 }
 
-interface CustomVariants extends Variants {
-  visible: (i?: number) => TargetAndTransition;
-}
-
-export const fadeInUp: CustomVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.12, duration: 0.5, ease: "easeOut" },
-  }),
-};
-
-const ProjectDetailsModal: React.FC<ProjectDataProps> = ({
-  projectData: projectId,
+const SingleSkillsDetailsModal: React.FC<SkillsDataProps> = ({
+  id: skillId,
 }) => {
-  // console.log(projectId);
   const [isOpen, setIsOpen] = useState(false);
+
+//   console.log(skillId);
+  
 
   return (
     <div>
@@ -44,7 +33,7 @@ const ProjectDetailsModal: React.FC<ProjectDataProps> = ({
             iconLeft={<Eye />}
           />
         }
-        tole="See project details"
+        tole="See skill details"
       />
 
       {/* Modal */}
@@ -55,7 +44,7 @@ const ProjectDetailsModal: React.FC<ProjectDataProps> = ({
         size="xl"
       >
         <div>
-          amar suner bangla
+          amar suner bangla skills
           {/* Footer */}
           <motion.div
             className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700"
@@ -78,4 +67,4 @@ const ProjectDetailsModal: React.FC<ProjectDataProps> = ({
   );
 };
 
-export default ProjectDetailsModal;
+export default SingleSkillsDetailsModal;

@@ -2,7 +2,10 @@
 
 "use server";
 
-import { TSkills } from "@/components/dashboardComponents/skills/skillsSchema";
+import {
+  TSkills,
+  TUpdateSkills,
+} from "@/components/dashboardComponents/skills/skillsSchema";
 import app_axios from "@/lib/axios";
 
 // Creat Skills
@@ -63,6 +66,49 @@ export const getAllSkills = async ({
     const message =
       error?.response?.data?.details ||
       "Something went wrong while fetching skills!";
+    throw new Error(message);
+  }
+};
+
+// Get Single Skills
+export const getSinglSkills = async (id: string): Promise<any> => {
+  try {
+    const res = await app_axios.get(`/skills/${id}`);
+    return res.data;
+  } catch (error: any) {
+    const message = error?.response?.data?.details || "Single skill get faield";
+    throw new Error(message);
+  }
+};
+
+// Updated Skills
+export const updatSkills = async (id: string, data: TUpdateSkills) => {
+  console.log("id", id);
+  console.log("data", data);
+
+  try {
+    const res = await app_axios.patch(`/skills/update/${id}`, data);
+    console.log(res);
+
+    return res.data;
+  } catch (error: any) {
+    console.log("neweeee", error);
+
+    const message = error?.response?.data?.details || "Skills updated failed";
+    // console.log(message);
+
+    throw new Error(message);
+    // return new Error(message);
+  }
+};
+
+// Delete Project
+export const deleteSkill = async (id: string): Promise<any> => {
+  try {
+    const res = await app_axios.delete(`/skills/delete/${id}`);
+    return res.data;
+  } catch (error: any) {
+    const message = error?.response?.data?.details || "Skill delete failed";
     throw new Error(message);
   }
 };

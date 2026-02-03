@@ -17,13 +17,13 @@ import LimitSelect from "@/components/shared/pagination/LimitSelect";
 import LoaderCustom from "@/components/shared/LoaderCustom";
 import NotFundData from "@/components/shared/NotFundData";
 import Image from "next/image";
-import PinnedSwitch from "@/components/shared/PinnedSwitch";
-import ProjectDetailsModal from "../../projects/singleProject/ProjectDetailsModal";
 import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
 import DeleteProject from "../../delete/DeleteProject";
 import TablePagination from "@/components/shared/pagination/TablePagination";
+import { SkillsPinnedSwitch } from "@/components/shared/PinnedSwitch";
+import SingleSkillsDetailsModal from "../singleSkills/SingleSkillsDetailsModal";
 
 const AllSkillsClient = () => {
   const [page, setPage] = useState(1);
@@ -204,9 +204,6 @@ const AllSkillsClient = () => {
                 <th className="px-4 py-3 text-left font-bold">Skill Title</th>
                 <th className="px-4 py-3 text-left font-bold">Category</th>
                 <th className="px-4 py-3 text-left font-bold">Pinned</th>
-                {/* <th className="px-4 py-3 text-left font-bold">
-                  <ToltipHooks title="Number" tole="Order Phone Number" />
-                </th> */}
                 <th className="px-2 py-3 text-center font-bold">Action</th>
               </tr>
             </thead>
@@ -273,8 +270,8 @@ const AllSkillsClient = () => {
 
                     <td className="px-4 py-4 whitespace-nowrap">
                       {skill?._id && (
-                        <PinnedSwitch
-                          projectId={skill?._id}
+                        <SkillsPinnedSwitch
+                          id={skill?._id}
                           initialPinned={skill?.sPinned}
                         />
                       )}
@@ -284,7 +281,7 @@ const AllSkillsClient = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2 justify-center items-center border-1 p-1 rounded-md">
                         {/* Show Details */}
-                        <ProjectDetailsModal projectData={skill?._id} />
+                        <SingleSkillsDetailsModal id={skill?._id} />
 
                         {/* Edite project */}
                         <Link href={`/dashboard/project/${skill?._id}`}>

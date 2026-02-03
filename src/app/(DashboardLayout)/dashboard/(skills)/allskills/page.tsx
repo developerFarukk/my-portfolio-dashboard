@@ -2,7 +2,7 @@ import AllSkillsClient from "@/components/dashboardComponents/skills/allSkills/A
 
 const AllSkillServer = () => {
   return (
-    <div>
+    <div className="p-2">
       <AllSkillsClient />
     </div>
   );

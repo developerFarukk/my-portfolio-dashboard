@@ -17,12 +17,12 @@ import { FolderKanban, Pencil, Pipette } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import PinnedSwitch from "@/components/shared/PinnedSwitch";
 import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
 import DeleteProject from "../../delete/DeleteProject";
 import ProjectDetailsModal from "../singleProject/ProjectDetailsModal";
+import { ProjectPinnedSwitch } from "@/components/shared/PinnedSwitch";
 
 const AllProjectClient = () => {
   const [page, setPage] = useState(1);
@@ -303,7 +303,7 @@ const AllProjectClient = () => {
 
                     <td className="px-4 py-4 whitespace-nowrap">
                       {project?._id && (
-                        <PinnedSwitch
+                        <ProjectPinnedSwitch
                           projectId={project._id}
                           initialPinned={project.pPinned}
                         />
@@ -334,7 +334,6 @@ const AllProjectClient = () => {
                         {project?._id && (
                           <DeleteProject projectId={project?._id} />
                         )}
-
                       </div>
                     </td>
                   </motion.tr>
