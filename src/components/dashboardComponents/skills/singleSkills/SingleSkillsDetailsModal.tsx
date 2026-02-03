@@ -44,7 +44,7 @@ const SingleSkillsDetailsModal: React.FC<SkillsDataProps> = ({
         size="xl"
       >
         <div>
-          amar suner bangla skills
+          amar suner bangla skills {skillId}
           {/* Footer */}
           <motion.div
             className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700"

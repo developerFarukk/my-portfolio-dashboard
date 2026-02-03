@@ -20,10 +20,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ActionTultipButton from "@/components/shared/ActionTultipButton";
 import ActionButton from "@/components/ui/ActionButton";
-import DeleteProject from "../../delete/DeleteProject";
 import TablePagination from "@/components/shared/pagination/TablePagination";
 import { SkillsPinnedSwitch } from "@/components/shared/PinnedSwitch";
 import SingleSkillsDetailsModal from "../singleSkills/SingleSkillsDetailsModal";
+import DeleteSkill from "../../delete/DeleteSkill";
 
 const AllSkillsClient = () => {
   const [page, setPage] = useState(1);
@@ -283,7 +283,7 @@ const AllSkillsClient = () => {
                         {/* Show Details */}
                         <SingleSkillsDetailsModal id={skill?._id} />
 
-                        {/* Edite project */}
+                        {/* Update skill */}
                         <Link href={`/dashboard/skill/${skill?._id}`}>
                           <ActionTultipButton
                             iconButton={
@@ -297,8 +297,8 @@ const AllSkillsClient = () => {
                           />
                         </Link>
 
-                        {/* Delete Project */}
-                        {skill?._id && <DeleteProject projectId={skill?._id} />}
+                        {/* Delete skill */}
+                        {skill?._id && <DeleteSkill skillId={skill?._id} />}
                       </div>
                     </td>
                   </motion.tr>
