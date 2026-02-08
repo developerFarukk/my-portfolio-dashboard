@@ -56,7 +56,7 @@ const data = {
         {
             title: "Blogs Managments",
             icon: Book,
-            isActive: true,
+            // isActive: true,
             items: [
                 {
                     title: "Add Blog",
@@ -71,7 +71,7 @@ const data = {
         {
             title: "Skills Managments",
             icon: Brain,
-            isActive: true,
+            // isActive: true,
             items: [
                 {
                     title: "Add Skill",
@@ -86,7 +86,7 @@ const data = {
         {
             title: "Settings",
             icon: Settings2,
-            isActive: true,
+            // isActive: true,
             items: [
                 {
                     title: "General",
