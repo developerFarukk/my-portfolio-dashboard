@@ -36,54 +36,6 @@ export function NavMain({
   const pathname = usePathname();
 
   return (
-    // <SidebarGroup>
-    //   <SidebarGroupLabel>Platform</SidebarGroupLabel>
-    //   <SidebarMenu>
-    //     {items.map((item) => (
-    //       <Collapsible
-    //         key={item.title}
-    //         asChild
-    //         defaultOpen={item.isActive}
-    //         className="group/collapsible"
-    //       >
-    //         <SidebarMenuItem>
-    //           <CollapsibleTrigger asChild>
-    //             <SidebarMenuButton
-    //               //   className={`${
-    //               //     pathname &&
-    //               //     " bg-sidebar-accent text-sidebar-accent-foreground"
-    //               //   }`}
-    //             //   className={
-    //             //     isGroupActive
-    //             //       ? "bg-sidebar-accent text-sidebar-accent-foreground"
-    //             //       : ""
-    //             //   }
-    //               tooltip={item.title}
-    //             >
-    //               {item.icon && <item.icon />}
-    //               <span>{item.title}</span>
-    //               <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-    //             </SidebarMenuButton>
-    //           </CollapsibleTrigger>
-    //           <CollapsibleContent>
-    //             <SidebarMenuSub>
-    //               {item.items?.map((subItem) => (
-    //                 <SidebarMenuSubItem key={subItem.title}>
-    //                   <SidebarMenuSubButton asChild>
-    //                     <Link href={subItem.url}>
-    //                       <span>{subItem.title}</span>
-    //                     </Link>
-    //                   </SidebarMenuSubButton>
-    //                 </SidebarMenuSubItem>
-    //               ))}
-    //             </SidebarMenuSub>
-    //           </CollapsibleContent>
-    //         </SidebarMenuItem>
-    //       </Collapsible>
-    //     ))}
-    //   </SidebarMenu>
-    // </SidebarGroup>
-
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
 
@@ -108,7 +60,7 @@ export function NavMain({
                     tooltip={item.title}
                     className={
                       isGroupActive
-                        ? "bg-slate-200 dark:bg-sidebar-accent text-sidebar-accent-foreground"
+                        ? "bg-slate-100 dark:bg-sidebar-accent text-sidebar-accent-foreground"
                         : ""
                     }
                   >
@@ -132,7 +84,7 @@ export function NavMain({
                             asChild
                             className={
                               isSubActive
-                                ? "bg-sidebar-accent/50 text-sidebar-accent-foreground"
+                                ? "bg-slate-100 dark:bg-sidebar-accent text-sidebar-accent-foreground"
                                 : ""
                             }
                           >
